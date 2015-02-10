@@ -1,0 +1,1 @@
+C:\$\git\zen-core\src\Zen.Test\obj\Debug\Zen.Test.csprojResolveAssemblyReference.cache

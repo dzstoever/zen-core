@@ -1,0 +1,16 @@
+C:\$\svn\Zen-TransChart\Domain\src\Zen.Svcs\bin\Debug\Zen.Svcs.dll.config
+C:\$\svn\Zen-TransChart\Domain\src\Zen.Svcs\bin\Debug\Zen.Svcs.dll
+C:\$\svn\Zen-TransChart\Domain\src\Zen.Svcs\bin\Debug\Zen.Svcs.pdb
+C:\$\svn\Zen-TransChart\Domain\src\Zen.Svcs\bin\Debug\Zen.dll
+C:\$\svn\Zen-TransChart\Domain\src\Zen.Svcs\bin\Debug\Zen.pdb
+C:\$\svn\Zen-TransChart\Domain\src\Zen.Svcs\obj\Debug\Zen.Svcs.csprojResolveAssemblyReference.cache
+C:\$\svn\Zen-TransChart\Domain\src\Zen.Svcs\obj\Debug\Zen.Svcs.dll
+C:\$\svn\Zen-TransChart\Domain\src\Zen.Svcs\obj\Debug\Zen.Svcs.pdb
+C:\$\git\zen-core\src\Zen.Svcs\bin\Debug\Zen.Svcs.dll.config
+C:\$\git\zen-core\src\Zen.Svcs\bin\Debug\Zen.Svcs.dll
+C:\$\git\zen-core\src\Zen.Svcs\bin\Debug\Zen.Svcs.pdb
+C:\$\git\zen-core\src\Zen.Svcs\bin\Debug\Zen.dll
+C:\$\git\zen-core\src\Zen.Svcs\bin\Debug\Zen.pdb
+C:\$\git\zen-core\src\Zen.Svcs\obj\Debug\Zen.Svcs.csprojResolveAssemblyReference.cache
+C:\$\git\zen-core\src\Zen.Svcs\obj\Debug\Zen.Svcs.dll
+C:\$\git\zen-core\src\Zen.Svcs\obj\Debug\Zen.Svcs.pdb
