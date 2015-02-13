@@ -1,12 +1,9 @@
-C:\$\git\zen-core\src\Zen\bin\Debug\Zen.dll
-C:\$\git\zen-core\src\Zen\bin\Debug\Zen.pdb
-C:\$\git\zen-core\src\Zen\obj\Debug\Zen.csprojResolveAssemblyReference.cache
-C:\$\git\zen-core\src\Zen\obj\Debug\Zen.dll
-C:\$\git\zen-core\src\Zen\obj\Debug\Zen.pdb
-C:\$\git\zen-core\src\Zen\bin\Debug\Zen.dll.CodeAnalysisLog.xml
-C:\$\git\zen-core\src\Zen\bin\Debug\Zen.dll.lastcodeanalysissucceeded
 C:\$\TC-GIT\zen-core\src\Zen\bin\Debug\Zen.dll
 C:\$\TC-GIT\zen-core\src\Zen\bin\Debug\Zen.pdb
 C:\$\TC-GIT\zen-core\src\Zen\obj\Debug\Zen.dll
 C:\$\TC-GIT\zen-core\src\Zen\obj\Debug\Zen.pdb
 C:\$\TC-GIT\zen-core\src\Zen\obj\Debug\Zen.csprojResolveAssemblyReference.cache
+C:\$\git\zen-core\src\Zen\bin\Debug\Zen.dll
+C:\$\git\zen-core\src\Zen\bin\Debug\Zen.pdb
+C:\$\git\zen-core\src\Zen\obj\Debug\Zen.dll
+C:\$\git\zen-core\src\Zen\obj\Debug\Zen.pdb
