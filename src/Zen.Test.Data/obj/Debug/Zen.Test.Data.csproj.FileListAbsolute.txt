@@ -3,3 +3,8 @@ C:\$\git\zen-core\src\Zen.Test.Data\bin\Debug\Zen.Test.Data.pdb
 C:\$\git\zen-core\src\Zen.Test.Data\obj\Debug\Zen.Test.Data.csprojResolveAssemblyReference.cache
 C:\$\git\zen-core\src\Zen.Test.Data\obj\Debug\Zen.Test.Data.dll
 C:\$\git\zen-core\src\Zen.Test.Data\obj\Debug\Zen.Test.Data.pdb
+C:\$\TC-GIT\zen-core\src\Zen.Test.Data\bin\Debug\Zen.Test.Data.dll
+C:\$\TC-GIT\zen-core\src\Zen.Test.Data\bin\Debug\Zen.Test.Data.pdb
+C:\$\TC-GIT\zen-core\src\Zen.Test.Data\obj\Debug\Zen.Test.Data.csprojResolveAssemblyReference.cache
+C:\$\TC-GIT\zen-core\src\Zen.Test.Data\obj\Debug\Zen.Test.Data.dll
+C:\$\TC-GIT\zen-core\src\Zen.Test.Data\obj\Debug\Zen.Test.Data.pdb

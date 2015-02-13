@@ -14,3 +14,11 @@ C:\$\git\zen-core\src\Zen.Svcs\bin\Debug\Zen.pdb
 C:\$\git\zen-core\src\Zen.Svcs\obj\Debug\Zen.Svcs.csprojResolveAssemblyReference.cache
 C:\$\git\zen-core\src\Zen.Svcs\obj\Debug\Zen.Svcs.dll
 C:\$\git\zen-core\src\Zen.Svcs\obj\Debug\Zen.Svcs.pdb
+C:\$\TC-GIT\zen-core\src\Zen.Svcs\bin\Debug\Zen.Svcs.dll.config
+C:\$\TC-GIT\zen-core\src\Zen.Svcs\bin\Debug\Zen.Svcs.dll
+C:\$\TC-GIT\zen-core\src\Zen.Svcs\bin\Debug\Zen.Svcs.pdb
+C:\$\TC-GIT\zen-core\src\Zen.Svcs\bin\Debug\Zen.dll
+C:\$\TC-GIT\zen-core\src\Zen.Svcs\bin\Debug\Zen.pdb
+C:\$\TC-GIT\zen-core\src\Zen.Svcs\obj\Debug\Zen.Svcs.csprojResolveAssemblyReference.cache
+C:\$\TC-GIT\zen-core\src\Zen.Svcs\obj\Debug\Zen.Svcs.dll
+C:\$\TC-GIT\zen-core\src\Zen.Svcs\obj\Debug\Zen.Svcs.pdb

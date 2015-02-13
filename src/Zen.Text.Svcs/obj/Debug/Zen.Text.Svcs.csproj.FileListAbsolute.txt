@@ -1,5 +1,0 @@
-C:\$\git\zen-core\src\Zen.Text.Svcs\bin\Debug\Zen.Text.Svcs.dll
-C:\$\git\zen-core\src\Zen.Text.Svcs\bin\Debug\Zen.Text.Svcs.pdb
-C:\$\git\zen-core\src\Zen.Text.Svcs\obj\Debug\Zen.Text.Svcs.csprojResolveAssemblyReference.cache
-C:\$\git\zen-core\src\Zen.Text.Svcs\obj\Debug\Zen.Text.Svcs.dll
-C:\$\git\zen-core\src\Zen.Text.Svcs\obj\Debug\Zen.Text.Svcs.pdb

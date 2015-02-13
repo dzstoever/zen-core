@@ -1,0 +1,5 @@
+C:\$\TC-GIT\zen-core\src\Zen\bin\x86\Debug\Zen.dll
+C:\$\TC-GIT\zen-core\src\Zen\bin\x86\Debug\Zen.pdb
+C:\$\TC-GIT\zen-core\src\Zen\obj\x86\Debug\Zen.csprojResolveAssemblyReference.cache
+C:\$\TC-GIT\zen-core\src\Zen\obj\x86\Debug\Zen.dll
+C:\$\TC-GIT\zen-core\src\Zen\obj\x86\Debug\Zen.pdb

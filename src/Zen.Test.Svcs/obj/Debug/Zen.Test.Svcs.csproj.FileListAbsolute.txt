@@ -1,0 +1,5 @@
+C:\$\TC-GIT\zen-core\src\Zen.Test.Svcs\bin\Debug\Zen.Test.Svcs.dll
+C:\$\TC-GIT\zen-core\src\Zen.Test.Svcs\bin\Debug\Zen.Test.Svcs.pdb
+C:\$\TC-GIT\zen-core\src\Zen.Test.Svcs\obj\Debug\Zen.Test.Svcs.csprojResolveAssemblyReference.cache
+C:\$\TC-GIT\zen-core\src\Zen.Test.Svcs\obj\Debug\Zen.Test.Svcs.dll
+C:\$\TC-GIT\zen-core\src\Zen.Test.Svcs\obj\Debug\Zen.Test.Svcs.pdb

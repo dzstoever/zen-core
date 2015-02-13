@@ -1,0 +1,10 @@
+C:\$\TC-GIT\zen-core\src\Examples\Zen.SvcHost.IIS\bin\Zen.SvcHost.IIS.dll.config
+C:\$\TC-GIT\zen-core\src\Examples\Zen.SvcHost.IIS\bin\Zen.SvcHost.IIS.dll
+C:\$\TC-GIT\zen-core\src\Examples\Zen.SvcHost.IIS\bin\Zen.SvcHost.IIS.pdb
+C:\$\TC-GIT\zen-core\src\Examples\Zen.SvcHost.IIS\bin\Zen.Svcs.dll
+C:\$\TC-GIT\zen-core\src\Examples\Zen.SvcHost.IIS\bin\Zen.dll
+C:\$\TC-GIT\zen-core\src\Examples\Zen.SvcHost.IIS\bin\Zen.Svcs.pdb
+C:\$\TC-GIT\zen-core\src\Examples\Zen.SvcHost.IIS\bin\Zen.pdb
+C:\$\TC-GIT\zen-core\src\Examples\Zen.SvcHost.IIS\obj\Debug\Zen.SvcHost.IIS.csprojResolveAssemblyReference.cache
+C:\$\TC-GIT\zen-core\src\Examples\Zen.SvcHost.IIS\obj\Debug\Zen.SvcHost.IIS.dll
+C:\$\TC-GIT\zen-core\src\Examples\Zen.SvcHost.IIS\obj\Debug\Zen.SvcHost.IIS.pdb

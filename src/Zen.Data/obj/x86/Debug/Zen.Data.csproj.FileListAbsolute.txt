@@ -1,0 +1,11 @@
+C:\$\TC-GIT\zen-core\src\Zen.Data\bin\x86\Debug\Zen.Data.dll
+C:\$\TC-GIT\zen-core\src\Zen.Data\bin\x86\Debug\Zen.Data.pdb
+C:\$\TC-GIT\zen-core\src\Zen.Data\bin\x86\Debug\Iesi.Collections.dll
+C:\$\TC-GIT\zen-core\src\Zen.Data\bin\x86\Debug\NHibernate.dll
+C:\$\TC-GIT\zen-core\src\Zen.Data\bin\x86\Debug\Zen.dll
+C:\$\TC-GIT\zen-core\src\Zen.Data\bin\x86\Debug\Zen.pdb
+C:\$\TC-GIT\zen-core\src\Zen.Data\bin\x86\Debug\Iesi.Collections.xml
+C:\$\TC-GIT\zen-core\src\Zen.Data\bin\x86\Debug\NHibernate.xml
+C:\$\TC-GIT\zen-core\src\Zen.Data\obj\x86\Debug\Zen.Data.csprojResolveAssemblyReference.cache
+C:\$\TC-GIT\zen-core\src\Zen.Data\obj\x86\Debug\Zen.Data.dll
+C:\$\TC-GIT\zen-core\src\Zen.Data\obj\x86\Debug\Zen.Data.pdb

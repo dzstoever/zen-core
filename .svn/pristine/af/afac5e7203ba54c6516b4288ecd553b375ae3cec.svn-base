@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PendingCommit>
+  <CommitComment />
+  <TrackedFiles>
+    <RelativePath>src\Examples\Zen.Demo\app.config</RelativePath>
+    <RelativePath>src\Examples\Zen.Demo\app.manifest</RelativePath>
+    <RelativePath>src\Examples\Zen.Demo\Program.cs</RelativePath>
+    <RelativePath>src\Examples\Zen.Demo\Properties\AssemblyInfo.cs</RelativePath>
+    <RelativePath>src\Examples\Zen.Demo\zen.ico</RelativePath>
+  </TrackedFiles>
+  <ExcludedItems />
+  <WorkItems />
+</PendingCommit>
