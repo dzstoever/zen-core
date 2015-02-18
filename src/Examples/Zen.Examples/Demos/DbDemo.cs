@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-using NHibernateMappingGenerator;
+using  ;
 using Zen.Examples.Upstate;
 
 namespace Zen.Examples.Demos
