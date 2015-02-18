@@ -9,3 +9,14 @@ C:\$\TC-GIT\zen-core\src\Zen.Data\bin\x86\Debug\NHibernate.xml
 C:\$\TC-GIT\zen-core\src\Zen.Data\obj\x86\Debug\Zen.Data.csprojResolveAssemblyReference.cache
 C:\$\TC-GIT\zen-core\src\Zen.Data\obj\x86\Debug\Zen.Data.dll
 C:\$\TC-GIT\zen-core\src\Zen.Data\obj\x86\Debug\Zen.Data.pdb
+X:\github\zen-core\src\Zen.Data\bin\x86\Debug\Zen.Data.dll
+X:\github\zen-core\src\Zen.Data\bin\x86\Debug\Zen.Data.pdb
+X:\github\zen-core\src\Zen.Data\bin\x86\Debug\Iesi.Collections.dll
+X:\github\zen-core\src\Zen.Data\bin\x86\Debug\NHibernate.dll
+X:\github\zen-core\src\Zen.Data\bin\x86\Debug\Zen.dll
+X:\github\zen-core\src\Zen.Data\bin\x86\Debug\Zen.pdb
+X:\github\zen-core\src\Zen.Data\bin\x86\Debug\Iesi.Collections.xml
+X:\github\zen-core\src\Zen.Data\bin\x86\Debug\NHibernate.xml
+X:\github\zen-core\src\Zen.Data\obj\x86\Debug\Zen.Data.csprojResolveAssemblyReference.cache
+X:\github\zen-core\src\Zen.Data\obj\x86\Debug\Zen.Data.dll
+X:\github\zen-core\src\Zen.Data\obj\x86\Debug\Zen.Data.pdb

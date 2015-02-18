@@ -8,3 +8,8 @@ C:\$\git\zen-core\src\Zen\bin\Debug\Zen.pdb
 C:\$\git\zen-core\src\Zen\obj\Debug\Zen.csprojResolveAssemblyReference.cache
 C:\$\git\zen-core\src\Zen\obj\Debug\Zen.dll
 C:\$\git\zen-core\src\Zen\obj\Debug\Zen.pdb
+X:\github\zen-core\src\Zen\bin\Debug\Zen.dll
+X:\github\zen-core\src\Zen\bin\Debug\Zen.pdb
+X:\github\zen-core\src\Zen\obj\Debug\Zen.csprojResolveAssemblyReference.cache
+X:\github\zen-core\src\Zen\obj\Debug\Zen.dll
+X:\github\zen-core\src\Zen\obj\Debug\Zen.pdb
