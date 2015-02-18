@@ -1,5 +1,0 @@
-C:\$\TC-GIT\zen-core\src\Examples\Zen.SvcHost.Shelf\bin\Debug\Zen.SvcHost.Shelf.exe.config
-C:\$\TC-GIT\zen-core\src\Examples\Zen.SvcHost.Shelf\bin\Debug\Zen.SvcHost.Shelf.exe
-C:\$\TC-GIT\zen-core\src\Examples\Zen.SvcHost.Shelf\bin\Debug\Zen.SvcHost.Shelf.pdb
-C:\$\TC-GIT\zen-core\src\Examples\Zen.SvcHost.Shelf\obj\Debug\Zen.SvcHost.Shelf.exe
-C:\$\TC-GIT\zen-core\src\Examples\Zen.SvcHost.Shelf\obj\Debug\Zen.SvcHost.Shelf.pdb

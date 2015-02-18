@@ -1,6 +1,0 @@
-2015.01.26 06:39:35 |INFO | ~ Zen.Examples.Demos.LogDemo > I will not be logged to the console, but I should be in the debug window 
-2015.01.26 06:39:35 |FATAL| ~ Zen.Examples.Demos.LogDemo > Appenders (send messages to these based on severity) 
-2015.02.04 08:03:14 |INFO | ~ Zen.Examples.Demos.LogDemo > I will not be logged to the console, but I should be in the debug window 
-2015.02.04 08:03:14 |FATAL| ~ Zen.Examples.Demos.LogDemo > Appenders (send messages to these based on severity) 
-2015.02.04 08:03:24 |DEBUG| ~ Zen.Examples.Logging.Frogger > |0~0| Hello, I am a Logger. 
-2015.02.04 08:03:24 |DEBUG| ~ Zen.Examples.Logging.Frogger > My name is Frogger. 

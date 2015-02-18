@@ -1,1 +1,0 @@
-C:\$\git\zen-core\src\Examples\Zen.Demo\bin\Debug\ZenDemo.exe.config
