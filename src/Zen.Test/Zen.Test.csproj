@@ -163,10 +163,6 @@
       <Project>{6654D1EB-D5CD-4618-A326-1808894F8D27}</Project>
       <Name>Zen.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Zen.Startup\Zen.Startup.csproj">
-      <Project>{eec581c9-8fc7-474d-8942-83f5d325923b}</Project>
-      <Name>Zen.Startup</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Zen.Svcs\Zen.Svcs.csproj">
       <Project>{c171f5fc-10c4-4f1c-b937-148d35105c65}</Project>
       <Name>Zen.Svcs</Name>
