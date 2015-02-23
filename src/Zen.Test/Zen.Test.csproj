@@ -165,6 +165,7 @@
   <ItemGroup>
     <Folder Include="BusinessModel\" />
     <Folder Include="DataModel\" />
+    <Folder Include="Startup\Automapper\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Zen.Data\Zen.Data.csproj">
