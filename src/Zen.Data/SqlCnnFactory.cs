@@ -118,8 +118,9 @@ namespace Zen.Data
             sb.AppendLine(string.Format("Connection String: {0}", ConnectionString));
             sb.AppendLine(string.Format("Database Dialect: {0}", DatabaseDialect));
             sb.AppendLine(string.Format("Data Provider: {0}", DataProvider));
-            sb.AppendLine(string.Format("Mapping Type: {0}", MappingAssemblyType()));
-            sb.AppendLine(string.Format("Mapping FQN: {0}", MappingAssemblyFQN()));
+            var mType = MappingAssemblyType();
+            sb.AppendLine(string.Format("Mapping Type: {0}", mType));
+            sb.AppendLine(string.Format("Mapping FQN: {0}", mType!=null ? mType.AssemblyQualifiedName : MappingAssemblyFQN()));
             return sb.ToString();
         }
     }
