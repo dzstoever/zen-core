@@ -1,13 +1,24 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using Zen.Log;
 
 namespace Zen
 {    
     public static class Extensions
     {
-        /// <summary>Combines the ex.Message with each inner exception message
-        /// on a new line 
+        public static Task StartNew(this TaskFactory factory, Action action, TaskScheduler scheduler)
+        {
+            return factory.StartNew(action, factory.CancellationToken, factory.CreationOptions, scheduler);
+        }
+        
+        public static Task<T> StartNew<T>(this TaskFactory factory, Func<T> func, TaskScheduler scheduler)
+        {
+            return factory.StartNew(func, factory.CancellationToken, factory.CreationOptions, scheduler);
+        }
+
+        /// <summary>
+        /// Combines the ex.Message with each inner exception message on a new line 
         /// </summary>
         public static string FullMessage(this Exception ex)
         {
@@ -69,7 +80,8 @@ namespace Zen
         }
 
 
-        /// <summary> return "null", "empty string", or obj.ToString() for any object
+        /// <summary> 
+        /// return "null", "empty string", or obj.ToString() for any object
         /// </summary>
         public static string ShowNullorEmptyString(this object obj)
         {

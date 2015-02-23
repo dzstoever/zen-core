@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\xunit.runner.visualstudio.2.0.0-rc2-build1043\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.0.0-rc2-build1043\build\net20\xunit.runner.visualstudio.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -74,78 +75,86 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Facilities.WcfIntegration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.WcfIntegrationFacility.3.0.0.4001\lib\net40\Castle.Facilities.WcfIntegration.dll</HintPath>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Windsor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Windsor.3.0.0.4001\lib\net40\Castle.Windsor.dll</HintPath>
+    <Reference Include="Bootstrapper, Version=2.0.3.13, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Bootstrapper.2.0.3.13\lib\Net40\Bootstrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Bootstrapper.AutoMapper">
+      <HintPath>..\packages\Bootstrapper.AutoMapper.2.0.3.14\lib\Net40\Bootstrapper.AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Castle.Core.3.3.0\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net40\Castle.Windsor.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions">
-      <HintPath>..\packages\FluentAssertions.1.7.1.1\Lib\net40\FluentAssertions.dll</HintPath>
+      <HintPath>..\packages\FluentAssertions.3.3.0\lib\net40\FluentAssertions.dll</HintPath>
     </Reference>
-    <Reference Include="HibernatingRhinos.Profiler.Appender">
-      <HintPath>..\packages\NHibernateProfiler.2.0.2239.0\lib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    <Reference Include="FluentAssertions.Core">
+      <HintPath>..\packages\FluentAssertions.3.3.0\lib\net40\FluentAssertions.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Iesi.Collections">
+    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+      <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate">
-      <HintPath>..\packages\NHibernate.4.0.2.4000\lib\net40\NHibernate.dll</HintPath>
+    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.4.0.3.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Services" />
-    <Reference Include="System.IdentityModel" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.Activation" />
-    <Reference Include="System.ServiceModel.Discovery" />
-    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WebActivator">
-      <HintPath>..\packages\WebActivator.1.4\lib\NETFramework40\WebActivator.dll</HintPath>
-    </Reference>
     <Reference Include="Xbehave">
-      <HintPath>..\packages\Xbehave.0.8.0\lib\net35\Xbehave.dll</HintPath>
+      <HintPath>..\packages\Xbehave.1.1.0\lib\net40\Xbehave.dll</HintPath>
     </Reference>
     <Reference Include="xunit">
-      <HintPath>..\packages\xunit.1.9.0.1566\lib\xunit.dll</HintPath>
+      <HintPath>..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
     </Reference>
     <Reference Include="xunit.extensions">
-      <HintPath>..\packages\xunit.extensions.1.9.0.1566\lib\xunit.extensions.dll</HintPath>
+      <HintPath>..\packages\xunit.extensions.1.9.2\lib\net20\xunit.extensions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SvcTests\ZenBehaviorExtensionScenarios.cs" />
-    <Compile Include="SvcTests\SecureSignonScenarios.cs" />
-    <Compile Include="UxTests\NavigationScenarios.cs" />
+    <Compile Include="Domain\Person.cs" />
+    <Compile Include="Maps\PersonMap.cs" />
+    <Compile Include="Scenarios\Core\EntityScenarios.cs" />
+    <Compile Include="Scenarios\Data\DaoScenarios.cs" />
+    <Compile Include="Startup\Bootstrapper\IocConfigStartupTask.cs" />
+    <Compile Include="Startup\Windsor\ZenTestInstaller.cs" />
+    <Compile Include="TestDaoConfigurator.cs" />
+    <Compile Include="Scenarios\Ux\NavigationScenarios.cs" />
+    <Compile Include="Startup\Bootstrapper\xDaoConfigStartupTask.cs" />
+    <Compile Include="TestSqlCnnFactory.cs" />
     <Compile Include="[ Dummys ]\DummyDao.cs" />
     <Compile Include="[ Dummys ]\DummyIocDI.cs" />
     <Compile Include="[ Dummys ]\DummyLoggerFactory.cs" />
-    <Compile Include="{ Svcs }\FakeSvc.cs" />
-    <Compile Include="AspectTests\DaoProviderScenarios.cs" />
-    <Compile Include="AspectTests\IocProviderScenarios.cs" />
-    <Compile Include="AspectTests\AspectScenarios.cs" />
-    <Compile Include="CoreTests\EntityScenarios.cs" />
-    <Compile Include="DataTests\DaoScenarios.cs" />
-    <Compile Include="AspectTests\LogProviderScenarios.cs" />
+    <Compile Include="Scenarios\DaoProviderScenarios.cs" />
+    <Compile Include="Scenarios\IocProviderScenarios.cs" />
+    <Compile Include="Scenarios\AspectScenarios.cs" />
+    <Compile Include="Scenarios\LogProviderScenarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="[ xUnit ]\UseLogFixture.cs" />
-    <Compile Include="[ xUnit ]\xScenarios.cs" />
+    <Compile Include="Startup\Bootstrapper\LogConfigStartupTask.cs" />
+    <Compile Include="[ Fixtures ]\StartupFixture.cs" />
+    <Compile Include="[ Fixtures ]\LogFixture.cs" />
+    <Compile Include="XbehaveScenarios.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -154,25 +163,32 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="{ BusinessModel }\" />
-    <Folder Include="{ DataModel }\" />
-    <Folder Include="{ Domain }\" />
+    <Folder Include="BusinessModel\" />
+    <Folder Include="DataModel\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Zen.Data\Zen.Data.csproj">
-      <Project>{6654D1EB-D5CD-4618-A326-1808894F8D27}</Project>
+      <Project>{6654d1eb-d5cd-4618-a326-1808894f8d27}</Project>
       <Name>Zen.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Zen.Svcs\Zen.Svcs.csproj">
-      <Project>{c171f5fc-10c4-4f1c-b937-148d35105c65}</Project>
-      <Name>Zen.Svcs</Name>
     </ProjectReference>
     <ProjectReference Include="..\Zen\Zen.csproj">
       <Project>{4D1B27DD-AD19-4405-90C0-E03BAD50FEBF}</Project>
       <Name>Zen</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="hibernate.cfg.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\xunit.runner.visualstudio.2.0.0-rc2-build1043\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.visualstudio.2.0.0-rc2-build1043\build\net20\xunit.runner.visualstudio.props'))" />
+  </Target>
+  <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

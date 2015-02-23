@@ -11,7 +11,7 @@ namespace Zen.Core
     /// </summary>
     public abstract class DomainObject : IDomainObject
     {   
-        private readonly IList<ValidateRule> _businessRules = new List<ValidateRule>();
+        private readonly IList<ValidateRule> _validationRules = new List<ValidateRule>();
         private readonly IList<string> _validationErrors = new List<string>();
 
 
@@ -21,7 +21,7 @@ namespace Zen.Core
         /// <param name="rule"></param>
         public virtual void AddRule(ValidateRule rule)
         {
-            _businessRules.Add(rule);
+            _validationRules.Add(rule);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Zen.Core
 
             _validationErrors.Clear();
 
-            foreach (var rule in _businessRules.Where(rule => !rule.Validate(this)))
+            foreach (var rule in _validationRules.Where(rule => !rule.Validate(this)))
             {
                 isValid = false;
                 _validationErrors.Add(rule.ErrorMessage);

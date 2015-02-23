@@ -74,6 +74,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HibernatingRhinos.Profiler.Appender">
+      <HintPath>..\packages\NHibernateProfiler.Appender.3.0.3032.0\lib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
     <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
@@ -89,8 +92,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDbCnnFactory.cs" />
     <Compile Include="IDbMap.cs" />
     <Compile Include="MappedEntity.cs" />
+    <Compile Include="DaoConfigurator.cs" />
+    <Compile Include="SqlCnnFactory.cs" />
     <Compile Include="SqlEntityBulkCopy.cs" />
     <Compile Include="NHibernateDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

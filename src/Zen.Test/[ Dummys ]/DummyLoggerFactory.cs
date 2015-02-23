@@ -5,7 +5,6 @@ namespace Zen.Test
 {
     class DummyLoggerFactory : ILoggerFactory
     {
-
         #region ILoggerFactory Members
 
         public ILogger Create()
