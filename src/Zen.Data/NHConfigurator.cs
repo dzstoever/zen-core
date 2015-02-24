@@ -12,9 +12,14 @@ using NHibernate.Tool.hbm2ddl;
 
 namespace Zen.Data
 {
-    public static class DaoConfigurator
+    public static class NHConfigurator
     {
-        public static bool UseXmlConfig { get; set; }
+        /// <summary>
+        /// Set this value if you want to configure NHibernate from an .config or .xml file
+        /// If set to an empty string Configure() will use app/web.config or hibernate.cfg.xml
+        /// If null, Configure() will try to resolve IDbCnnFactory using IocDI
+        /// </summary>        
+        public static string XmlConfigFileName { get; set; }
         public static Configuration Cfg { get; private set; }
         public static ISessionFactory SessionFactory { get; private set; }
         public static ISessionFactoryImplementor SessionFactoryImpl 
@@ -23,21 +28,22 @@ namespace Zen.Data
         }
 
         /// <summary>
-        /// Set UseXmlConfig = true to configure from app/web.config/hibernate.cfg.xml
-        /// - or -
-        /// IDbCnnFactory must be registered with Ioc prior to calling this constructor
-        /// </summary>
-        /// <remarks>LOADS ALL THE MAPPINGS FROM THE CONFIGURED ASSEMBLY</remarks>
+        /// Builds a SessionFactory for use with the NHibernateDao
+        /// Note: LOADS ALL THE MAPPINGS FROM THE CONFIGURED ASSEMBLY
+        /// </summary>        
         public static void Configure()
         {
             Aspects.GetLogger().Debug("Configuring database...");
 
-            if (UseXmlConfig)
+            if (XmlConfigFileName != null)
             {
                 try
                 {
                     Cfg = new Configuration();
-                    Cfg.Configure();
+                    if (string.IsNullOrWhiteSpace(XmlConfigFileName))
+                        Cfg.Configure();
+                    else
+                        Cfg.Configure(XmlConfigFileName);
                     SessionFactory = Cfg.BuildSessionFactory();
                     return;
                 }
@@ -93,19 +99,10 @@ namespace Zen.Data
                 }                                
             }
             catch (Exception ex)
-            { throw new ConfigException("Check your IDbCnnFactory implementation.", ex); }
-            
-            /*
-            #region another possible way
-            // - or -
-            //Cfg.SetProperty("connection.connection_string", sqlCnnString);
-            //Cfg.SetProperty("dialect", "NHibernate.Dialect.MsSql2008Dialect");
-            //Cfg.SetProperty("connection.provider", "NHibernate.Connection.DriverConnectionProvider");
-            //Cfg.SetProperty("connection.driver_class", "NHibernate.Driver.SqlClientDriver");                        
-            #endregion
-            */
+            { throw new ConfigException("Check your IDbCnnFactory implementation.", ex); }            
         }
-
+        
+        // Configure NHibernate ByCode
         static void ConfigureDbAccess<TDialect>(string cnnString, Assembly mappingAssembly) 
             where TDialect : NHibernate.Dialect.Dialect
         {
@@ -115,8 +112,10 @@ namespace Zen.Data
                 c.ConnectionString = cnnString; //@"Data Source=.\SQLEXPRESS;Initial Catalog=ZenTestDb;Integrated Security=True;Pooling=False";
                 c.Dialect<TDialect>();
                 c.KeywordsAutoImport = Hbm2DDLKeyWords.AutoQuote;
+#if DEBUG
                 c.LogSqlInConsole = true;
                 c.LogFormattedSql = true;
+#endif
 
                 // !!!
                 // be very careful with this or you could wipe out an entire database!!!
@@ -138,14 +137,17 @@ namespace Zen.Data
             Cfg.AddAssembly(mappingAssembly);// this could probably be omitted unless we ever want to embed .hbm.xml?
             "{0} mappings in domain model. (not including embedded .hbm.xml files)".LogMe(Log.LogLevel.Debug, dbMappings.Count());
             
-            SessionFactory = Cfg.BuildSessionFactory();                        
+            SessionFactory = Cfg.BuildSessionFactory();            
         }
-
 
         /// <summary>
         /// Use the NHProfiler to watch sql in realtime or create an offline file for later review
+        /// note: don't forget to TurnOffNHProfiler(usually on App_Exit)
         /// </summary>
-        /// <param name="offline">set offline to true if you want a file instead of live sql</param>
+        /// <param name="offline">
+        /// set offline to true if you want a file instead of live sql
+        /// The filename will be SqlyyyyMMddhhmmss.nhprof
+        /// </param>
         public static void TurnOnNHProfiler(bool offline)
         {
             // only initialize if the dll exists
@@ -154,20 +156,15 @@ namespace Zen.Data
 
             var offlineFileName = string.Format("Sql{0}.nhprof", DateTime.Now.ToString("yyyyMMddhhmmss"));
             if (offline) NHibernateProfiler.InitializeOfflineProfiling(offlineFileName);
-            else NHibernateProfiler.Initialize();
+            else NHibernateProfiler.Initialize();            
         }
-
-
-        public static void CreateDb(bool dropIfExists)
+        public static void TurnOffNHProfiler()
         {
-            
+            NHibernateProfiler.Shutdown();
         }
 
-        public static void DropDb()
-        {
-            
-        }
 
+        //note: Db must exist prior to calling this method
         public static void CreateDbSchema()
         {
             SchemaExport export = new SchemaExport(Cfg);
@@ -191,17 +188,5 @@ namespace Zen.Data
 
         public static void PopulateDbWithTestData() { }
 
-        //SchemaExport export = new SchemaExport(cfg);
-        //export.Drop(true, true);
-        //export.Create(true, true);
-
-        //export.Execute(new Action<string>(), );
-
-        //cfg.SetDefaultAssembly(""); // to use for the mappings added to the cfg afterwords
-        //cfg.SetDefaultNamespace("");// to use for the mappings added to the cfg afterwords            
-        //string[] ddl = cfg.GenerateSchemaCreationScript(new MsSql2008Dialect());
-        //cfg.ValidateSchema();
-
-        //Configuration config = cfg.Configure();// read cfg from hibernate.cfg.xml file
     }
 }

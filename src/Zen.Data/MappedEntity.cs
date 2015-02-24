@@ -25,10 +25,10 @@ namespace Zen.Data
         protected MappedEntity()
         {
             EntityType = base.GetTypeUnproxied();
-            ClassMetadata = DaoConfigurator.SessionFactoryImpl.GetClassMetadata(EntityType);
+            ClassMetadata = NHConfigurator.SessionFactoryImpl.GetClassMetadata(EntityType);
             if(ClassMetadata == null)
                 throw new ConfigException(EntityType.FullName + " has no class metadata.");
-            ClassMapping = DaoConfigurator.Cfg.GetClassMapping(EntityType);
+            ClassMapping = NHConfigurator.Cfg.GetClassMapping(EntityType);
             if (ClassMapping == null)
                 throw new ConfigException(EntityType.FullName + " has no class mapping.");
             ClassName = ClassMapping.ClassName;

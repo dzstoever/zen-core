@@ -1,10 +1,21 @@
-﻿using System;
+﻿/*
 using FluentAssertions;
 using Xbehave;
+using Xunit;
+using Xunit.Extensions;
+
+// https://xunit.codeplex.com/wikipage?title=Comparisons
+[Scenario] is from Xbehave         
+[Fact(Timeout=n)]	timeout value for xUnit.net is in milliseconds.
+[Trait("name", "value")]	Set arbitrary metadata on a test
+[Theory], [XxxData] (data-driven test) - decorate with one or more [XxxData] attributes, 
+ including [InlineData], [PropertyData], [ExcelData], [SqlServerData], and [OleDbData]
+
+
 
 namespace Zen.Test
 {
-    /* 
+     
     public class XSimpleScenario
     {
         [Scenario]
@@ -48,6 +59,6 @@ namespace Zen.Test
             //cleanup, dispose
         }
     }
-    */
-    
+
 }
+*/

@@ -1,4 +1,6 @@
-﻿using Xbehave;
+﻿using FluentAssertions;
+using NHibernate;
+using Xbehave;
 using Xunit;
 using Zen.Data;
 using Zen.Ioc;
@@ -24,19 +26,16 @@ namespace Zen.Test
     /// We could use a standard in memory database(SQLite) in order to get very speedy tests.
     /// </remarks>
     /// <see cref="http://ayende.com/blog/3983/nhibernate-unit-testing"/>
-    public class TestDaoConfigurator : UseStartupFixture
+    public class TestDbConfigurator : UseStartupFixture
     {
-        public TestDaoConfigurator()
+        public TestDbConfigurator()
         {
             _di = Aspects.GetIocDI();
             _log = _di.Resolve<ILogger>();
             _dao = _di.Resolve<IGenericDao>();
-
-            var cnnFactory = _di.Resolve<IDbCnnFactory>();
-            _log.Info(cnnFactory.ToString());            
         }
 
-        ~TestDaoConfigurator()
+        ~TestDbConfigurator()
         {
             if(_dao!=null) _dao.Dispose();
             if(_di!=null) _di.Dispose();            
@@ -46,27 +45,65 @@ namespace Zen.Test
         private readonly ILogger _log;
         private readonly IGenericDao _dao;
 
-        //[Trait("name", "value")]
-        
-        [Fact]
-        public void ConfigureFromAppConfig()
-        {
-            DaoConfigurator.CreateDb(true);
 
-            
-        }
-
-        [Fact]
-        public void ConfigureFromHibernateCfgXml()
-        {
-
-        }
-
-        [Fact]
+        [Fact(Skip = "affects db access for all subsequent tests")]
         public void ConfigureFromIDbCnnFactory()
         {
+            NHConfigurator.XmlConfigFileName = null;
+            NHConfigurator.Configure(); 
+
+            var cnnFactory = _di.Resolve<IDbCnnFactory>();
+            _log.Info(cnnFactory.ToString());
+            
+            var sessionFactory = _di.Resolve<ISessionFactory>();
+            sessionFactory.Should().NotBeNull();
+
+            var session = _dao.StartUnitOfWork();
+            session.Should().NotBeNull();
+
+            NHConfigurator.SessionFactoryImpl.Settings.SessionFactoryName
+                .Should().BeNull();
         }
 
+        [Fact(Skip ="affects db access for all subsequent tests")]
+        public void ConfigureFromAppConfig()
+        {
+            NHConfigurator.XmlConfigFileName = "";
+            NHConfigurator.Configure();
+
+            var cnnFactory = _di.Resolve<IDbCnnFactory>();
+            _log.Info(cnnFactory.ToString());
+
+            var sessionFactory = _di.Resolve<ISessionFactory>();
+            sessionFactory.Should().NotBeNull();
+
+            var session = _dao.StartUnitOfWork();
+            session.Should().NotBeNull();
+
+            NHConfigurator.SessionFactoryImpl.Settings.SessionFactoryName
+                .Should().Be("AppConfig.SessionFactory");
+        }
+
+        [Fact]
+        public void ConfigureFromCfgXml()
+        {
+            NHConfigurator.XmlConfigFileName = "nh.cfg.xml";
+            NHConfigurator.Configure();
+
+            var cnnFactory = _di.Resolve<IDbCnnFactory>();
+            _log.Info(cnnFactory.ToString());
+
+            var sessionFactory = _di.Resolve<ISessionFactory>();
+            sessionFactory.Should().NotBeNull();
+
+            var session = _dao.StartUnitOfWork();
+            session.Should().NotBeNull();
+
+            NHConfigurator.SessionFactoryImpl.Settings.SessionFactoryName
+                .Should().Be("Test.SessionFactory");
+        }
+
+        
 
         [Fact]
         public void CreateDbSchema()

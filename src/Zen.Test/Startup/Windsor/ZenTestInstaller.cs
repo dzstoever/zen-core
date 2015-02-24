@@ -30,10 +30,11 @@ namespace Zen.Test.Startup.Windsor
                                    .ImplementedBy<TestSqlCnnFactory>()
                                    .LifestyleSingleton());
             
-            DaoConfigurator.Configure();
-            Debug.Assert(DaoConfigurator.SessionFactory != null, "DaoConfigurator.SessionFactory != null");
+            // Configure from TestSqlCnnFactory
+            NHConfigurator.Configure();
+            Debug.Assert(NHConfigurator.SessionFactory != null, "DaoConfigurator.SessionFactory != null");
             container.Register(Component.For<ISessionFactory>()
-                                   .Instance(DaoConfigurator.SessionFactory)
+                                   .Instance(NHConfigurator.SessionFactory)
                                    .LifestyleSingleton());
             container.Register(Component.For<IGenericDao>()
                                    .ImplementedBy<NHibernateDao>()

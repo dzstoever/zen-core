@@ -139,7 +139,7 @@
     <Compile Include="Scenarios\Data\DaoScenarios.cs" />
     <Compile Include="Startup\Bootstrapper\IocConfigStartupTask.cs" />
     <Compile Include="Startup\Windsor\ZenTestInstaller.cs" />
-    <Compile Include="TestDaoConfigurator.cs" />
+    <Compile Include="TestDbConfigurator.cs" />
     <Compile Include="Scenarios\Ux\NavigationScenarios.cs" />
     <Compile Include="Startup\Bootstrapper\xDaoConfigStartupTask.cs" />
     <Compile Include="TestSqlCnnFactory.cs" />
@@ -154,7 +154,7 @@
     <Compile Include="Startup\Bootstrapper\LogConfigStartupTask.cs" />
     <Compile Include="[ Fixtures ]\StartupFixture.cs" />
     <Compile Include="[ Fixtures ]\LogFixture.cs" />
-    <Compile Include="XbehaveScenarios.cs" />
+    <Compile Include="XunitExamples.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -178,7 +178,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="hibernate.cfg.xml">
+    <Content Include="nh.cfg.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

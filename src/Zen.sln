@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zen.Test", "Zen.Test\Zen.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zen.Test.Svcs", "Zen.Test.Svcs\Zen.Test.Svcs.csproj", "{5CBDDC3A-0850-41EE-8ECE-801C15FF9315}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resources", "resources", "{8A56DF8C-DB5E-41E6-AD56-1284D766A0E4}"
+	ProjectSection(SolutionItems) = preProject
+		resources\nhibernate-configuration.xsd = resources\nhibernate-configuration.xsd
+		resources\nhibernate-mapping.xsd = resources\nhibernate-mapping.xsd
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

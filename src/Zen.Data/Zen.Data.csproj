@@ -95,7 +95,7 @@
     <Compile Include="IDbCnnFactory.cs" />
     <Compile Include="IDbMap.cs" />
     <Compile Include="MappedEntity.cs" />
-    <Compile Include="DaoConfigurator.cs" />
+    <Compile Include="NHConfigurator.cs" />
     <Compile Include="SqlCnnFactory.cs" />
     <Compile Include="SqlEntityBulkCopy.cs" />
     <Compile Include="NHibernateDao.cs" />
