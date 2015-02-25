@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test"  
+                   namespace="Zen.Test.Domain.Entities">
+
+  <class name="CourtType" table="courtis.dbo.[court_master_type]">
+    <id name="Id" column="[courttype]">
+      <generator class="assigned" />
+    </id>
+    <property name="Description" />
+    <set name="Courts" inverse="true" cascade="all" lazy="true">
+      <key column="[courttype]" />
+      <one-to-many class="Zen.Test.Domain.Entities.Court" />
+    </set>
+  </class>
+
+</hibernate-mapping>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test.DM"  
+                   namespace="Zen.Test.Domain.Entities.Collections">
+
+  <class name="BkUser" table="bkcol.dbo.[sys_users]">
+    
+    <id name="Id" column="[userid]">
+      <generator class="assigned" />
+    </id>
+    
+    <property name="AllowAdmin" />
+    <property name="AllowCourtEdit" />
+    <property name="AllowFinance" />
+    <property name="AllowMail" />
+    <property name="AllowOperator" />
+    <property name="AllowPaymentEntry" />
+    <property name="BypassIsolationGroups" />
+    <property name="ShowSSN" />
+    <property name="SecurityLevel" />
+    <property name="Department" />
+    <property name="PhoneExt" />
+    <property name="DefaultScreen" />
+    <property name="DateCreated" />
+    <property name="AllowDebtorEdit" />
+    <property name="AllowMailOutApproval" column="[allowapproveltrout]" />
+    
+    <component name="Name" class="Zen.Core.Components.NameInfo" 
+               insert="true" update="true" lazy="true">
+      <property name="First" column="[firstname]" />
+      <property name="Last" column="[lastname]" />
+    </component>
+    
+  </class>
+
+</hibernate-mapping>

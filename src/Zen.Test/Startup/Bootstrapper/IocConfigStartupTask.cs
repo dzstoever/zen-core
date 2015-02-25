@@ -26,6 +26,15 @@ namespace Zen.Test.Startup.Bootstrapper
             }
         }
 
+        //try
+        //{ var king = windsorDI.Resolve<IViewFactory>(); }// 2. resolve the king and all his subjects
+        //catch (Exception ex)
+        //{
+        //    "IocDI.Resolve<> failed.{0}{1}".LogMe(LogLevel.Fatal, Environment.NewLine, ex.FullMessage());
+        //    throw new DependencyException("Could not resolve the king.", ex);
+        //}
+
+
         public void Run()
         {
             ConfigureWindsorDI();

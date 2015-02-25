@@ -1,7 +1,9 @@
 ﻿using FluentAssertions;
-using NHibernate;
 using Xbehave;
 using Xunit;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
+using NHibernate;
 using Zen.Data;
 using Zen.Ioc;
 using Zen.Log;
@@ -23,7 +25,7 @@ namespace Zen.Test
     /// Why test using a Mock Database instead of Mock Objects?
     ///     In order to do all of those, we generally have to talk to a real database, 
     ///     trying to fake any of those at this level is futile and going to be very complicated.
-    /// We could use a standard in memory database(SQLite) in order to get very speedy tests.
+    ///     We could use a standard in memory database(SQLite) in order to get very speedy tests.
     /// </remarks>
     /// <see cref="http://ayende.com/blog/3983/nhibernate-unit-testing"/>
     public class TestDbConfigurator : UseStartupFixture
@@ -45,11 +47,14 @@ namespace Zen.Test
         private readonly ILogger _log;
         private readonly IGenericDao _dao;
 
-
-        [Fact(Skip = "affects db access for all subsequent tests")]
+        // Note:
+        // The following tests demonstrate different ways to configure data access.
+        // We are skipping them because they would affect all subsequent tests.
+        // They can be run manually if desired.        
+        //[Fact]
+        [Fact(Skip ="affects data access for all subsequent tests")]
         public void ConfigureFromIDbCnnFactory()
         {
-            NHConfigurator.XmlConfigFileName = null;
             NHConfigurator.Configure(); 
 
             var cnnFactory = _di.Resolve<IDbCnnFactory>();
@@ -64,15 +69,11 @@ namespace Zen.Test
             NHConfigurator.SessionFactoryImpl.Settings.SessionFactoryName
                 .Should().BeNull();
         }
-
-        [Fact(Skip ="affects db access for all subsequent tests")]
+        //[Fact]
+        [Fact(Skip ="affects data access for all subsequent tests")]
         public void ConfigureFromAppConfig()
         {
-            NHConfigurator.XmlConfigFileName = "";
-            NHConfigurator.Configure();
-
-            var cnnFactory = _di.Resolve<IDbCnnFactory>();
-            _log.Info(cnnFactory.ToString());
+            NHConfigurator.Configure("");
 
             var sessionFactory = _di.Resolve<ISessionFactory>();
             sessionFactory.Should().NotBeNull();
@@ -83,15 +84,17 @@ namespace Zen.Test
             NHConfigurator.SessionFactoryImpl.Settings.SessionFactoryName
                 .Should().Be("AppConfig.SessionFactory");
         }
-
         [Fact]
+        //[Fact(Skip ="affects data access for all subsequent tests")]
         public void ConfigureFromCfgXml()
         {
-            NHConfigurator.XmlConfigFileName = "nh.cfg.xml";
-            NHConfigurator.Configure();
-
-            var cnnFactory = _di.Resolve<IDbCnnFactory>();
-            _log.Info(cnnFactory.ToString());
+            NHConfigurator.Configure("nh.cfg.xml");//this will add the embedded .hbms
+            var windsorDI = Aspects.GetIocDI() as WindsorDI;
+            var container = windsorDI.Container as IWindsorContainer;
+            container.Register(Component.For<ISessionFactory>()
+                                   .Instance(NHConfigurator.SessionFactory)
+                                   .LifestyleSingleton()
+                                   .IsDefault().Named("SessionFactoryOverride"));
 
             var sessionFactory = _di.Resolve<ISessionFactory>();
             sessionFactory.Should().NotBeNull();
@@ -101,6 +104,8 @@ namespace Zen.Test
 
             NHConfigurator.SessionFactoryImpl.Settings.SessionFactoryName
                 .Should().Be("Test.SessionFactory");
+
+            NHConfigurator.Cfg.ClassMappings.Count.Should().Be(65);
         }
 
         
@@ -108,6 +113,7 @@ namespace Zen.Test
         [Fact]
         public void CreateDbSchema()
         {
+            NHConfigurator.CreateDbSchema();
             "Given some arranged preconditions".Given(() =>
             {
                 

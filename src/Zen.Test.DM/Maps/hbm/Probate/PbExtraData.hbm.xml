@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test.DM"  
+                   namespace="Zen.Test.Domain.Entities.Probate">
+
+  <class name="PbExtraData" table="probe.dbo.[p2_extradata]">
+    
+    <id name="Id" column="[idx]">
+      <generator class="native" />
+    </id>    
+    
+    <property name="FieldType" />
+    <property name="FieldName" />
+    <property name="FieldValue" />
+    <property name="InputFile" />
+    <property name="CreateDate" />
+    <property name="InputFileType" />
+    
+    <many-to-one name="Account" 
+                 class="IPbAccount" column="[matternum]" />
+    
+  </class>
+
+</hibernate-mapping>

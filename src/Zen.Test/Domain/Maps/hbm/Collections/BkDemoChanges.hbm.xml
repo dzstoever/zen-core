@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test"  
+                   namespace="Zen.Test.Domain.Entities.Collections">
+
+  <class name="BkDemoChanges" table="bkcol.dbo.[apl_demochanges]" >
+    
+    <id name="Id" column="[idx]">
+      <generator class="native" />
+    </id>
+    
+    <property name="BypassScrub" />
+    <property name="ReturnToSender" />
+    <property name="UspsDeliverable" />
+    <property name="RecType" />
+    <property name="SSN" />
+    <property name="LastUpdated" />
+    <property name="NcoaVerifyDate" />
+    <property name="UspsCertifyDate" />
+    
+    <component name="Name" class="Zen.Test.Domain.Components.NameInfo" 
+               insert="true" update="true" lazy="false">
+      <property name="First" column="[firstname]" />
+      <property name="Middle" column="[middlename]" />
+      <property name="Last" column="[lastname]" />
+    </component>
+    <component name="Address" class="Zen.Test.Domain.Components.AddressInfo" 
+               insert="true" update="true" lazy="false">
+      <property name="Street1" column="[addr1]" />
+      <property name="Street2" column="[addr2]" />
+      <property name="City" />
+      <property name="State" />
+      <property name="Zip5" column="[zip]" />
+      <property name="Zip4" />
+    </component>
+
+    <many-to-one name="Debtor" 
+                 class="BkDebtor" column="[debtornum]" />
+    <many-to-one name="Relationship" 
+                 class="BkDebtorRelation" column="[relationship]" />
+    
+  </class>
+
+</hibernate-mapping>

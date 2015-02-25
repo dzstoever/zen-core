@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resources", "resources", "{
 		resources\nhibernate-mapping.xsd = resources\nhibernate-mapping.xsd
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zen.Test.DM", "Zen.Test.DM\Zen.Test.DM.csproj", "{6AA57681-6FE9-42D0-9A4A-472044A6D5BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,14 @@ Global
 		{5CBDDC3A-0850-41EE-8ECE-801C15FF9315}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5CBDDC3A-0850-41EE-8ECE-801C15FF9315}.Release|x64.ActiveCfg = Release|Any CPU
 		{5CBDDC3A-0850-41EE-8ECE-801C15FF9315}.Release|x86.ActiveCfg = Release|Any CPU
+		{6AA57681-6FE9-42D0-9A4A-472044A6D5BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AA57681-6FE9-42D0-9A4A-472044A6D5BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AA57681-6FE9-42D0-9A4A-472044A6D5BA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6AA57681-6FE9-42D0-9A4A-472044A6D5BA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6AA57681-6FE9-42D0-9A4A-472044A6D5BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AA57681-6FE9-42D0-9A4A-472044A6D5BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AA57681-6FE9-42D0-9A4A-472044A6D5BA}.Release|x64.ActiveCfg = Release|Any CPU
+		{6AA57681-6FE9-42D0-9A4A-472044A6D5BA}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

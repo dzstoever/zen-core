@@ -25,13 +25,12 @@ namespace Zen.Test.Startup.Windsor
                                    .ImplementedBy<Log4netLogger>()
                                    .LifestyleSingleton());
 
-            // This must be set prior to calling DaoConfigurator.Configure();
+            // This must be set prior to calling DaoConfigurator.Configure() if an xml config file is not being used
             container.Register(Component.For<IDbCnnFactory>()
                                    .ImplementedBy<TestSqlCnnFactory>()
                                    .LifestyleSingleton());
-            
-            // Configure from TestSqlCnnFactory
-            NHConfigurator.Configure();
+            NHConfigurator.Configure();// use TestSqlCnnFactory            
+            //NHConfigurator.Configure("nh.cfg.xml");
             Debug.Assert(NHConfigurator.SessionFactory != null, "DaoConfigurator.SessionFactory != null");
             container.Register(Component.For<ISessionFactory>()
                                    .Instance(NHConfigurator.SessionFactory)

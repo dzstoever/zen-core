@@ -31,29 +31,23 @@ namespace Zen.Test
             Bootstrapper.IncludingOnly.Assembly(Assembly.GetExecutingAssembly())//.AndAssembly(typeof())
                         .With.StartupTasks().UsingThisExecutionOrder(o => o
                             .First<LogConfigStartupTask>()
-                            //.Then<DaoConfigStartupTask>()
-                            .Then<IocConfigStartupTask>())
-                        //.And.Windsor().WithContainer(windsorDI.Container)
-                        //    .UsingAutoRegistration()// automatically register all types that implement an interface of the same name
+                            .Then<IocConfigStartupTask>())                        
                         //.And.AutoMapper()
                         .Start();
-
-
-            //try
-            //{ var king = windsorDI.Resolve<IViewFactory>(); }// 2. resolve the king and all his subjects
-            //catch (Exception ex)
-            //{
-            //    "IocDI.Resolve<> failed.{0}{1}".LogMe(LogLevel.Fatal, Environment.NewLine, ex.FullMessage());
-            //    throw new DependencyException("Could not resolve the king.", ex);
-            //}
+                        
+                        /* not needed, Zen.Ioc.WindsorDI takes care of this with less dependencies */
+                        //.And.Windsor().WithContainer(windsorDI.Container)
+                        //    .UsingAutoRegistration()// automatically register all types that implement an interface of the same name
         }
 
-        //private static IocDI DI = null;
-
+        // In a typical application, dispose on App_Exit 
         public void Dispose()
         {
             var di = Aspects.GetIocDI();
-            if (di != null) di.Dispose();// In a typical application, dispose container on App_Exit 
+            if (di != null) di.Dispose();
+
+            var dao = Aspects.GetGenericDao();
+            if(dao != null) dao.Dispose();
         }
     }
 

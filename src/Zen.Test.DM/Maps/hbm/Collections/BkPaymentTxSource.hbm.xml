@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test.DM"  
+                   namespace="Zen.Test.Domain.Entities.Collections">
+
+  <class name="BkPaymentTxSource" table="bkcol.dbo.[lu_transource]">    
+    
+    <id name="Id" column="[transource]">
+      <generator class="assigned" />
+    </id>    
+    
+    <property name="AffectsAdjBal" />
+    <property name="AllowFinance" />
+    <property name="AllowMailRoom" />
+    <property name="IsActive" />
+    <property name="IsCommissionable" />
+    <property name="IsFee" />
+    <property name="IsGLPostable" />
+    <property name="IsHidden" />
+    <property name="IsInHouse" />
+    <property name="IsInvoiceable" />
+    <property name="IsOnHold" />
+    <property name="IsReversal" />
+    <property name="Description" column="[transourcedesc]"/>
+    
+  </class>
+
+</hibernate-mapping>

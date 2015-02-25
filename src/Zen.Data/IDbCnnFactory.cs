@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Reflection;
 using NHibernate.Dialect;
 
 namespace Zen.Data
 {
     public interface IDbCnnFactory
     {
+        //Assembly ByCodeMappingAssembly { get; set; }
+        //Assembly HbmXmlMappingAssembly { get; set; }
+
         /// <summary>
         /// Supply any type from the assembly containing your IDbMap classes
         /// or .hbm.xml embedded resource files.

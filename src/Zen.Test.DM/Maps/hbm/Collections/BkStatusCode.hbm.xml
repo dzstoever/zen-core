@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test.DM"  
+                   namespace="Zen.Test.Domain.Entities.Collections">
+
+  <class name="BkStatusCode" 
+         table="bkCol.dbo.[lu_statuscode]">      
+    
+    <id name="Id" column="[statuscode]">
+      <generator class="assigned" />
+    </id>
+    
+    <property name="IsActiveInventory" />
+    <property name="Description" column="[statusdesc]" />
+    <property name="HideSkip" />
+    <property name="HideUI" />          
+    <property name="IsAction" />          
+    <property name="NextAction" />
+    <property name="SpecialInstructions" />
+    <property name="StatusUse" />          
+    
+  </class>
+
+</hibernate-mapping>

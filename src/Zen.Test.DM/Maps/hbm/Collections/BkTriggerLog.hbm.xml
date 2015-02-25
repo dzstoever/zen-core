@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test.DM"  
+                   namespace="Zen.Test.Domain.Entities.Collections">
+
+  <class name="BkTriggerLog" table="bkcol.dbo.[sys_triggerlog]">
+    
+    <id name="Id" column="[idx]">
+      <generator class="native" />
+    </id>
+    
+    <property name="CreateDate" />
+    <property name="FieldName" />
+    <property name="NewVal" />
+    <property name="OldVal" />
+    <property name="ProcessName" />
+    <property name="ServerName" />
+    <property name="TableName" />
+    <property name="UserId" />
+    <property name="Workstation" />
+    <property name="IsDeleted" column="[isdel]"/>
+    
+    <many-to-one name="Account" 
+                 class="BkAccount" column="[refnum]" />
+    <many-to-one name="Debtor"
+                 class="BkDebtor" column="[debtornum]" />
+    <many-to-one name="DebtorContact"
+                 class="BkDebtorContact" column="[debtorrelidx]" />
+    <many-to-one name="PaymentTx"
+                 class="BkPaymentTx" column="[tranidx]" />
+    <many-to-one name="PaymentTxDetail"
+                 class="BkPaymentTxDetail" column="[trandetailidx]" />
+        
+  </class>
+
+</hibernate-mapping>

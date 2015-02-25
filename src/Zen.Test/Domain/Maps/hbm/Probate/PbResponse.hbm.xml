@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test" 
+                   namespace="Zen.Test.Domain.Entities.Probate">
+
+  <class name="PbResponse" table="probe.dbo.[p2_response]" 
+         dynamic-insert="true" dynamic-update="true">
+    <!-- surrogate key -->
+    <id name="Id" column="[responseid]">
+      <generator class="native" />
+    </id>
+    <!-- real key -->
+    <property name="UniqueId" column="[idfr]" insert="false" update="false"/>
+        
+    <property name="ClientMasterShortName" />
+    <property name="RespType" />    
+    <property name="RespDate" />
+    <property name="IsDeleted" column="[isdeleted]" />
+    <property name="CustomBigInt1" />
+    <property name="CustomString1" column="[customvarchar1]" />
+    <property name="CustomString2" column="[customvarchar2]" />
+    <property name="CustomDate" column="[customsmalldatetime1]" />    
+    <property name="PhoneOrLetterDate" />    
+    
+    <many-to-one name="Account" 
+                 class="IPbAccount" column="[matternum]" />
+
+    <many-to-one name="PaymentTx"
+                 class="PbPaymentTx" column="[pmtidfr]" property-ref="UniqueId"
+                 update="false"/>
+
+    <!-- does not produce inserts and updates
+    <one-to-one name="PaymentTx" 
+                class="PbPaymentTx" foreign-key="[pmtidfr]" property-ref="UniqueId"
+                cascade="all" fetch="join" />-->
+
+  </class>
+
+</hibernate-mapping>

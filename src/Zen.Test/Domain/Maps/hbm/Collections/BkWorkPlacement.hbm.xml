@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test"  
+                   namespace="Zen.Test.Domain.Entities.Collections">
+  
+  <class name="BkWorkPlacement" table="bkcol.dbo.[wrk_plx]" 
+         dynamic-insert="true" dynamic-update="true">
+    
+    <id name="Id" column="[idx]">
+      <generator class="native" />
+    </id>
+    
+    <property name="InsertFlag" />    
+    <property name="IsOnFile" />
+    <property name="CourtId" />
+    <property name="AcctBal" />
+    <property name="CommissionRate" />
+    <property name="AcctId" />
+    <property name="AcctNum" />
+    <property name="AcctType" />
+    <property name="CaseHandler" />
+    <property name="ClientMaster" column="[clientmastershortname]" />
+    <property name="ClientNumChargeOff" />
+    <property name="ClientNumOpen" />
+    <property name="ClientShort" column="[clientshortname]" />
+    <property name="DebtorSSN" />
+    <property name="DebtorSSNOriginal" />
+    <property name="ErrorMessage" />
+    <property name="HistoryNote" />
+    <property name="InputFile" />
+    <property name="ProcessStatus" />
+    <property name="RMSCode" />
+    <property name="StatusCode" />
+    <property name="UD01" />
+    <property name="UD02" />
+    <property name="UD03" />
+    <property name="UD04" />
+    <property name="UD05" />
+    <property name="UD06" />
+    <property name="UD07" />
+    <property name="UD08" />
+    <property name="UD09" />
+    <property name="UD10" />
+    <property name="AcctOpenDate" />
+    <property name="ChargeOffDate" />
+    <property name="CreateDate" />
+    <property name="DOB" />
+    <property name="PlaceDate" />    
+    <property name="RefNum" /> 
+    
+    <component name="Attorney" class="Zen.Test.Domain.Components.ContactInfo" 
+               insert="true" update="true" >
+      <property name="Email" column="[attyemail]" />
+      <component name="Name" class="Zen.Test.Domain.Components.NameInfo" 
+                 insert="true" update="true">
+        <property name="FullName" column="[attyname]" />
+      </component>
+      <component name="Address" class="Zen.Test.Domain.Components.AddressInfo" 
+                 insert="true" update="true" >
+        <property name="Street1" column="[attyaddr1]" />
+        <property name="Street1" column="[attyaddr2]" />
+        <property name="City" column="[attycity]" />
+        <property name="State" column="[attystate]" />
+        <property name="Zip5" column="[attyzip]" />        
+      </component>      
+      <component name="Phone1" class="Zen.Test.Domain.Components.PhoneInfo" 
+                 insert="true" update="true" >
+        <property name="Number" column="[attyphone]" />
+      </component>
+      <component name="Fax" class="Zen.Test.Domain.Components.PhoneInfo" 
+                 insert="true" update="true" >
+        <property name="Number" column="[attyfax]" />
+      </component>      
+    </component>
+    <component name="Cosignor" class="Zen.Test.Domain.Components.ContactInfo"
+               insert="true" update="true" >
+      <property name="Email" column="[cosignoremail]" />
+      <component name="Name" class="Zen.Test.Domain.Components.NameInfo"
+                 insert="true" update="true">
+        <property name="FullName" column="[cosignorname]" />
+      </component>
+      <component name="Address" class="Zen.Test.Domain.Components.AddressInfo"
+                 insert="true" update="true" >
+        <property name="Street1" column="[cosignoraddr1]" />
+        <property name="Street2" column="[cosignoraddr2]" />
+        <property name="City" column="[cosignorcity]" />
+        <property name="State" column="[cosignorstate]" />
+        <property name="Zip5" column="[cosignorzip]" />
+      </component>
+      <component name="Phone1" class="Zen.Test.Domain.Components.PhoneInfo"
+                 insert="true" update="true" >
+        <property name="Number" column="[cosignorphone]" />
+      </component>
+      <component name="Fax" class="Zen.Test.Domain.Components.PhoneInfo"
+                 insert="true" update="true" >
+        <property name="Number" column="[cosignorfax]" />
+      </component>
+    </component>
+    <component name="Debtor" class="Zen.Test.Domain.Components.ContactInfo"
+               insert="true" update="true" >
+      <component name="Name" class="Zen.Test.Domain.Components.NameInfo"
+                 insert="true" update="true">
+        <property name="First" column="[debtorfirstname]" />
+        <property name="Middle" column="[debtormiddlename]" />
+        <property name="Last" column="[debtorlastname]" />
+      </component>
+      <component name="Address" class="Zen.Test.Domain.Components.AddressInfo"
+                 insert="true" update="true" >
+        <property name="Street1" column="[debtoraddr1]" />
+        <property name="Street2" column="[debtoraddr2]" />
+        <property name="City" column="[debtorcity]" />
+        <property name="State" column="[debtorstate]" />
+        <property name="Zip5" column="[debtorzip]" />
+      </component>
+      <component name="Phone1" class="Zen.Test.Domain.Components.PhoneInfo"
+                 insert="true" update="true" >
+        <property name="Number" column="[debtorphone1]" />
+      </component>
+      <component name="Phone2" class="Zen.Test.Domain.Components.PhoneInfo"
+                 insert="true" update="true" >
+        <property name="Number" column="[debtorphone2]" />
+      </component>
+    </component>
+    <component name="OtherUser" class="Zen.Test.Domain.Components.ContactInfo"
+               insert="true" update="true" >
+      <property name="Email" column="[otheruseremail]" />
+      <component name="Name" class="Zen.Test.Domain.Components.NameInfo"
+                 insert="true" update="true">
+        <property name="FullName" column="[otherusername]" />
+      </component>
+      <component name="Address" class="Zen.Test.Domain.Components.AddressInfo"
+                 insert="true" update="true" >
+        <property name="Street1" column="[otheruseraddress]" />        
+        <property name="City" column="[otherusercity]" />
+        <property name="State" column="[otheruserstate]" />
+        <property name="Zip5" column="[otheruserzip]" />
+      </component>
+      <component name="Phone1" class="Zen.Test.Domain.Components.PhoneInfo"
+                 insert="true" update="true" >
+        <property name="Number" column="[otheruserphone]" />
+      </component>
+      <component name="Fax" class="Zen.Test.Domain.Components.PhoneInfo"
+                 insert="true" update="true" >
+        <property name="Number" column="[otheruserfax]" />
+      </component>
+    </component>        
+    
+    <many-to-one name="Batch" 
+                 class="BkWorkBatch" column="[batchid]" />
+            
+  </class>
+
+</hibernate-mapping>

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test"
+                   namespace="Zen.Test.Domain.Entities">
+
+  <class name="Court" 
+         table="courtis.dbo.[court_master]" dynamic-update="true">
+    <id name="Id" column="[courtid]">
+      <generator class="assigned" />
+    </id>
+    <property name="ScoreRank" />
+    <property name="ScoreTier1" />
+    <property name="ScoreTier2" />
+    <property name="ScoreTier3" />
+    <property name="ClaimFilingFee" column="[filingfee]" />
+    <property name="DeathCertificateFee" column="[certfee]" />
+    <property name="SearchFee" />
+    <property name="VendorSearchFee" />
+    <property name="AuditBy" />
+    <property name="AuditComment" />
+    <property name="CSRInstructions" column="[csrinstructions]" lazy="true" />
+    <property name="County" column="[courtcounty]" />
+    <property name="Name" column="[courtname]" />
+    <property name="PayeeName" />
+    <property name="State" column="[courtstate]" />    
+    <property name="UpdateBy"/>
+    <property name="UpdateComment" />    
+    <property name="WebSite1" />
+    <property name="WebSite2" />
+    <property name="AuditReviewDate" />
+    <property name="UpdateDate" />
+    <component name="Address" class="Zen.Test.Domain.Components.AddressInfo" 
+               insert="true" update="true" lazy="true">
+      <property name="Street1" column="[address1]" />
+      <property name="Street2" column="[address2]" />
+      <property name="City" />
+      <property name="State" />
+      <!-- This may map more than the zip5 since it is varchar(10) in the DB
+      column="[zip]" -->
+      <property name="Zip5" formula="substring([zip],1,5)"/>
+      <property name="Zip4" formula="substring([zip],7,4)"/>
+    </component>
+    <component name="Phone" class="Zen.Test.Domain.Components.PhoneInfo" 
+               insert="true" update="true" lazy="true">
+      <property name="Number" column="[contactphone]" />
+    </component>        
+    <many-to-one name="ClaimSource"
+                 class="CourtClaimSource" column="[claimsource]" />
+    <many-to-one name="CourtType"
+                 class="CourtType" column="[courttype]" />    
+    <set name="Instructions" inverse="true" cascade="all" lazy="true" >
+      <key column="[courtid]" />
+      <one-to-many class="CourtInstruction" />
+    </set>
+
+  </class>
+
+</hibernate-mapping>

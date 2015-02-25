@@ -1,18 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<hibernate-configuration xmlns="urn:nhibernate-configuration-2.2-x-factories">
-
+<hibernate-configuration xmlns="urn:nhibernate-configuration-2.2">
   <!---->
   <session-factory name="Test.SessionFactory" xmlns="urn:nhibernate-configuration-2.2">
     <property name="connection.connection_string">
-      Server=.\SQLExpress; Initial Catalog=ZenTestDb; Integrated Security=true;
+      Server=.\SQLEXPRESS; Integrated Security=true; Initial Catalog=ZenProdDB;
     </property>
     <property name="connection.driver_class">NHibernate.Driver.SqlClientDriver</property>
-    <property name="dialect">NHibernate.Dialect.MsSql2008Dialect</property>
+    <property name="dialect">NHibernate.Dialect.MsSql2012Dialect</property>
     <property name="show_sql">true</property>
     <property name="format_sql">true</property>
     
-    
-    <property name="hbm2ddl.auto">update</property>
+    <property name="hbm2ddl.auto">none</property>
     <!--
         Possible values:
           validate: validate the schema, makes no changes to the database.
@@ -21,6 +19,7 @@
           create-drop: drop the schema at the end of the session.
           none: disable
     -->
+  
     <mapping assembly="Zen.Test" />
     <!--
         There are 3 possible combinations of mapping attributes
@@ -28,11 +27,15 @@
           resource: NHibernate will read the mapping resource from the specified assembly
           assembly: NHibernate will find all the resources ending in hbm.xml from the assembly.
     -->
+  
+    
   </session-factory>
   
   <!-- 
   <session-factory name="Development.SessionFactory" xmlns="urn:nhibernate-configuration-2.2">
-    <property name="connection.connection_string">Server=.\SQLExpress; Initial Catalog=ZenDevDB; Integrated Security=true;</property>    
+    <property name="connection.connection_string">
+      Server=(localdb)\v11.0; Integrated Security=true; AttachDbFileName=~\App_Data\ZenTestDB.mdf;
+    </property>    
     <property name="connection.driver_class">NHibernate.Driver.SqlClientDriver</property>
     <property name="connection.provider">NHibernate.Connection.DriverConnectionProvider</property>
     <property name="dialect">NHibernate.Dialect.MsSql2008Dialect</property>    
@@ -40,7 +43,7 @@
   </session-factory>
 
   <session-factory name="Production.SessionFactory" xmlns="urn:nhibernate-configuration-2.2">
-    <property name="connection.connection_string">Server=.\SQLExpress; Initial Catalog=ZenProdDB; Integrated Security=true;</property>
+    <property name="connection.connection_string">Server=.\SQLExpress; Integrated Security=true; Initial Catalog=ZenProdDB;</property>
     <property name="connection.driver_class">NHibernate.Driver.SqlClientDriver</property>
     <property name="connection.provider">NHibernate.Connection.DriverConnectionProvider</property>
     <property name="dialect">NHibernate.Dialect.MsSql2005Dialect</property>    

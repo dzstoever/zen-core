@@ -4,6 +4,21 @@ using System.Text;
 
 namespace Zen.Data
 {
+    /// <summary>
+    /// A subset of NHibernate.Dialect
+    /// </summary>
+    public enum SqlDialects
+    {
+        MsSql2000Dialect,
+        MsSql2005Dialect,
+        MsSql2008Dialect,
+        MsSql2012Dialect,
+        MsSqlAzure2008Dialect,
+        MsSqlCe40Dialect,
+        MsSqlCeDialect,
+        SQLiteDialect
+    }
+
     public class SqlCnnFactory : IDbCnnFactory
     {
         private SqlConnectionStringBuilder _cnnBuilder;
@@ -30,20 +45,9 @@ namespace Zen.Data
         /// <summary>
         /// Override this in any derived class to use a different Sql Dialect
         /// </summary>
-        /// <remarks> 
-        /// Acceptable values are a subset of NHibernate.Dialect:
-        /// MsSql2000Dialect
-        /// MsSql2005Dialect
-        /// MsSql2008Dialect
-        /// MsSql2012Dialect
-        /// MsSqlAzure2008Dialect
-        /// MsSqlCe40Dialect
-        /// MsSqlCeDialect
-        /// SQLiteDialect
-        /// </remarks>
-        protected virtual string SqlDialect()
+        protected virtual SqlDialects SqlDialect()
         {
-            return "MsSql2012Dialect";
+            return SqlDialects.MsSql2012Dialect;
         }
 
         /// <summary>
@@ -54,13 +58,15 @@ namespace Zen.Data
             return "System.Data.SqlClient";
         }
 
+
+
         /// <summary>
         /// Only needs to be overridden if using MappedEntity(s)
         /// See the IDbCnnFactory for further descriptions.
         /// </summary>
         public virtual Type MappingAssemblyType()
         {
-            return null;
+            return default(Type);
         }
 
         /// <summary>
@@ -84,7 +90,7 @@ namespace Zen.Data
 
         public string DatabaseDialect
         {
-            get { return SqlDialect(); }
+            get { return SqlDialect().ToString(); }
         }
 
         public string DataProvider

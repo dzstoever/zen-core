@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test.DM"  
+                   namespace="Zen.Test.Domain.Entities.Probate">
+
+  <class name="PbUser" table="probe.dbo.[p2_users]">
+    
+    <id name="Id" column="[windowsid]">
+      <generator class="assigned" />
+    </id>
+    
+    <property name="AllowAdmin" column="[allowadm]"/>
+    <property name="AllowCourtEdit" />
+    <property name="AllowFinance" />
+    <property name="AllowMail" />
+    <property name="AllowOperator" />
+    <property name="AllowPaymentEntry" />
+    <property name="BypassIsolationGroups" column="[bypassisolationgroup]"/>
+    <property name="ShowSSN" />
+    <property name="SecurityLevel" />
+    <property name="Department" />
+    <property name="PhoneExt" />
+    <property name="DefaultScreen" />
+    <property name="DateCreated" />    
+    <property name="AllowCap1BKFraud" />    
+    <property name="AllowDeceasedEdit" />
+    <property name="AllowDiscoverClosure" />        
+    <property name="AllowNA" />
+    <property name="AllowPostEstate" />
+    <property name="AllowPreEstate" />
+    <property name="AllowQA" />        
+    <property name="ComputerName" />       
+    
+    <component name="Name" class="Zen.Core.Components.NameInfo"
+               insert="true" update="true" lazy="true">
+      <property name="First" column="[firstname]" />
+      <property name="Last" column="[lastname]" />
+    </component>
+    
+  </class>
+
+</hibernate-mapping>

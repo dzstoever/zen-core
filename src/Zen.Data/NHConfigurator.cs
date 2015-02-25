@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
 using NHibernate;
 using NHibernate.Cfg;
@@ -13,13 +14,7 @@ using NHibernate.Tool.hbm2ddl;
 namespace Zen.Data
 {
     public static class NHConfigurator
-    {
-        /// <summary>
-        /// Set this value if you want to configure NHibernate from an .config or .xml file
-        /// If set to an empty string Configure() will use app/web.config or hibernate.cfg.xml
-        /// If null, Configure() will try to resolve IDbCnnFactory using IocDI
-        /// </summary>        
-        public static string XmlConfigFileName { get; set; }
+    {        
         public static Configuration Cfg { get; private set; }
         public static ISessionFactory SessionFactory { get; private set; }
         public static ISessionFactoryImplementor SessionFactoryImpl 
@@ -28,31 +23,35 @@ namespace Zen.Data
         }
 
         /// <summary>
-        /// Builds a SessionFactory for use with the NHibernateDao
-        /// Note: LOADS ALL THE MAPPINGS FROM THE CONFIGURED ASSEMBLY
+        /// Builds a SessionFactory for use with the NHibernateDao using the supplied configuration file.
+        /// LOADS ALL THE MAPPINGS FROM THE CONFIGURED ASSEMBLY
+        /// </summary>
+        /// <param name="xmlFileName">If set to an empty string Configure() will use app/web.config or hibernate.cfg.xml</param>        
+        public static void Configure(string xmlFileName)
+        {
+            Aspects.GetLogger().DebugFormat("Configuring database from {0}...", xmlFileName);
+            try
+            {
+                Cfg = new Configuration();
+                if (string.IsNullOrWhiteSpace(xmlFileName))
+                    Cfg.Configure();
+                else
+                    Cfg.Configure(xmlFileName);
+                SessionFactory = Cfg.BuildSessionFactory();                
+            }
+            catch (Exception ex)
+            { throw new ConfigException("Unable to configure session factory from xml/config file.", ex); }
+        }
+
+        /// <summary>
+        /// Builds a SessionFactory for use with the NHibernateDao. Tries to resolve IDbCnnFactory using IocDI.
+        /// LOADS ALL THE MAPPINGS FROM THE CONFIGURED ASSEMBLY
         /// </summary>        
         public static void Configure()
         {
             Aspects.GetLogger().Debug("Configuring database...");
-
-            if (XmlConfigFileName != null)
-            {
-                try
-                {
-                    Cfg = new Configuration();
-                    if (string.IsNullOrWhiteSpace(XmlConfigFileName))
-                        Cfg.Configure();
-                    else
-                        Cfg.Configure(XmlConfigFileName);
-                    SessionFactory = Cfg.BuildSessionFactory();
-                    return;
-                }
-                catch (Exception ex)
-                { throw new ConfigException("Unable to configure session factory from xml/config file.", ex); }
-                
-            }
-
-            var cnnFactory = Aspects.GetIocDI().Resolve<IDbCnnFactory>();// ?? new NoDbCnnFactory();
+            var cnnFactory = Aspects.GetIocDI().Resolve<IDbCnnFactory>();
+            
             Assembly mappingAssembly = null;
             try
             {
@@ -62,63 +61,41 @@ namespace Zen.Data
                     mappingAssembly = mappingAssemblyType.Assembly;                
                 if (mappingAssembly == null && !string.IsNullOrWhiteSpace(mappinbAssemblyFQN))
                     mappingAssembly = Assembly.Load(mappinbAssemblyFQN);
-                if (mappingAssembly == null) throw new ConfigException("Unable to load mapping assembly.");
-                //
-                // we have a mapping assembly
-                //
-                var cnnString = cnnFactory.ConnectionString;                
-                switch (cnnFactory.DatabaseDialect)
+                //if (mappingAssembly == null) throw new ConfigException("Unable to load mapping assembly.");
+                // OK we may be using embedded .hbms
+
+                var cnnString = cnnFactory.ConnectionString;
+                var sqlDialect = (SqlDialects)Enum.Parse(typeof(SqlDialects), cnnFactory.DatabaseDialect);
+                switch (sqlDialect)
                 {// subset of NHibernate.Dialect.
-                    case "MsSql2000Dialect":
-                        ConfigureDbAccess<MsSql2000Dialect>(cnnString, mappingAssembly);
-                        break;
-                    case "MsSql2005Dialect":
-                        ConfigureDbAccess<MsSql2005Dialect>(cnnString, mappingAssembly);
-                        break;
-                    case "MsSql2008Dialect":
-                        ConfigureDbAccess<MsSql2008Dialect>(cnnString, mappingAssembly);
-                        break;
-                    case "MsSql2012Dialect":
-                        ConfigureDbAccess<MsSql2012Dialect>(cnnString, mappingAssembly);
-                        break;
-                    case "MsSqlAzure2008Dialect":
-                        ConfigureDbAccess<MsSqlAzure2008Dialect>(cnnString, mappingAssembly);
-                        break;
-                    case "MsSqlCe40Dialect":
-                        ConfigureDbAccess<MsSqlCe40Dialect>(cnnString, mappingAssembly);
-                        break;
-                    case "MsSqlCeDialect":
-                        ConfigureDbAccess<MsSqlCeDialect>(cnnString, mappingAssembly);
-                        break;
-                    case "SQLiteDialect":
-                        ConfigureDbAccess<SQLiteDialect>(cnnString, mappingAssembly);
-                        break;
-                    default:
-                        ConfigureDbAccess<MsSql2012Dialect>(cnnString, mappingAssembly);
-                        break;        
-                }                                
+                    case SqlDialects.MsSql2000Dialect:      ConfigureDbAccess<MsSql2000Dialect>(cnnString, mappingAssembly); break;
+                    case SqlDialects.MsSql2005Dialect:      ConfigureDbAccess<MsSql2005Dialect>(cnnString, mappingAssembly); break;
+                    case SqlDialects.MsSql2008Dialect:      ConfigureDbAccess<MsSql2008Dialect>(cnnString, mappingAssembly); break;
+                    case SqlDialects.MsSql2012Dialect:      ConfigureDbAccess<MsSql2012Dialect>(cnnString, mappingAssembly); break;
+                    case SqlDialects.MsSqlAzure2008Dialect: ConfigureDbAccess<MsSqlAzure2008Dialect>(cnnString, mappingAssembly); break;
+                    case SqlDialects.MsSqlCe40Dialect:      ConfigureDbAccess<MsSqlCe40Dialect>(cnnString, mappingAssembly); break;
+                    case SqlDialects.MsSqlCeDialect:        ConfigureDbAccess<MsSqlCe40Dialect>(cnnString, mappingAssembly); break;
+                    case SqlDialects.SQLiteDialect:         ConfigureDbAccess<SQLiteDialect>(cnnString, mappingAssembly); break;
+                    default: ConfigureDbAccess<MsSql2008Dialect>(cnnString, mappingAssembly); break;
+                }                                                
             }
             catch (Exception ex)
-            { throw new ConfigException("Check your IDbCnnFactory implementation.", ex); }            
+            { throw new ConfigException("Unable to configure session factory from IDbCnnFactory.", ex); }            
         }
         
         // Configure NHibernate ByCode
-        static void ConfigureDbAccess<TDialect>(string cnnString, Assembly mappingAssembly) 
-            where TDialect : NHibernate.Dialect.Dialect
+        static void ConfigureDbAccess<T>(string cnnString, Assembly mappingAssembly) 
+            where T : NHibernate.Dialect.Dialect
         {
             Cfg = new Configuration();
             Cfg.DataBaseIntegration(c =>
             {
                 c.ConnectionString = cnnString; //@"Data Source=.\SQLEXPRESS;Initial Catalog=ZenTestDb;Integrated Security=True;Pooling=False";
-                c.Dialect<TDialect>();
-                c.KeywordsAutoImport = Hbm2DDLKeyWords.AutoQuote;
+                c.Dialect<T>();                
 #if DEBUG
                 c.LogSqlInConsole = true;
                 c.LogFormattedSql = true;
 #endif
-
-                // !!!
-                // be very careful with this or you could wipe out an entire database!!!
                 // !!!
                 //c.SchemaAction = SchemaAutoAction.Create;//.Create, .Recreate, .Update, .Validate
             });
@@ -139,6 +116,22 @@ namespace Zen.Data
             
             SessionFactory = Cfg.BuildSessionFactory();            
         }
+
+        //private static NHibernate.Dialect.Dialect ToDialect(this SqlDialects sqlDialect)
+        //{
+        //    switch (sqlDialect)
+        //    {// subset of NHibernate.Dialect.
+        //        case SqlDialects.MsSql2000Dialect: return new MsSql2000Dialect();
+        //        case SqlDialects.MsSql2005Dialect: return new MsSql2005Dialect();
+        //        case SqlDialects.MsSql2008Dialect: return new MsSql2008Dialect();
+        //        case SqlDialects.MsSql2012Dialect: return new MsSql2012Dialect();
+        //        case SqlDialects.MsSqlAzure2008Dialect: return new MsSqlAzure2008Dialect();
+        //        case SqlDialects.MsSqlCe40Dialect: return new MsSqlCe40Dialect();
+        //        case SqlDialects.MsSqlCeDialect: return new MsSqlCe40Dialect();
+        //        case SqlDialects.SQLiteDialect: return new SQLiteDialect();
+        //        default: return new MsSql2008Dialect();
+        //    }    
+        //}
 
         /// <summary>
         /// Use the NHProfiler to watch sql in realtime or create an offline file for later review
@@ -167,9 +160,9 @@ namespace Zen.Data
         //note: Db must exist prior to calling this method
         public static void CreateDbSchema()
         {
-            SchemaExport export = new SchemaExport(Cfg);
-            export.Drop(true, true);
+            var export = new SchemaExport(Cfg);
             export.Create(true, true);
+            
             //export.Execute(new Action<string>(), );
 
             //cfg.SetDefaultAssembly(""); // to use for the mappings added to the cfg afterwords
@@ -178,8 +171,12 @@ namespace Zen.Data
             //cfg.ValidateSchema();
 
         }
-        
-        public static void DropDbSchema() { }
+
+        public static void DropDbSchema()
+        {
+            var export = new SchemaExport(Cfg);
+            export.Drop(true, true);
+        }
         
         public static void UpdateDbSchema() { }
         

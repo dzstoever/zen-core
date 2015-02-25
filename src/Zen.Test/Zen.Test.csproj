@@ -14,6 +14,21 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -102,10 +117,6 @@
     <Reference Include="FluentAssertions.Core">
       <HintPath>..\packages\FluentAssertions.3.3.0\lib\net40\FluentAssertions.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
-    </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
@@ -133,19 +144,123 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Components\AddressInfo.cs" />
+    <Compile Include="Domain\Components\ContactInfo.cs" />
+    <Compile Include="Domain\Components\EmailInfo.cs" />
+    <Compile Include="Domain\Components\NameInfo.cs" />
+    <Compile Include="Domain\Components\PayArrangement.cs" />
+    <Compile Include="Domain\Components\PhoneInfo.cs" />
+    <Compile Include="Domain\Entities\CaseHandler.cs" />
+    <Compile Include="Domain\Entities\Client.cs" />
+    <Compile Include="Domain\Entities\Collections\BkAccount.cs" />
+    <Compile Include="Domain\Entities\Collections\BkCaseHandler.cs" />
+    <Compile Include="Domain\Entities\Collections\BkClient.cs" />
+    <Compile Include="Domain\Entities\Collections\BkCostCode.cs" />
+    <Compile Include="Domain\Entities\Collections\BkDebtor.cs" />
+    <Compile Include="Domain\Entities\Collections\BkDebtorContact.cs" />
+    <Compile Include="Domain\Entities\Collections\BkDebtorRelation.cs" />
+    <Compile Include="Domain\Entities\Collections\BkDemoChanges.cs" />
+    <Compile Include="Domain\Entities\Collections\BkDodVerifySource.cs" />
+    <Compile Include="Domain\Entities\Collections\BkExtraData.cs" />
+    <Compile Include="Domain\Entities\Collections\BkHistoryNote.cs" />
+    <Compile Include="Domain\Entities\Collections\BkLetterType.cs" />
+    <Compile Include="Domain\Entities\Collections\BkMailOutBatch.cs" />
+    <Compile Include="Domain\Entities\Collections\BkMailOutImage.cs" />
+    <Compile Include="Domain\Entities\Collections\BkMailOutPrintQ.cs" />
+    <Compile Include="Domain\Entities\Collections\BkMailOutRequest.cs" />
+    <Compile Include="Domain\Entities\Collections\BkMailOutTemplate.cs" />
+    <Compile Include="Domain\Entities\Collections\BkMailOutTemplateOverride.cs" />
+    <Compile Include="Domain\Entities\Collections\BkMailOutType.cs" />
+    <Compile Include="Domain\Entities\Collections\BkPaymentTx.cs" />
+    <Compile Include="Domain\Entities\Collections\BkPaymentTxDetail.cs" />
+    <Compile Include="Domain\Entities\Collections\BkPaymentTxSource.cs" />
+    <Compile Include="Domain\Entities\Collections\BkResponse.cs" />
+    <Compile Include="Domain\Entities\Collections\BkStatusCode.cs" />
+    <Compile Include="Domain\Entities\Collections\BkTriggerLog.cs" />
+    <Compile Include="Domain\Entities\Collections\BkUser.cs" />
+    <Compile Include="Domain\Entities\Collections\BkWorkBatch.cs" />
+    <Compile Include="Domain\Entities\Collections\BkWorkMaintenance.cs" />
+    <Compile Include="Domain\Entities\Collections\BkWorkPlacement.cs" />
+    <Compile Include="Domain\Entities\CostCode.cs" />
+    <Compile Include="Domain\Entities\Court.cs" />
+    <Compile Include="Domain\Entities\CourtClaimSource.cs" />
+    <Compile Include="Domain\Entities\CourtInstruction.cs" />
+    <Compile Include="Domain\Entities\CourtInstructionType.cs" />
+    <Compile Include="Domain\Entities\CourtType.cs" />
+    <Compile Include="Domain\Entities\Debtor.cs" />
+    <Compile Include="Domain\Entities\DebtorContact.cs" />
+    <Compile Include="Domain\Entities\DebtorRelation.cs" />
+    <Compile Include="Domain\Entities\DemoChanges.cs" />
+    <Compile Include="Domain\Entities\DodVerifySource.cs" />
+    <Compile Include="Domain\Entities\Estates\EsAccount.cs" />
+    <Compile Include="Domain\Entities\ExtraData.cs" />
+    <Compile Include="Domain\Entities\HistoryNote.cs" />
+    <Compile Include="Domain\Entities\IAccount.cs" />
+    <Compile Include="Domain\Entities\LetterType.cs" />
+    <Compile Include="Domain\Entities\MailOutBatch.cs" />
+    <Compile Include="Domain\Entities\MailOutImage.cs" />
+    <Compile Include="Domain\Entities\MailOutPrintQ.cs" />
+    <Compile Include="Domain\Entities\MailOutRequest.cs" />
+    <Compile Include="Domain\Entities\MailOutTemplate.cs" />
+    <Compile Include="Domain\Entities\MailOutTemplateOverride.cs" />
+    <Compile Include="Domain\Entities\MailOutType.cs" />
+    <Compile Include="Domain\Entities\NocApplication.cs" />
+    <Compile Include="Domain\Entities\NocProcess.cs" />
+    <Compile Include="Domain\Entities\PaymentTx.cs" />
+    <Compile Include="Domain\Entities\PaymentTxDetail.cs" />
+    <Compile Include="Domain\Entities\PaymentTxSource.cs" />
+    <Compile Include="Domain\Entities\Probate\IMasterAccount.cs" />
+    <Compile Include="Domain\Entities\Probate\IPbAccount.cs" />
+    <Compile Include="Domain\Entities\Probate\PbAccount.cs" />
+    <Compile Include="Domain\Entities\Probate\PbAcctMgmt.cs" />
+    <Compile Include="Domain\Entities\Probate\PbCaseHandler.cs" />
+    <Compile Include="Domain\Entities\Probate\PbClient.cs" />
+    <Compile Include="Domain\Entities\Probate\PbCostCode.cs" />
+    <Compile Include="Domain\Entities\Probate\PbDebtor.cs" />
+    <Compile Include="Domain\Entities\Probate\PbDemoChanges.cs" />
+    <Compile Include="Domain\Entities\Probate\PbDodVerifySource.cs" />
+    <Compile Include="Domain\Entities\Probate\PbExtraData.cs" />
+    <Compile Include="Domain\Entities\Probate\PbHistoryNote.cs" />
+    <Compile Include="Domain\Entities\Probate\PbLetterType.cs" />
+    <Compile Include="Domain\Entities\Probate\PbMailOutBatch.cs" />
+    <Compile Include="Domain\Entities\Probate\PbMailOutImage.cs" />
+    <Compile Include="Domain\Entities\Probate\PbMailOutPrintQ.cs" />
+    <Compile Include="Domain\Entities\Probate\PbMailOutRequest.cs" />
+    <Compile Include="Domain\Entities\Probate\PbMailOutTemplate.cs" />
+    <Compile Include="Domain\Entities\Probate\PbMailOutTemplateOverride.cs" />
+    <Compile Include="Domain\Entities\Probate\PbMailOutType.cs" />
+    <Compile Include="Domain\Entities\Probate\PbPaymentTx.cs" />
+    <Compile Include="Domain\Entities\Probate\PbPaymentTxDetail.cs" />
+    <Compile Include="Domain\Entities\Probate\PbPaymentTxSource.cs" />
+    <Compile Include="Domain\Entities\Probate\PbResponse.cs" />
+    <Compile Include="Domain\Entities\Probate\PbStatusCode.cs" />
+    <Compile Include="Domain\Entities\Probate\PbTriggerLog.cs" />
+    <Compile Include="Domain\Entities\Probate\PbUser.cs" />
+    <Compile Include="Domain\Entities\Probate\PbWorkBatch.cs" />
+    <Compile Include="Domain\Entities\Probate\PbWorkMaintenance.cs" />
+    <Compile Include="Domain\Entities\Probate\PbWorkPlacement.cs" />
+    <Compile Include="Domain\Entities\Probate\ProbeAccount.cs" />
+    <Compile Include="Domain\Entities\Probate\PurgedAccount.cs" />
+    <Compile Include="Domain\Entities\Probate\SallieMaeAccount.cs" />
+    <Compile Include="Domain\Entities\Response.cs" />
+    <Compile Include="Domain\Entities\StatusCode.cs" />
+    <Compile Include="Domain\Entities\TriggerLog.cs" />
+    <Compile Include="Domain\Entities\User.cs" />
+    <Compile Include="Domain\Entities\WorkBatch.cs" />
+    <Compile Include="Domain\Entities\WorkMaintenance.cs" />
+    <Compile Include="Domain\Entities\WorkPlacement.cs" />
     <Compile Include="Domain\Person.cs" />
-    <Compile Include="Maps\PersonMap.cs" />
+    <Compile Include="Domain\Maps\PersonMap.cs" />
     <Compile Include="Scenarios\Core\EntityScenarios.cs" />
     <Compile Include="Scenarios\Data\DaoScenarios.cs" />
     <Compile Include="Startup\Bootstrapper\IocConfigStartupTask.cs" />
     <Compile Include="Startup\Windsor\ZenTestInstaller.cs" />
     <Compile Include="TestDbConfigurator.cs" />
     <Compile Include="Scenarios\Ux\NavigationScenarios.cs" />
-    <Compile Include="Startup\Bootstrapper\xDaoConfigStartupTask.cs" />
     <Compile Include="TestSqlCnnFactory.cs" />
     <Compile Include="[ Dummys ]\DummyDao.cs" />
     <Compile Include="[ Dummys ]\DummyIocDI.cs" />
-    <Compile Include="[ Dummys ]\DummyLoggerFactory.cs" />
+    <Compile Include="[ Dummys ]\DummyLogger.cs" />
     <Compile Include="Scenarios\DaoProviderScenarios.cs" />
     <Compile Include="Scenarios\IocProviderScenarios.cs" />
     <Compile Include="Scenarios\AspectScenarios.cs" />
@@ -154,7 +269,7 @@
     <Compile Include="Startup\Bootstrapper\LogConfigStartupTask.cs" />
     <Compile Include="[ Fixtures ]\StartupFixture.cs" />
     <Compile Include="[ Fixtures ]\LogFixture.cs" />
-    <Compile Include="XunitExamples.cs" />
+    <Compile Include="XunitTemplates.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -163,8 +278,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BusinessModel\" />
-    <Folder Include="DataModel\" />
+    <Folder Include="Domain\BusinessModel\" />
     <Folder Include="Startup\Automapper\" />
   </ItemGroup>
   <ItemGroup>
@@ -178,9 +292,91 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Domain\Maps\hbm\Abstract.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkAccount.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkCaseHandler.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkClient.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkCostCode.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkDebtor.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkDebtorContact.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkDebtorRelation.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkDemoChanges.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkDodVerifySource.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkExtraData.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkHistoryNote.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkMailOut.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkPaymentTx.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkPaymentTxDetail.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkPaymentTxSource.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkResponse.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkStatusCode.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkTriggerLog.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkUser.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkWorkBatch.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkWorkMaintenance.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkWorkPlacement.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Court.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\CourtClaimSource.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\CourtInstruction.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\CourtInstructionType.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\CourtType.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Estates\EsAccount.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\NocApplication.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\NocProcess.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbAccount.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbAcctMgmt.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbCaseHandler.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbClient.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbCostCode.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbDemoChanges.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbDodVerifySource.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbExtraData.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbHistoryNote.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbMailOut.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbPaymentTx.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbPaymentTxSource.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbResponse.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbStatusCode.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbTriggerLog.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbUser.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbWorkBatch.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbWorkMaintenance.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbWorkPlacement.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Probate\PurgedAccount.hbm.xml" />
+    <None Include="Domain\Maps\hbm\Probate\SallieMaeAccount.hbm.xml" />
     <Content Include="nh.cfg.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Data\ZenTestDB.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\ZenTestDB_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>ZenTestDB.mdf</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

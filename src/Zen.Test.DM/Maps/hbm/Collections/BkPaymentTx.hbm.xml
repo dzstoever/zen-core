@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test.DM" 
+                   namespace="Zen.Test.Domain.Entities.Collections">
+
+  <class name="BkPaymentTx" table="bkcol.dbo.[apl_tran]">    
+    
+    <id name="Id" column="[idx]">
+      <generator class="native" />
+    </id>    
+    
+    <property name="CheckIssuer" />
+    <property name="CheckNumber" column="[checknum]" />
+    <property name="TxHistory"  column="[tranhistory]"/>
+    <property name="TxDate"  column="[trandate]"/>
+    <property name="CheckAmount" column="[checkamt]" />
+    <property name="AddedByProcess" />
+    <property name="AddedByUserId" />
+    <property name="Origin" />
+    <property name="PdcDate" />
+
+    <!-- fetch using an inner join -->
+    <one-to-one name="Detail"
+                class="BkPaymentTxDetail" foreign-key="[tranidx]" cascade="all"
+                constrained="true" fetch="join" /> 
+    
+    <many-to-one name="Source"
+                 class="BkPaymentTxSource" column="[transource]" />
+    <!-- for Bk, Account association is on PaymentTxDetail level -->
+    <many-to-one name="Debtor"
+                 class="BkDebtor" column="[debtornum]" />    
+    <many-to-one name="NsfPaymentTx"
+                 class="BkPaymentTx" column="[nsflinkidx]" />        
+    
+  </class>
+
+</hibernate-mapping>

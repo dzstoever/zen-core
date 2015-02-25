@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test.DM"  
+                   namespace="Zen.Test.Domain.Entities.Probate">
+
+  <class name="PbStatusCode" table="probe.dbo.[p2_lu_statuscode]">    
+    
+    <id name="Id" column="[statuscode]">
+      <generator class="assigned" />
+    </id>
+    
+    <property name="IsActiveInventory" />
+    <property name="Description" column="[statusdesc]" />
+    <property name="IsAuto" />
+    <property name="IsChristus" />
+    <property name="IsClosable" />
+    <property name="IsEL2" />
+    <property name="IsHearingType" />
+    <property name="IsLegal" />
+    <property name="IsNA" />
+    <property name="IsPTP" />
+    <property name="IsPost" />
+    <property name="IsPre" />
+    <property name="IsRetired" />
+    <property name="IsScorable" />
+    <property name="IsStatus1" />
+    <property name="IsStatusA" />
+    <property name="IsUncollectible" column="[IsRptUncollectible]" />        
+    
+  </class>
+
+</hibernate-mapping>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test"  
+                   namespace="Zen.Test.Domain.Entities.Probate">
+
+  <class name="PbDodVerifySource" table="probe.dbo.[probe_dod verifi source]">
+    
+    <id name="Id" column="[status codes]">
+      <generator class="assigned" />
+    </id>
+    
+    <property name="Description" />    
+    
+  </class>
+
+</hibernate-mapping>

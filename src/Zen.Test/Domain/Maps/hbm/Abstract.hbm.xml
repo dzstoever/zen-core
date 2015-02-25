@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test"  
+                   namespace="Zen.Test.Domain.Entities">
+
+  <!-- Import abstract classes so they can be used for polymorphic queries -->
+  
+  <import class="IAccount" />
+  <import class="Zen.Test.Domain.Entities.Probate.PbAccount" />
+  
+  <import class="CaseHandler" />  
+  <import class="Client" />
+  <import class="CostCode" />    
+  <import class="StatusCode" />
+  <import class="TriggerLog" />
+  <import class="User" />
+  <import class="WorkBatch" />
+  <import class="WorkPlacement" />
+  <import class="WorkMaintenence" />
+
+  <import class="LetterType" />
+  <import class="MailOutBatch" />
+  <import class="MailOutImage" />
+  <import class="MailOutPrintQ" />
+  <import class="MailOutRequest" />
+  <import class="MailOutTemplate" />
+  <import class="MailOutTemplateOverride" />
+  <import class="MailOutType" />
+  
+</hibernate-mapping>

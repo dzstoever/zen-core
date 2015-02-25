@@ -6,8 +6,8 @@ namespace Zen.Test
 {
     public class TestSqlCnnFactory : SqlCnnFactory
     {
-        //protected override string CnnString() { return ""; }
-        //protected override string SqlDialect() { return ""; }
+        protected override string CnnString() { return @"Server=.\SQLEXPRESS; Initial Catalog=ZenTestDb; Integrated Security=true;"; }
+        protected override SqlDialects SqlDialect() { return SqlDialects.MsSql2012Dialect; }
 
         public override Type MappingAssemblyType()
         {

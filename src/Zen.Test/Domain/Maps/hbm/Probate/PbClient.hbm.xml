@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test"  
+                   namespace="Zen.Test.Domain.Entities.Probate">
+
+  <class name="PbClient" table="probe.dbo.[p2_lu_client]" 
+         dynamic-insert="true" dynamic-update="true">    
+    
+    <id name="Id" column="[clientshortname]">
+      <generator class="assigned" />
+    </id>
+    
+    <property name="IsActive" />
+    <property name="IsolationGroup" />
+    <property name="Name" column="[clientname]" />
+    <property name="MasterName" column="[clientmastername]" />
+    <property name="MasterShortName" column="[clientmastershortname]" />
+    <property name="CreateDate" column="[datecreated]" />
+    
+    <component name="Contact" class="Zen.Test.Domain.Components.ContactInfo"
+                       insert="true" update="true" lazy="true">
+      <component name="Name" class="Zen.Test.Domain.Components.NameInfo"
+                 insert="true" update="true" lazy="true">
+        <property name ="FullName" column="[clientcontact]" />
+      </component>
+      <component name="Address" class="Zen.Test.Domain.Components.AddressInfo"
+                 insert="true" update="true" lazy="true">
+        <property name ="Street1" column="[clientaddress]" />
+        <property name ="City" column="[clientcity]" />
+        <property name ="State" column="[clientstate]" />
+        <property name ="Zip5" column="[clientzip]" />
+      </component>
+      <component name="Phone1" class="Zen.Test.Domain.Components.PhoneInfo"
+                 insert="true" update="true" lazy="true">
+        <property name ="Number" column="[clientphone]" />
+      </component>
+      <component name="Fax" class="Zen.Test.Domain.Components.PhoneInfo"
+                 insert="true" update="true" lazy="true">
+        <property name ="Number" column="[clientfax]" />
+      </component>
+      <property name ="Email" column="[clientemail]" />
+    </component>
+  
+  </class>
+
+</hibernate-mapping>

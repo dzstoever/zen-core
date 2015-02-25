@@ -100,10 +100,10 @@
     <Compile Include="Core\ValidationRules\ValidateRequired.cs" />
     <Compile Include="Core\ValidationRules\ValidationDataType.cs" />
     <Compile Include="Core\ValidationRules\ValidationOperator.cs" />
-    <Compile Include="Core\[ Components ]\AddressInfo.cs" />
-    <Compile Include="Core\[ Components ]\ContactInfo.cs" />
-    <Compile Include="Core\[ Components ]\NameInfo.cs" />
-    <Compile Include="Core\[ Components ]\PhoneInfo.cs" />
+    <Compile Include="Core\Components\AddressInfo.cs" />
+    <Compile Include="Core\Components\ContactInfo.cs" />
+    <Compile Include="Core\Components\NameInfo.cs" />
+    <Compile Include="Core\Components\PhoneInfo.cs" />
     <Compile Include="Core\UidManager.cs" />
     <Compile Include="Core\IDomainEntity.cs" />
     <Compile Include="Core\IDomainObject.cs" />

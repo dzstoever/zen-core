@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test"  
+                   namespace="Zen.Test.Domain.Entities.Collections">
+
+  <class name="BkDebtor" table="bkcol.dbo.[apl_debtor]">
+    
+    <id name="Id" column="[debtornum]">
+      <generator class="native" />
+    </id>
+    
+    <property name="DoNotCall" />
+    <property name="DoNotMail" />
+    <property name="SSN" />
+    <property name="DOB" />
+    <property name="BKCaseNum" />
+    <property name="BKChapter" />
+    <property name="BKVerifyInitials" column="[bkverifinitials]" />
+    <property name="BKVerifySource"  column="[bkverifsource]" />
+    <property name="CustomerType" />
+    <!--<property name="LastDialerCRC" />-->
+    <property name="BKFileDate" />
+    <property name="BKLastChecked" />
+    <property name="BKVerifyDate" column="[bkverifdate]" />
+    <property name="CreateDate" />
+    <!--<property name="LastDialerDate" />-->
+    
+    <component name="Name" class="Zen.Test.Domain.Components.NameInfo" 
+               insert="true" update="true" lazy="true">
+      <property name="First" column="[firstname]" />
+      <property name="Middle" column="[middlename]" />
+      <property name="Last" column="[lastname]" />
+    </component>
+    <component name="Address" class="Zen.Test.Domain.Components.AddressInfo" 
+               insert="true" update="true" lazy="true">
+      <property name="Street1" column="[addr1]" />
+      <property name="Street2" column="[addr2]" />
+      <property name="City" />
+      <property name="State" />
+      <property name="Zip5" column="[zip]" />
+    </component>    
+    <!-- Note: phone data is stored elsewhere in Bk -->
+    
+    
+    <many-to-one name="Court" 
+                 class="Zen.Test.Domain.Entities.Court" column="[courtid]" />
+    
+    <!-- the dictionary will only hold 1 entity for each DebtorRelation-->    
+    <map name="ContactDictionary" cascade="all" lazy="false" 
+         where="([isactive]=1) and ([addr1] is not null) and ([lastname] is not null or [firstname] is not null)">      
+      <key column="[debtornum]" />
+      <index-many-to-many class="BkDebtorRelation" column="Relationship" />
+      <one-to-many class="BkDebtorContact" />
+    </map>
+
+    
+    <!-- this should only have one, but who knows -->
+    <set name="VerifiedAttorneys" inverse="true" cascade="all"
+         where="([isactive]=1 and [isverifiedatty]=1) and ([addr1] is not null) and ([lastname] is not null or [firstname] is not null)">      
+      <key column="[debtornum]" />
+      <one-to-many class="BkDebtorContact" />
+    </set>
+    
+  </class>
+
+</hibernate-mapping>

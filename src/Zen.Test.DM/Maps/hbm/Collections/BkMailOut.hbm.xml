@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test.DM"  
+                   namespace="Zen.Test.Domain.Entities.Collections">
+
+  <class name="BkMailOutRequest" table="bkcol.dbo.[apl_mailout]"
+         dynamic-insert="true" dynamic-update="true">
+    
+    <id name="Id" column="[idx]">
+      <generator class="native" />
+    </id>
+    
+    <property name="CeaseProcessing" />
+    <property name="Mailed" />
+    <property name="PrintAsap" />
+    <property name="Processed" />
+    <property name="CourtId" />
+    <property name="AdjBal" />
+    <property name="Cost1" />
+    <property name="Cost2" />
+    <property name="PmtAmt" />
+    <property name="ReqBal" />
+    <property name="ReqSif" />
+    <property name="SifAmt" />
+    <property name="RequestedBy" />
+    <property name="ClientAcct" />
+    <property name="ClientCode" />
+    <property name="NoMailReason" />
+    <property name="AdditionalInfo" />
+    <property name="CreateDate" />
+    <property name="DueDate" />
+    <property name="ProcessedDate" />
+    <property name="RequestedPrintDate" />
+    <property name="ReturnToSenderDate" />    
+    <property name="IsApproved" />
+    <property name="ApprovalManager" column="[approvemgr]" />
+    <property name="ApprovalDate" column="[approvedate]" />
+    
+    <component name="MailToName" class="Zen.Core.Components.NameInfo"
+               insert="true" update="true" lazy="false">
+      <property name="First" column="[mailtofirstname]" />
+      <property name="Last" column="[mailtolastname]" />
+    </component>
+    <component name="MailToAddress" class="Zen.Core.Components.AddressInfo"
+               insert="true" update="true" lazy="false">
+      <property name="Street1" column="[mailtoaddr1]" />
+      <property name="Street2" column="[mailtoaddr2]" />
+      <property name="City" column="[mailtocity]" />
+      <property name="State" column="[mailtostate]" />
+      <property name="Zip5" column="[mailtozip5]" />
+      <property name="Zip4" column="[mailtozip4]" />
+    </component>
+        
+    <many-to-one name="Account"
+                 class="BkAccount" column="[refnum]" />
+    <many-to-one name="LetterType"
+                 class="BkLetterType" column="[lettertype]" />
+    <many-to-one name="MailOutType"
+                 class="BkMailOutType" column="[mailouttypeid]" />    
+    <many-to-one name="MailOutBatch"
+                 class="BkMailOutBatch" column="[printbatchguid]" />    
+    <many-to-one name="PaymentTx"
+                 class="BkPaymentTx" column="[tranidx]" />
+    
+    <set name="MailOutImages" inverse="true" cascade="all">
+      <key column="[mailoutid]" />
+      <one-to-many class="BkMailOutImage" />
+    </set>
+    
+    
+  </class>
+  
+  <class name="BkLetterType" table="bkcol.dbo.[lu_lettertype]">
+    
+    <id name="Id" column="LetterType">
+      <generator class="assigned" />
+    </id>
+    
+    <property name="IsMailOut" column="IsOutbound" />
+    <property name="Description" column="LetterTypeDesc" />    
+    <property name="IsInbound" />
+    
+    <set name="MailOutTypes" inverse="true" cascade="all">
+      <key column="[lettertype]" />
+      <one-to-many class="BkMailOutType" />
+    </set>
+    
+  </class>
+
+  <class name="BkMailOutType" table="bkcol.dbo.[lu_mailouttype]">
+    
+    <id name="Id" column="[idx]">
+      <generator class="native" />
+    </id>
+        
+    <property name="OnHold" />
+    <property name="AdjBalRequired" />
+    <property name="PifAmtRequired" />
+    <property name="PmtAmtRequired" />
+    <property name="SifAmtRequired" />
+    <property name="Description" />
+    <property name="MailToCode" />
+    <property name="OnHoldReason" />
+    <property name="StatusExclusions" />    
+    <property name="CreateDate" />
+    <property name="UserInterface" />
+    
+    <many-to-one name="LetterType"
+                class="BkLetterType" column="[lettertype]" />
+    <many-to-one name="DefaultTemplate"
+                 class="BkMailOutTemplate" column="[defaulttemplateid]" />
+    
+    <set name="Templates" inverse="true" cascade="all">
+      <key column="[mailouttypeid]" />
+      <one-to-many class="BkMailOutTemplate" />
+    </set>
+    <set name="TemplateOverrides" inverse="true" cascade="all">
+      <key column="[mailouttypeid]" />
+      <one-to-many class="BkMailOutTemplateOverride" />
+    </set>
+    
+  </class>
+
+  <class name="BkMailOutTemplate" table="bkcol.dbo.[lu_mailouttemplate]">
+    
+    <id name="Id" column="[idx]">
+      <generator class="native" />
+    </id>
+
+    <property name="IsDefault" />
+    <property name="IsDuplex" />
+    <property name="SigIsDynamic" />    
+    <property name="FlatPageCount" />
+    <property name="PrintPageCount" />
+    <property name="AuditBy" />
+    <property name="EnvelopeName" />
+    <property name="FileName" />
+    <property name="FooterSubtitle" column="[footer_subtitle]" />
+    <property name="HeaderFax" column="[header_fax]" />
+    <property name="HeaderHours" column="[header_hours]" />
+    <property name="HeaderPhone" column="[header_phone]" />
+    <property name="HeaderSubtitle" column="[header_subtitle]" />
+    <property name="HeaderTollfree" column="[header_tollfree]" />
+    <property name="HeaderWebsite" column="[header_website]" />
+    <property name="PayAddress" column="[pay_address]" />
+    <property name="PayCityStateZip" column="[pay_citystatezip]" />
+    <property name="PayName" column="[pay_name]" />
+    <property name="PrinterDatName" />
+    <property name="PrinterName" />
+    <property name="Status" />
+    <property name="AuditDate" />
+    <property name="CreateDate" />
+    
+    <many-to-one name="MailOutType"
+                 class="BkMailOutType" column="[mailouttypeid]"
+                 lazy="false" />
+    
+    <set name="TemplateOverrides" inverse="true" cascade="all" lazy="false">
+      <key column="[mailouttemplateid]" />
+      <one-to-many class="BkMailOutTemplateOverride" />
+    </set>
+    
+  </class>
+
+  <class name="BkMailOutTemplateOverride" table="bkcol.dbo.[lu_mailoutclienttemplate]">
+    
+    <id name="Id" column="[idx]">
+      <generator class="native" />
+    </id>
+    
+    <property name="ClientMasterShortName" />
+    <property name="ClientShortName" />
+
+    <property name="FooterSubtitle" column="[footer_subtitle]" />
+    <property name="HeaderFax" column="[header_fax]" />
+    <property name="HeaderHours" column="[header_hours]" />
+    <property name="HeaderPhone" column="[header_phone]" />
+    <property name="HeaderSubtitle" column="[header_subtitle]" />
+    <property name="HeaderTollfree" column="[header_tollfree]" />
+    <property name="HeaderWebsite" column="[header_website]" />
+    <property name="PayAddress" column="[pay_address]" />
+    <property name="PayCityStateZip" column="[pay_citystatezip]" />
+    <property name="PayName" column="[pay_name]" />
+    
+    <many-to-one name="MailOutTemplate"
+                 class="BkMailOutTemplate" column="[mailouttemplateid]" />
+    <many-to-one name="MailOutType"
+                 class="BkMailOutType" column="[mailouttypeid]" />
+
+  </class>  
+
+  <class name="BkMailOutBatch" table="bkcol.dbo.[apl_mailoutbatches]">
+    
+    <id name="Id" column="[guid]">
+      <generator class="guid" />
+    </id>
+    
+    <property name="PrintCount" />
+    <property name="TotalCost" />
+    <property name="TotalPostage" />
+    <property name="PrintJobName" />
+    <property name="PrinterName" />
+    <property name="PrintDate" />
+    <property name="ReportArchive" />
+    
+    <set name="Requests" inverse="true" cascade="all">      
+      <key column="[printbatchguid]" />
+      <one-to-many class="BkMailOutRequest" />
+    </set>
+    
+  </class>
+
+  <class name="BkMailOutImage" table="bkcol.dbo.[apl_mailoutimages]">
+    
+    <id name="Id" column="[guid]">
+      <generator class="guid" />
+    </id>
+    
+    <property name="Archive" column="Archive" />
+    
+    <many-to-one name="Request" 
+                 class="BkMailOutRequest" column="[mailoutid]" />
+    
+  </class>
+
+  <class name="BkMailOutPrintQ" table="bkcol.dbo.[apl_mailoutprintq]">
+    
+    <id name="Id" column="[idx]">
+      <generator class="native" />
+    </id>
+    
+    <property name="IsDuplex" />
+    <property name="SortId" />
+    <property name="TrayNumber" />    
+    
+    <many-to-one name="Request" 
+                 class="BkMailOutRequest" column="[mailoutid]" />
+    <many-to-one name="Template"
+                 class="BkMailOutTemplate" column="[mailouttemplateid]" />
+    
+  </class>
+
+</hibernate-mapping>

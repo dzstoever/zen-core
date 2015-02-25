@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test.DM" 
+                   namespace="Zen.Test.Domain.Entities.Collections">
+
+  <class name="BkDebtorRelation" table="bkcol.dbo.[lu_relationship]">
+    
+    <id name="Id" column="[relationship]">
+      <generator class="assigned" />
+    </id>
+    
+    <property name="MailToCode" />
+    
+  </class>
+  
+</hibernate-mapping>

@@ -1,11 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Zen.Core;
+using Zen.Test.Domain.Components;
 
 namespace Zen.Test.Domain
 {
+    public class PersonPlain : DomainEntity<Guid>
+    {
+        public virtual string SSN { get; set; }
+        public virtual DateTime? DOB { get; set; }
+        public virtual DateTime? DOD { get; set; }
+        public virtual string First { get; set; }
+        public virtual string Middle { get; set; }
+        public virtual string Last { get; set; }
+    }
+
     public class Person : DomainEntity<Guid>
     {
         public virtual string SSN { get; set; }
