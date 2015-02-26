@@ -621,7 +621,7 @@ namespace Zen.Data
                 case QueryTypes.Criteria:
                     var criteria = _session.CreateCriteria(typeof(T));
                     criteria.SetProjection(Projections.RowCount());
-                    var queryTranslator = new QueryTranslator(criteria, query);
+                    var queryTranslator = new NHQueryTranslator(criteria, query);
                     queryTranslator.Execute();
 
                     //Add results from all sub-types
@@ -800,7 +800,7 @@ namespace Zen.Data
         }
 
         /// <remarks>
-        /// uses the QueryTranslator
+        /// uses the NHQueryTranslator
         /// </remarks>        
         protected ICriteria CreateCriteria<T>(Query query, int pageIndex, int pageSize) where T : class, new()
         {
@@ -808,7 +808,7 @@ namespace Zen.Data
 
             if (query != null)
             {
-                var queryTranslator = new QueryTranslator(criteria, query);
+                var queryTranslator = new NHQueryTranslator(criteria, query);
                 queryTranslator.Execute();
             }
 

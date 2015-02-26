@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Diagnostics;
+using FluentAssertions;
 using Xbehave;
 using Xunit;
 using Castle.MicroKernel.Registration;
@@ -7,6 +8,7 @@ using NHibernate;
 using Zen.Data;
 using Zen.Ioc;
 using Zen.Log;
+using Zen.Test.Maps;
 
 namespace Zen.Test
 {
@@ -28,16 +30,16 @@ namespace Zen.Test
     ///     We could use a standard in memory database(SQLite) in order to get very speedy tests.
     /// </remarks>
     /// <see cref="http://ayende.com/blog/3983/nhibernate-unit-testing"/>
-    public class TestDbConfigurator : UseStartupFixture
+    public class ZenTestDbFacts : UseStartupFixture
     {
-        public TestDbConfigurator()
+        public ZenTestDbFacts()
         {
             _di = Aspects.GetIocDI();
             _log = _di.Resolve<ILogger>();
             _dao = _di.Resolve<IGenericDao>();
         }
 
-        ~TestDbConfigurator()
+        ~ZenTestDbFacts()
         {
             if(_dao!=null) _dao.Dispose();
             if(_di!=null) _di.Dispose();            
@@ -47,50 +49,50 @@ namespace Zen.Test
         private readonly ILogger _log;
         private readonly IGenericDao _dao;
 
-        // Note:
-        // The following tests demonstrate different ways to configure data access.
-        // We are skipping them because they would affect all subsequent tests.
-        // They can be run manually if desired.        
-        //[Fact]
+        const int ExpectedMapCount = 66;
+
+        // Note: The following tests demonstrate different ways to configure data access.
+        //       We are skipping them because they would affect all subsequent tests.
+        //       Our _dao is being configured in the Bootstrapper.DaoConfigStartupTask...
+
         [Fact(Skip ="affects data access for all subsequent tests")]
         public void ConfigureFromIDbCnnFactory()
         {
-            NHConfigurator.Configure(); 
-
-            var cnnFactory = _di.Resolve<IDbCnnFactory>();
+            NHConfigurator.Configure(new ZenTestDbContext()); 
+            var cnnFactory = _di.Resolve<IDbContext>();
             _log.Info(cnnFactory.ToString());
             
             var sessionFactory = _di.Resolve<ISessionFactory>();
             sessionFactory.Should().NotBeNull();
-
             var session = _dao.StartUnitOfWork();
             session.Should().NotBeNull();
 
-            NHConfigurator.SessionFactoryImpl.Settings.SessionFactoryName
-                .Should().BeNull();
+            NHConfigurator.SessionFactoryImpl.Settings.SessionFactoryName.Should().BeNull();
+            NHConfigurator.SessionFactoryImpl.GetAllClassMetadata().Count.Should().Be(ExpectedMapCount);
         }
-        //[Fact]
+        
         [Fact(Skip ="affects data access for all subsequent tests")]
         public void ConfigureFromAppConfig()
         {
-            NHConfigurator.Configure("");
+            NHConfigurator.Configure("", typeof(PersonMap).Assembly, null);
 
             var sessionFactory = _di.Resolve<ISessionFactory>();
             sessionFactory.Should().NotBeNull();
-
             var session = _dao.StartUnitOfWork();
             session.Should().NotBeNull();
 
-            NHConfigurator.SessionFactoryImpl.Settings.SessionFactoryName
-                .Should().Be("AppConfig.SessionFactory");
+            NHConfigurator.SessionFactoryImpl.Settings.SessionFactoryName.Should().Be("AppConfig.SessionFactory");
+            NHConfigurator.SessionFactoryImpl.GetAllClassMetadata().Count.Should().Be(ExpectedMapCount);
         }
-        [Fact]
-        //[Fact(Skip ="affects data access for all subsequent tests")]
+        
+        [Fact(Skip ="affects data access for all subsequent tests")]
         public void ConfigureFromCfgXml()
         {
-            NHConfigurator.Configure("nh.cfg.xml");//this will add the embedded .hbms
+            NHConfigurator.Configure("nh.cfg.xml", typeof(PersonMap).Assembly, null);//this will add the embedded .hbms
             var windsorDI = Aspects.GetIocDI() as WindsorDI;
+            Debug.Assert(windsorDI != null, "windsorDI != null");
             var container = windsorDI.Container as IWindsorContainer;
+            Debug.Assert(container != null, "container != null");
             container.Register(Component.For<ISessionFactory>()
                                    .Instance(NHConfigurator.SessionFactory)
                                    .LifestyleSingleton()
@@ -102,33 +104,23 @@ namespace Zen.Test
             var session = _dao.StartUnitOfWork();
             session.Should().NotBeNull();
 
-            NHConfigurator.SessionFactoryImpl.Settings.SessionFactoryName
-                .Should().Be("Test.SessionFactory");
-
-            NHConfigurator.Cfg.ClassMappings.Count.Should().Be(65);
+            NHConfigurator.SessionFactoryImpl.Settings.SessionFactoryName.Should().Be("Test.SessionFactory");
+            NHConfigurator.SessionFactoryImpl.GetAllClassMetadata().Count.Should().Be(ExpectedMapCount);            
         }
 
-        
+
+        [Fact]
+        public void DropDbSchema()
+        {
+            NHConfigurator.DropDbSchema();
+            
+        }
 
         [Fact]
         public void CreateDbSchema()
         {
             NHConfigurator.CreateDbSchema();
-            "Given some arranged preconditions".Given(() =>
-            {
-                
-
-            });
-            "When the code under test runs".When(() =>
-            {                
-                //Log.InfoFormat("do something with it");
-
-            });
-            "Then the actual results meet expectations".Then(() =>
-            {                
-                //Log.InfoFormat("is everything as it should be");
-            });
-            
+                        
         }
 
         

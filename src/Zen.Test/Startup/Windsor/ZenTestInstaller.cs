@@ -10,9 +10,7 @@ using ILoggerFactory = Zen.Log.ILoggerFactory;
 namespace Zen.Test.Startup.Windsor
 {
     public class ZenTestInstaller : IWindsorInstaller
-    {
-        //public static ISessionFactory SessionFactory { get; set; }
-
+    {        
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             // Loggers can always be obtained from the Aspects, but this adds the ability to get a Logger/LoggerFactory 
@@ -25,13 +23,10 @@ namespace Zen.Test.Startup.Windsor
                                    .ImplementedBy<Log4netLogger>()
                                    .LifestyleSingleton());
 
-            // This must be set prior to calling DaoConfigurator.Configure() if an xml config file is not being used
-            container.Register(Component.For<IDbCnnFactory>()
-                                   .ImplementedBy<TestSqlCnnFactory>()
-                                   .LifestyleSingleton());
-            NHConfigurator.Configure();// use TestSqlCnnFactory            
-            //NHConfigurator.Configure("nh.cfg.xml");
-            Debug.Assert(NHConfigurator.SessionFactory != null, "DaoConfigurator.SessionFactory != null");
+            // DaoConfigStartup task sets the NHConfigurator.DbContext & SessionFactory
+            container.Register(Component.For<IDbContext>()
+                                   .Instance(NHConfigurator.DbContext)
+                                   .LifestyleSingleton());            
             container.Register(Component.For<ISessionFactory>()
                                    .Instance(NHConfigurator.SessionFactory)
                                    .LifestyleSingleton());

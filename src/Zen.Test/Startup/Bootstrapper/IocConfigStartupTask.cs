@@ -16,16 +16,18 @@ namespace Zen.Test.Startup.Bootstrapper
             var windsorDI = Aspects.GetIocDI() as WindsorDI;
             Debug.Assert(windsorDI != null, "windsorDI != null");
             try
-            {// run all installers
-                windsorDI.Initialize();
+            {
+                windsorDI.Initialize();// run all installers
             }
             catch (Exception ex)
             {
-                "IocDI.Initialize() failed.{0}{1}".LogMe(LogLevel.Fatal, Environment.NewLine, ex.FullMessage());
+                "WindsorDI.Initialize() failed.{0}{1}".LogMe(LogLevel.Fatal, Environment.NewLine, ex.FullMessage());
                 throw new ConfigException("Could not initialize dependency injection.", ex);
             }
+            "IocConfigStartupTask complete.".LogMe(LogLevel.Debug);           
         }
 
+        //todo: call this when appropriate?
         //try
         //{ var king = windsorDI.Resolve<IViewFactory>(); }// 2. resolve the king and all his subjects
         //catch (Exception ex)

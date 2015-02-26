@@ -31,13 +31,10 @@ namespace Zen.Test
             Bootstrapper.IncludingOnly.Assembly(Assembly.GetExecutingAssembly())//.AndAssembly(typeof())
                         .With.StartupTasks().UsingThisExecutionOrder(o => o
                             .First<LogConfigStartupTask>()
+                            .Then<DaoConfigStartupTask>()
                             .Then<IocConfigStartupTask>())                        
                         //.And.AutoMapper()
-                        .Start();
-                        
-                        /* not needed, Zen.Ioc.WindsorDI takes care of this with less dependencies */
-                        //.And.Windsor().WithContainer(windsorDI.Container)
-                        //    .UsingAutoRegistration()// automatically register all types that implement an interface of the same name
+                        .Start();                        
         }
 
         // In a typical application, dispose on App_Exit 

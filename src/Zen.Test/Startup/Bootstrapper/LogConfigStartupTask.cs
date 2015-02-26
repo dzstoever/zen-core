@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.CompilerServices;
 using Bootstrap.Extensions.StartupTasks;
 using Zen.Log;
 
@@ -19,12 +18,17 @@ namespace Zen.Test.Startup.Bootstrapper
             //Log4netConfigurator.TurnAppender(Appenders.File,     OnOff.On);            
             //Log4netConfigurator.TurnAppender(Appenders.Trace,    OnOff.On);
             Log4netConfigurator.TurnLoggerOff("NHibernate");// stop this external logger by default
-
             Log4netConfigurator.ErrorHandlerAppenders = new[] { Appenders.Debug, Appenders.Console };// any LoggingExceptions will go to these appenders
-            Log4netConfigurator.ErrorHandler = typeof(LoggingErrorHandler);
-
-            Log4netConfigurator.Configure();
-            Aspects.GetLogger().DebugFormat("{0} complete.", "LogConfigStartupTask");
+            Log4netConfigurator.ErrorHandler = typeof(LoggingErrorHandler);            
+            try
+            {
+                Log4netConfigurator.Configure();    
+            }
+            catch (Exception ex)
+            {
+                throw new ConfigException("Could not configure logging.", ex);
+            }
+            "LogConfigStartupTask complete.".LogMe(LogLevel.Debug);              
         }
 
         public void Run()

@@ -49,7 +49,7 @@
     <map name="ContactDictionary" cascade="all" lazy="false" 
          where="([isactive]=1) and ([addr1] is not null) and ([lastname] is not null or [firstname] is not null)">      
       <key column="[debtornum]" />
-      <index-many-to-many class="BkDebtorRelation" column="Relationship" />
+      <index-many-to-many class="BkDebtorRelation" column="[relationship]" />
       <one-to-many class="BkDebtorContact" />
     </map>
 

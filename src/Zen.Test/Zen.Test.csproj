@@ -253,11 +253,12 @@
     <Compile Include="Domain\Maps\PersonMap.cs" />
     <Compile Include="Scenarios\Core\EntityScenarios.cs" />
     <Compile Include="Scenarios\Data\DaoScenarios.cs" />
+    <Compile Include="Startup\Bootstrapper\DaoConfigStartupTask.cs" />
     <Compile Include="Startup\Bootstrapper\IocConfigStartupTask.cs" />
     <Compile Include="Startup\Windsor\ZenTestInstaller.cs" />
-    <Compile Include="TestDbConfigurator.cs" />
+    <Compile Include="ZenTestDbFacts.cs" />
     <Compile Include="Scenarios\Ux\NavigationScenarios.cs" />
-    <Compile Include="TestSqlCnnFactory.cs" />
+    <Compile Include="ZenTestDbContext.cs" />
     <Compile Include="[ Dummys ]\DummyDao.cs" />
     <Compile Include="[ Dummys ]\DummyIocDI.cs" />
     <Compile Include="[ Dummys ]\DummyLogger.cs" />
@@ -298,8 +299,12 @@
     <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkClient.hbm.xml" />
     <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkCostCode.hbm.xml" />
     <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkDebtor.hbm.xml" />
-    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkDebtorContact.hbm.xml" />
-    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkDebtorRelation.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkDebtorContact.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkDebtorRelation.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkDemoChanges.hbm.xml" />
     <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkDodVerifySource.hbm.xml" />
     <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkExtraData.hbm.xml" />
@@ -343,7 +348,6 @@
     <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbWorkMaintenance.hbm.xml" />
     <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbWorkPlacement.hbm.xml" />
     <EmbeddedResource Include="Domain\Maps\hbm\Probate\PurgedAccount.hbm.xml" />
-    <None Include="Domain\Maps\hbm\Probate\SallieMaeAccount.hbm.xml" />
     <Content Include="nh.cfg.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>

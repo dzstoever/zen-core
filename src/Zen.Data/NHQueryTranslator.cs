@@ -5,9 +5,9 @@ using Zen.Data.QueryModel;
 
 namespace Zen.Data
 {
-    internal class QueryTranslator
+    internal class NHQueryTranslator
     {
-        public QueryTranslator(ICriteria criteria, Query query)
+        public NHQueryTranslator(ICriteria criteria, Query query)
         {
             _criteria = criteria;
             _query = query;
