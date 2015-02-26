@@ -168,10 +168,12 @@ namespace Zen.Data
             // only initialize if the dll exists
             var exists = new ImplChecker().CheckForDll("HibernatingRhinos.Profiler.Appender.dll");
             if (!exists) return;
-
-            var offlineFileName = string.Format("Sql{0}.nhprof", DateTime.Now.ToString("yyyyMMddhhmmss"));
-            if (offline) NHibernateProfiler.InitializeOfflineProfiling(offlineFileName);
-            else NHibernateProfiler.Initialize();            
+            if (offline)
+            {
+                var offlineFileName = string.Format("Sql{0}.nhprof", DateTime.Now.ToString("yyyyMMddhhmmss"));
+                NHibernateProfiler.InitializeOfflineProfiling(offlineFileName);
+            }
+            else NHibernateProfiler.Initialize();
         }
         public static void TurnOffNHProfiler()
         {

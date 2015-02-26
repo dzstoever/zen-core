@@ -43,7 +43,7 @@
     
     
     <many-to-one name="Court" 
-                 class="Zen.Test.Domain.Entities.Court" column="[courtid]" />
+                 class="Zen.Test.Domain.Entities.Court" column="[courtid]" foreign-key="none" /><!-- Cross-database foreign key references are not supported. -->
     
     <!-- the dictionary will only hold 1 entity for each DebtorRelation-->    
     <map name="ContactDictionary" cascade="all" lazy="false" 

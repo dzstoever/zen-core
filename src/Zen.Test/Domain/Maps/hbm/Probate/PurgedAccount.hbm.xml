@@ -154,7 +154,7 @@
       </component>
 
       <many-to-one name="Court"
-                   class="Zen.Test.Domain.Entities.Court" column="[courtid]" />
+                   class="Zen.Test.Domain.Entities.Court" column="[courtid]" foreign-key="none" /><!-- Cross-database foreign key references are not supported. -->
 
     </component>
 
@@ -163,10 +163,10 @@
     <many-to-one name="CaseHandler"
                  class="PbCaseHandler" column="[cs handler1]" />
 
-    <!-- fetch using an inner join -->
+    <!-- fetch using an inner join 
     <one-to-one name="AcctMgmtAddl"
-                class="PbAcctMgmt" foreign-key="[eisi matter #]" cascade="all"
-                constrained="true" fetch="join" />
+                class="PbAcctMgmt" foreign-key="[eisi matter #]" cascade="all" f
+                constrained="true" fetch="join" />-->
 
     <set name="HistoryNotes" inverse="true" cascade="all" >
       <key column="[matternum]" />

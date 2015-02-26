@@ -6,7 +6,8 @@ namespace Zen.Test
 {
     public class ZenTestDbContext : SqlContext
     {
-        private string _cnnString = @"Server=.\SQLEXPRESS; Initial Catalog=ZenTestDb; Integrated Security=true;";
+        //private string _cnnString = @"Server=.\SQLEXPRESS; Initial Catalog=ZenTestDB; Integrated Security=true;";
+        private string _cnnString = @"Server=DSTOEVERPC; Initial Catalog=ZenTestDB; Integrated Security=true;";
         private SqlDialects _sqlDialect = SqlDialects.MsSql2012;
         private Assembly _mappingAssembly = typeof(PersonMap).Assembly;
         

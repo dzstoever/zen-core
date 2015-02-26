@@ -26,7 +26,7 @@ namespace Zen.Test.Startup.Windsor
             // DaoConfigStartup task sets the NHConfigurator.DbContext & SessionFactory
             container.Register(Component.For<IDbContext>()
                                    .Instance(NHConfigurator.DbContext)
-                                   .LifestyleSingleton());            
+                                   .LifestyleSingleton());
             container.Register(Component.For<ISessionFactory>()
                                    .Instance(NHConfigurator.SessionFactory)
                                    .LifestyleSingleton());

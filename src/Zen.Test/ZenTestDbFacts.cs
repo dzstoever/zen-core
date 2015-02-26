@@ -6,6 +6,7 @@ using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using NHibernate;
 using Zen.Data;
+using Zen.Data.QueryModel;
 using Zen.Ioc;
 using Zen.Log;
 using Zen.Test.Maps;
@@ -37,12 +38,14 @@ namespace Zen.Test
             _di = Aspects.GetIocDI();
             _log = _di.Resolve<ILogger>();
             _dao = _di.Resolve<IGenericDao>();
+            NHConfigurator.TurnOnNHProfiler(false);
         }
 
         ~ZenTestDbFacts()
         {
             if(_dao!=null) _dao.Dispose();
-            if(_di!=null) _di.Dispose();            
+            if(_di!=null) _di.Dispose();
+            NHConfigurator.TurnOffNHProfiler();
         }
 
         private readonly IocDI _di;
@@ -54,13 +57,12 @@ namespace Zen.Test
         // Note: The following tests demonstrate different ways to configure data access.
         //       We are skipping them because they would affect all subsequent tests.
         //       Our _dao is being configured in the Bootstrapper.DaoConfigStartupTask...
-
-        [Fact(Skip ="affects data access for all subsequent tests")]
+        [Fact(Skip ="affects data access for all subsequent tests")]//
         public void ConfigureFromIDbCnnFactory()
         {
             NHConfigurator.Configure(new ZenTestDbContext()); 
             var cnnFactory = _di.Resolve<IDbContext>();
-            _log.Info(cnnFactory.ToString());
+            _log.Debug(cnnFactory.ToString());
             
             var sessionFactory = _di.Resolve<ISessionFactory>();
             sessionFactory.Should().NotBeNull();
@@ -71,7 +73,7 @@ namespace Zen.Test
             NHConfigurator.SessionFactoryImpl.GetAllClassMetadata().Count.Should().Be(ExpectedMapCount);
         }
         
-        [Fact(Skip ="affects data access for all subsequent tests")]
+        [Fact(Skip ="affects data access for all subsequent tests")]//
         public void ConfigureFromAppConfig()
         {
             NHConfigurator.Configure("", typeof(PersonMap).Assembly, null);
@@ -85,7 +87,7 @@ namespace Zen.Test
             NHConfigurator.SessionFactoryImpl.GetAllClassMetadata().Count.Should().Be(ExpectedMapCount);
         }
         
-        [Fact(Skip ="affects data access for all subsequent tests")]
+        [Fact(Skip ="affects data access for all subsequent tests")]//
         public void ConfigureFromCfgXml()
         {
             NHConfigurator.Configure("nh.cfg.xml", typeof(PersonMap).Assembly, null);//this will add the embedded .hbms
@@ -110,17 +112,19 @@ namespace Zen.Test
 
 
         [Fact]
-        public void DropDbSchema()
+        public void CreateDbSchema()
         {
-            NHConfigurator.DropDbSchema();
-            
+            _dao.ExecuteNonQuery(new Query(
+                QueryTypes.Sql, true, "DropAndRecreateZenTestDbs"));
+
+            NHConfigurator.CreateDbSchema();                        
         }
 
         [Fact]
-        public void CreateDbSchema()
+        public void DropDbSchema()
         {
-            NHConfigurator.CreateDbSchema();
-                        
+            NHConfigurator.DropDbSchema();
+
         }
 
         

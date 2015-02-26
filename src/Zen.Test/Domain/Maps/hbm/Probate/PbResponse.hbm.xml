@@ -10,7 +10,7 @@
       <generator class="native" />
     </id>
     <!-- real key -->
-    <property name="UniqueId" column="[idfr]" insert="false" update="false"/>
+    <property name="UniqueId" column="[idfr]" insert="false" update="false" unique="true" />
         
     <property name="ClientMasterShortName" />
     <property name="RespType" />    

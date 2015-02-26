@@ -3,12 +3,12 @@
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Zen.Test"  
                    namespace="Zen.Test.Domain.Entities.Probate">
 
-  <!-- this class is no longer used, thus no longer embedded -->
+  <!-- THIS CLASS IS NO LONGER USED, THUS NO LONGER EMBEDDED -->
   
   <joined-subclass name="SallieMaeAccount" extends="IPbAccount" 
                    table="salliemaeprobe.dbo.[acctmgmt_salliemae]" 
                    dynamic-insert="true" dynamic-update="true">
-    <key column="[eisi matter #]" />
+    <key column="[eisi matter #]" foreign-key="some other name" />
 
     <property name="AcctBal" column="[acct balance]" />
     <property name="AdjBal" column="[adj bal]" />
@@ -151,7 +151,7 @@
       </component>
 
       <many-to-one name="Court"
-                   class="Zen.Test.Domain.Entities.Court" column="[courtid]" />
+                   class="Zen.Test.Domain.Entities.Court" column="[courtid]" foreign-key="none" /><!-- Cross-database foreign key references are not supported. -->
 
     </component>
 

@@ -6,7 +6,7 @@
   <!-- Import abstract classes so they can be used for polymorphic queries -->
   
   <import class="IAccount" />
-  <import class="Zen.Test.Domain.Entities.Probate.PbAccount" />
+  <import class="PbAccount" />
   
   <import class="CaseHandler" />  
   <import class="Client" />
