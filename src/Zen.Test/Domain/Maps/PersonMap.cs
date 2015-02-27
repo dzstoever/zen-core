@@ -23,6 +23,13 @@ namespace Zen.Test.Domain.Maps
                 comp.Property(p => p.Middle, map => { map.Length(100); });
                 comp.Property(p => p.Last, map => { map.Length(100); });
             });
+
+            Component(c => c.CellPhone, comp =>
+            {
+                comp.Property(p => p.Number, map => { map.Length(20); });
+                
+            });
+            //public virtual PhoneInfo    CellPhone { get; set; }
             
 
         }

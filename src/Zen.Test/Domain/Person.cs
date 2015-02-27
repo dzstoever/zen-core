@@ -7,26 +7,26 @@ namespace Zen.Test.Domain
 {
     public class PersonPlain : DomainEntity<Guid>
     {
-        public virtual string SSN { get; set; }
-        public virtual DateTime? DOB { get; set; }
-        public virtual DateTime? DOD { get; set; }
-        public virtual string First { get; set; }
-        public virtual string Middle { get; set; }
-        public virtual string Last { get; set; }
+        public virtual string       SSN { get; set; }
+        public virtual DateTime?    DOB { get; set; }
+        public virtual DateTime?    DOD { get; set; }
+        public virtual string       First { get; set; }
+        public virtual string       Middle { get; set; }
+        public virtual string       Last { get; set; }
     }
 
     public class Person : DomainEntity<Guid>
     {
-        public virtual string SSN { get; set; }
-        public virtual DateTime? DOB { get; set; }
-        public virtual DateTime? DOD { get; set; }
+        public virtual string       SSN { get; set; }
+        public virtual DateTime?    DOB { get; set; }
+        public virtual DateTime?    DOD { get; set; }
 
-        public virtual NameInfo Name { get; set; }
-        public virtual AddressInfo HomeAddress { get; set; }
-        public virtual AddressInfo WorkAddress { get; set; }
-        public virtual PhoneInfo CellPhone { get; set; }
-        public virtual PhoneInfo HomePhone { get; set; }
-        public virtual PhoneInfo WorkPhone { get; set; }        
+        public virtual NameInfo     Name { get; set; }
+        public virtual AddressInfo  HomeAddress { get; set; }
+        public virtual AddressInfo  WorkAddress { get; set; }
+        public virtual PhoneInfo    CellPhone { get; set; }
+        public virtual PhoneInfo    HomePhone { get; set; }
+        public virtual PhoneInfo    WorkPhone { get; set; }        
         public virtual Demographics Demographics { get; set; }
 
         public virtual IDictionary<ContactType, ContactInfo> Contacts { get; set; }        

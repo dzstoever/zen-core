@@ -34,7 +34,7 @@ namespace Zen.Test
     /// <see cref="http://ayende.com/blog/3983/nhibernate-unit-testing"/>
     public class ZenTestDbFacts : UseStartupFixture
     {
-        private const bool UseNHPRof = false;
+        private const bool UseNHPRof = true;
         
         public ZenTestDbFacts()
         {
@@ -137,7 +137,7 @@ namespace Zen.Test
                 _dao.ExecuteNonQuery(new Query(QueryTypes.Sql, true, "DropAllDbs"));
         }
 
-        [Fact]//(Skip = "drops and recreates empty dbs, not the schemas, using a named sql query")
+        [Fact(Skip = "drops and recreates empty dbs, not the schemas, using a named sql query")]//
         public void RecreateAllDbs()
         {
             using (_dao.StartUnitOfWork())
@@ -145,7 +145,7 @@ namespace Zen.Test
         }
         
 
-        [Fact(Skip = "only drops the schema for the db set as 'Inital Catalog'")]//
+        [Fact]//(Skip = "only drops the schema for the db set as 'Inital Catalog'") ...this is by design
         public void DropInitialCatalogSchema()
         {
             NHConfigurator.DropDbSchema();

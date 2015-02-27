@@ -290,10 +290,10 @@ namespace Zen.Data
         }
 
         
-        //todo
+        //todo: maybe
         public static void ValidateDbSchema() { }
         
-        //todo
+        //todo: ObjectMother
         public static void PopulateDbWithTestData() { }
 
     }

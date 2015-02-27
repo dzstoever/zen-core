@@ -57,7 +57,7 @@ SET @data_path = (SELECT SUBSTRING(physical_name, 1, CHARINDEX(N'master.mdf', LO
                   FROM master.sys.master_files
                   WHERE database_id = 1 AND file_id = 1);
 
-DECLARE @db_name nvarchar(50) 
+DECLARE @db_name varchar(50) 
 DECLARE DB_CURSOR CURSOR 
   LOCAL STATIC READ_ONLY FORWARD_ONLY
 FOR 
@@ -76,11 +76,11 @@ BEGIN
 		ON PRIMARY 
 			( NAME = '+@db_name+'
 			, FILENAME = ''' +@data_path+@db_name+'_data.mdf''
-			, SIZE = 3072KB, MAXSIZE = 50MB, FILEGROWTH = 15% )
+			, SIZE = 4096KB, MAXSIZE = UNLIMITED, FILEGROWTH = 15% )
 		LOG ON
 			( NAME = '+@db_name+'_log
 			, FILENAME = ''' +@data_path+@db_name+'_log.ldf''
-			, SIZE = 1024KB, MAXSIZE = 25MB, FILEGROWTH = 10% )'
+			, SIZE = 1024KB, MAXSIZE = 1GB, FILEGROWTH = 10% )'
 		);
 	PRINT 'Created ['+@db_name+']'
 	FETCH NEXT FROM DB_CURSOR INTO @db_name
