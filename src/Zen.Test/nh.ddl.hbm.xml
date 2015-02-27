@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+
+  <sql-query name="DropAllDbs">
+    <![CDATA[
+USE [master]
+
+IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'bkcol')
+	BEGIN
+	ALTER DATABASE [bkcol] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+	DROP DATABASE [bkcol]
+	END
+
+IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'courtis')
+	BEGIN
+	ALTER DATABASE [courtis] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+	DROP DATABASE [courtis]
+	END
+
+IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'noc')
+	BEGIN
+	ALTER DATABASE [noc] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+	DROP DATABASE [noc]
+	END
+
+IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'probe')
+	BEGIN
+	ALTER DATABASE [probe] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+	DROP DATABASE [probe]
+	END
+
+
+IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'ZenTestDB')
+	BEGIN
+	ALTER DATABASE [ZenTestDB] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+	DROP DATABASE [ZenTestDB]
+	END
+      ]]>
+  </sql-query>
+  
+  <sql-query name="DropAndRecreateAllDbs">
+    <![CDATA[
+USE [master]
+
+IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'bkcol')
+	BEGIN
+	ALTER DATABASE [bkcol] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+	DROP DATABASE [bkcol]
+	END
+CREATE DATABASE [bkcol]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'bkcol', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\bkcol.mdf' , SIZE = 4096KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'bkcol_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\bkcol_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+
+
+IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'courtis')
+	BEGIN
+	ALTER DATABASE [courtis] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+	DROP DATABASE [courtis]
+	END
+CREATE DATABASE [courtis]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'courtis', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\courtis.mdf' , SIZE = 4096KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'courtis_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\courtis_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+
+
+IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'noc')
+	BEGIN
+	ALTER DATABASE [noc] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+	DROP DATABASE [noc]
+	END
+CREATE DATABASE [noc]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'noc', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\noc.mdf' , SIZE = 4096KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'noc_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\noc_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+
+
+IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'probe')
+	BEGIN
+	ALTER DATABASE [probe] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+	DROP DATABASE [probe]
+	END
+CREATE DATABASE [probe]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'probe', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\probe.mdf' , SIZE = 4096KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'probe_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\probe_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+
+
+IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'ZenTestDB')
+	BEGIN
+	ALTER DATABASE [ZenTestDB] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+	DROP DATABASE [ZenTestDB]
+	END
+CREATE DATABASE [ZenTestDB]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'ZenTestDB', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\ZenTestDB.mdf' , SIZE = 4096KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'ZenTestDB_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\ZenTestDB_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+
+      ]]>
+  </sql-query>
+
+</hibernate-mapping>

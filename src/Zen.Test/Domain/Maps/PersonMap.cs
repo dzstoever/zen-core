@@ -1,6 +1,7 @@
 ﻿using System;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
+using NHibernate.Tool.hbm2ddl;
 using Zen.Data;
 using Zen.Test.Domain;
 
@@ -10,7 +11,7 @@ namespace Zen.Test.Maps
     {
         public PersonMap()
         {
-            Schema("dbo"); Table("Person");
+            Schema("ZenTestDB.dbo"); Table("Person");
 
             //Id(x => x.Id, map => { map.Column("MRN"); map.Generator(Generators.Assigned); map.Length(15); });
             Id(x => x.Id, map=> map.Generator(Generators.GuidComb));

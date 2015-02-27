@@ -12,7 +12,8 @@ namespace Zen.Test.Startup.Bootstrapper
             try
             {
                 NHConfigurator.Configure(new ZenTestDbContext());
-                //NHConfigurator.Configure("nh.cfg.xml");
+                //NHConfigurator.Configure("", typeof(Zen.Test.Maps.PersonMap).Assembly, null);
+                //NHConfigurator.Configure("nh.cfg.xml", typeof(Zen.Test.Maps.PersonMap).Assembly, null);
             }
             catch (Exception ex)
             {

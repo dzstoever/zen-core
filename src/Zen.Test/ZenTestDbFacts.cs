@@ -52,11 +52,15 @@ namespace Zen.Test
         private readonly ILogger _log;
         private readonly IGenericDao _dao;
 
-        const int ExpectedMapCount = 66;
+        const int ExpectedClassMappings = 66;
+        const int ExpectedCollectionMappings = 30;
+        const int ExpectedNamedQueries = 18;
+        const int ExpectedNamedSqlQueries = 11;
 
         // Note: The following tests demonstrate different ways to configure data access.
         //       We are skipping them because they would affect all subsequent tests.
         //       Our _dao is being configured in the Bootstrapper.DaoConfigStartupTask...
+        
         [Fact(Skip ="affects data access for all subsequent tests")]//
         public void ConfigureFromIDbCnnFactory()
         {
@@ -70,7 +74,10 @@ namespace Zen.Test
             session.Should().NotBeNull();
 
             NHConfigurator.SessionFactoryImpl.Settings.SessionFactoryName.Should().BeNull();
-            NHConfigurator.SessionFactoryImpl.GetAllClassMetadata().Count.Should().Be(ExpectedMapCount);
+            NHConfigurator.Cfg.ClassMappings.Count.Should().Be(ExpectedClassMappings);
+            NHConfigurator.Cfg.CollectionMappings.Count.Should().Be(ExpectedCollectionMappings);
+            NHConfigurator.Cfg.NamedQueries.Count.Should().Be(ExpectedNamedQueries);
+            NHConfigurator.Cfg.NamedSQLQueries.Count.Should().Be(ExpectedNamedSqlQueries);
         }
         
         [Fact(Skip ="affects data access for all subsequent tests")]//
@@ -84,13 +91,17 @@ namespace Zen.Test
             session.Should().NotBeNull();
 
             NHConfigurator.SessionFactoryImpl.Settings.SessionFactoryName.Should().Be("AppConfig.SessionFactory");
-            NHConfigurator.SessionFactoryImpl.GetAllClassMetadata().Count.Should().Be(ExpectedMapCount);
+            NHConfigurator.Cfg.ClassMappings.Count.Should().Be(ExpectedClassMappings);
+            NHConfigurator.Cfg.CollectionMappings.Count.Should().Be(ExpectedCollectionMappings);
+            NHConfigurator.Cfg.NamedQueries.Count.Should().Be(ExpectedNamedQueries);
+            NHConfigurator.Cfg.NamedSQLQueries.Count.Should().Be(ExpectedNamedSqlQueries);
         }
         
         [Fact(Skip ="affects data access for all subsequent tests")]//
         public void ConfigureFromCfgXml()
         {
             NHConfigurator.Configure("nh.cfg.xml", typeof(PersonMap).Assembly, null);//this will add the embedded .hbms
+
             var windsorDI = Aspects.GetIocDI() as WindsorDI;
             Debug.Assert(windsorDI != null, "windsorDI != null");
             var container = windsorDI.Container as IWindsorContainer;
@@ -107,26 +118,49 @@ namespace Zen.Test
             session.Should().NotBeNull();
 
             NHConfigurator.SessionFactoryImpl.Settings.SessionFactoryName.Should().Be("Test.SessionFactory");
-            NHConfigurator.SessionFactoryImpl.GetAllClassMetadata().Count.Should().Be(ExpectedMapCount);            
+            NHConfigurator.Cfg.ClassMappings.Count.Should().Be(ExpectedClassMappings);
+            NHConfigurator.Cfg.CollectionMappings.Count.Should().Be(ExpectedCollectionMappings);
+            NHConfigurator.Cfg.NamedQueries.Count.Should().Be(ExpectedNamedQueries);
+            NHConfigurator.Cfg.NamedSQLQueries.Count.Should().Be(ExpectedNamedSqlQueries);            
         }
 
 
-        [Fact]
-        public void CreateDbSchema()
+
+        [Fact(Skip = "drops and recreates empty databases, not the schemas, using a named sql query")]//
+        public void RecreateAllDbs()
         {
-            _dao.ExecuteNonQuery(new Query(
-                QueryTypes.Sql, true, "DropAndRecreateZenTestDbs"));
-
-            NHConfigurator.CreateDbSchema();                        
+            using (_dao.StartUnitOfWork())
+                _dao.ExecuteNonQuery(new Query(QueryTypes.Sql, true, "DropAndRecreateAllDbs"));
         }
 
-        [Fact]
-        public void DropDbSchema()
+        [Fact(Skip ="drops all dbs [bkcol, courtis, noc, probe, and ZenTestDB] using a named sql query")]//
+        public void DropAllDbs()
         {
-            NHConfigurator.DropDbSchema();
-
+            using (_dao.StartUnitOfWork())
+                _dao.ExecuteNonQuery(new Query(QueryTypes.Sql, true, "DropAllDbs"));
         }
 
+
+
+        [Fact(Skip ="creates schemas for all entities in all dbs [bkcol, courtis, noc, probe, and ZenTestDB]")]//
+        public void CreateAllDbSchemas()
+        {
+            NHConfigurator.CreateDbSchema();
+        }
+
+        [Fact(Skip = "updates schemas for all dbs [bkcol, courtis, noc, probe, and ZenTestDB]")]//
+        public void UpdateAllDbSchemas()
+        {
+            NHConfigurator.UpdateDbSchema();
+        }
+
+        [Fact]//(Skip ="only drops the schema for the db set as 'Inital catalog'")
+        public void DropZenTestDbSchema()
+        {
+            NHConfigurator.DropDbSchema();//master?
+        }
+
+       
         
     }
 }

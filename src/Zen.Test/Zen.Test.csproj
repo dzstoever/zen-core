@@ -293,6 +293,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="nh.ddl.hbm.xml" />
     <EmbeddedResource Include="Domain\Maps\hbm\Abstract.hbm.xml" />
     <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkAccount.hbm.xml" />
     <EmbeddedResource Include="Domain\Maps\hbm\Collections\BkCaseHandler.hbm.xml" />
@@ -349,6 +350,9 @@
     <EmbeddedResource Include="Domain\Maps\hbm\Probate\PbWorkPlacement.hbm.xml" />
     <EmbeddedResource Include="Domain\Maps\hbm\Probate\PurgedAccount.hbm.xml" />
     <None Include="Domain\Maps\hbm\Probate\SallieMaeAccount.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\querys.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\querys_mailout.hbm.xml" />
+    <EmbeddedResource Include="Domain\Maps\hbm\querys_mailout.old.xml" />
     <Content Include="nh.cfg.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>

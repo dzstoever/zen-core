@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
+using System.Text;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
 using NHibernate;
 using NHibernate.Cfg;
@@ -10,11 +11,38 @@ using NHibernate.Dialect;
 using NHibernate.Engine;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Tool.hbm2ddl;
+using Zen.Log;
 
 namespace Zen.Data
 {
     public static class NHConfigurator
     {
+        /// <summary>
+        /// Use the NHProfiler to watch sql in realtime or create an offline file for later review
+        /// note: don't forget to TurnOffNHProfiler(usually on App_Exit)
+        /// </summary>
+        /// <param name="offline">
+        /// set offline to true if you want a file instead of live sql
+        /// The filename will be named 'SqlyyyyMMddhhmmss.nhprof'
+        /// </param>
+        public static void TurnOnNHProfiler(bool offline)
+        {
+            // only initialize if the dll exists
+            var exists = new ImplChecker().CheckForDll("HibernatingRhinos.Profiler.Appender.dll");
+            if (!exists) return;
+            if (offline)
+            {
+                var offlineFileName = string.Format("Sql{0}.nhprof", DateTime.Now.ToString("yyyyMMddhhmmss"));
+                NHibernateProfiler.InitializeOfflineProfiling(offlineFileName);
+            }
+            else NHibernateProfiler.Initialize();
+        }
+        public static void TurnOffNHProfiler()
+        {
+            NHibernateProfiler.Shutdown();
+        }
+
+
         public static IDbContext DbContext { get; private set; }
         public static Configuration Cfg { get; private set; }
         public static ISessionFactory SessionFactory { get; private set; }
@@ -23,9 +51,11 @@ namespace Zen.Data
             get { return SessionFactory as ISessionFactoryImplementor; }
         }
 
+
         /// <summary>
         /// Builds a SessionFactory for use with the NHibernateDao, using the supplied configuration file.
         /// LOADS EMBEDDED MAPPINGS FROM THE CONFIGURED ASSEMBLYS (hbmxml mapping assembly can also be set in the cfg file)
+        /// note: DbContext.HbmXmlAssembly will not be set when loaded from a config file setting...
         /// </summary>
         /// <param name="xmlFileName">If set to an empty string Configure() will use app/web.config/hibernate.cfg.xml</param>
         /// <param name="bycodeAssembly">optional assembly with ByCode mappings</param>
@@ -47,8 +77,7 @@ namespace Zen.Data
                     AddHbmXmlMappings(Cfg, hbmxmlAssembly);
                 
                 SessionFactory = Cfg.BuildSessionFactory();
-                "{0} mappings in domain model.".LogMe(Log.LogLevel.Debug, SessionFactoryImpl.GetAllClassMetadata().Count());
-
+                
                 //set the DbContext
                 SqlDialects sqlDialect;
                 var nhDialect = SessionFactoryImpl.Dialect;                 
@@ -69,7 +98,8 @@ namespace Zen.Data
                     CnnString = Cfg.GetProperty("connection.connection_string") ?? Cfg.GetProperty("connection.connection_string_name") ?? "",
                     SqlDialect = sqlDialect
                     //, HbmXmlMappingAssembly = //todo: check for mapping assembly in config file...
-                };                
+                };
+                EchoCfgSummary();
             }
             catch (Exception ex)
             { throw new ConfigException("Unable to configure session factory from xml/config file.", ex); }
@@ -85,11 +115,12 @@ namespace Zen.Data
             try
             {
                 var sqlDialect = (SqlDialects)Enum.Parse(typeof(SqlDialects), dbContext.DbDialect);
-                ConfigureDbAccess(dbContext.ConnectionString, sqlDialect, dbContext.ByCodeMappingAssembly, dbContext.HbmXmlMappingAssembly);                                                               
+                ConfigureDbAccess(dbContext.ConnectionString, sqlDialect, dbContext.ByCodeMappingAssembly, dbContext.HbmXmlMappingAssembly);
+                DbContext = dbContext;
+                EchoCfgSummary();
             }
             catch (Exception ex)
-            { throw new ConfigException("Unable to configure session factory from IDbCnnFactory.", ex); }
-            DbContext = dbContext;
+            { throw new ConfigException("Unable to configure session factory from IDbCnnFactory.", ex); }            
         }
 
         /// <summary>
@@ -127,8 +158,7 @@ namespace Zen.Data
             if(hbmxmlAssembly != null) 
                 AddHbmXmlMappings(Cfg, hbmxmlAssembly);
 
-            SessionFactory = Cfg.BuildSessionFactory();
-            "{0} mappings in domain model.".LogMe(Log.LogLevel.Debug, SessionFactoryImpl.GetAllClassMetadata().Count());
+            SessionFactory = Cfg.BuildSessionFactory();                        
         }
 
         /// <summary>
@@ -155,54 +185,51 @@ namespace Zen.Data
         }
 
 
+        private static void EchoCfgSummary()
+        {
+            var sb = new StringBuilder("NHibernate Configurator Summary\n");
+            sb.AppendLine("***");
+            sb.AppendLine("* {0} class mappings".FormatWith(Cfg.ClassMappings.Count));
+            sb.AppendLine("* {0} collection mappings".FormatWith(Cfg.CollectionMappings.Count));
+            sb.AppendLine("* {0} named queries".FormatWith(Cfg.NamedQueries.Count));
+            sb.AppendLine("* {0} named sql queries".FormatWith(Cfg.NamedSQLQueries.Count));
+            foreach (var cfgProperty in Cfg.Properties)
+                sb.AppendLine("* " + cfgProperty);
+            sb.AppendLine("***");
+            sb.ToString().LogMe(LogLevel.Debug);
+
+        }
+
+
         /// <summary>
-        /// Use the NHProfiler to watch sql in realtime or create an offline file for later review
-        /// note: don't forget to TurnOffNHProfiler(usually on App_Exit)
+        /// Creates schemas for all mapped entities in the domain.
+        /// Db's must exist on the server prior to calling this method.
         /// </summary>
-        /// <param name="offline">
-        /// set offline to true if you want a file instead of live sql
-        /// The filename will be named 'SqlyyyyMMddhhmmss.nhprof'
-        /// </param>
-        public static void TurnOnNHProfiler(bool offline)
-        {
-            // only initialize if the dll exists
-            var exists = new ImplChecker().CheckForDll("HibernatingRhinos.Profiler.Appender.dll");
-            if (!exists) return;
-            if (offline)
-            {
-                var offlineFileName = string.Format("Sql{0}.nhprof", DateTime.Now.ToString("yyyyMMddhhmmss"));
-                NHibernateProfiler.InitializeOfflineProfiling(offlineFileName);
-            }
-            else NHibernateProfiler.Initialize();
-        }
-        public static void TurnOffNHProfiler()
-        {
-            NHibernateProfiler.Shutdown();
-        }
-
-
-        //note: Db must exist prior to calling this method
         public static void CreateDbSchema()
         {
             var export = new SchemaExport(Cfg);
-            export.Create(true, true);
-            
-            //export.Execute(new Action<string>(), );
-
-            //cfg.SetDefaultAssembly(""); // to use for the mappings added to the cfg afterwords
-            //cfg.SetDefaultNamespace("");// to use for the mappings added to the cfg afterwords            
-            //string[] ddl = cfg.GenerateSchemaCreationScript(new MsSql2008Dialect());
-            //cfg.ValidateSchema();
-
+            export.Create(true, true);            
         }
 
+        /// <summary>
+        /// Executes schema updates with dropping existing tables
+        /// </summary>
+        public static void UpdateDbSchema()
+        {
+            var update = new SchemaUpdate(Cfg);
+            update.Execute(true, true);
+        }
+
+        /// <summary>
+        /// Drops all the constraints, tables, etc.
+        /// </summary>
         public static void DropDbSchema()
         {
             var export = new SchemaExport(Cfg);
             export.Drop(true, true);
         }
+
         
-        public static void UpdateDbSchema() { }
         
         public static void ValidateDbSchema() { }
         

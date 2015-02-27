@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+
+  <sql-query name="GetLatestSearchDate">
+    <![CDATA[select
+      Probe.dbo.udf_GetLatestSearchDate(:ssn, :courtID) AS [LastestSearchDate]      
+      ]]>
+  </sql-query>
+
+
+  <sql-query name="Clear_LtrProcessingQ">
+    <![CDATA[delete from P2_LtrProcessingQ 
+    where LtrTypeID in (:ltrTypeIDList)
+      ]]>
+  </sql-query>
+
+  <sql-query name="Count_LtrProcessingQ">
+    <![CDATA[select Count(*)
+    from [P2_LtrProcessingQ]   
+    where LtrTypeID = :ltrTypeID    
+      ]]>
+  </sql-query>
+
+
+  <!-- clientNotInList = string[] -->
+  <!-- returns ArrayList of System.String[matter#]-->
+  <sql-query name="Appl_SPL">
+    <![CDATA[select
+    A.[EISI MATTER #]    
+    from [PROBE EISI ACCT MGMT] A
+    inner join P2_LU_Client CLN  on A.[CLIENT NAME] = CLN.[ClientName]
+    inner join CourtIS.dbo.[COURT_MASTER] CRT  on A.[CourtID] = CRT.[CourtID]
+    where [SEARCH LTR SENT] Is Null 
+    and [place date] > '2009-01-01'
+    and ([acctid] is null or [acctid] not in ('711','715'))
+    and [ADJ BAL] > 99
+		and [STATUS CODE1] not in ('CLCR','PS','PLX')
+		and [CS HANDLER1] not in ('ROE')
+		and A.[COURTID] not in (3316,3317,3318,3319,3320)
+    and CLN.ClientMasterShortName not in (:clientExclusionList)    
+      ]]>
+  </sql-query>
+
+  <!-- parms = :date ***Need to verify the criteria for InsuranceSpl... -->
+  <!-- returns ArrayList of System.String[matter#]-->
+  <sql-query name="Appl_InsSPL">
+    <![CDATA[select
+    A.[EISI MATTER #]    
+    from [PROBE EISI ACCT MGMT] A
+    inner join P2_LU_Client CLN  on A.[CLIENT NAME] = CLN.[ClientName]
+    inner join CourtIS.dbo.[COURT_MASTER] CRT  on A.[CourtID] = CRT.[CourtID]
+    where [INSSPLM DATE] Is Null  
+    and [STATUS CODE1] = 'INSSPL'
+		and [CS HANDLER1] = 'ROE'
+    and A.[ADJ BAL] > 0
+		and A.[COURTID] not in (3316,3317,3318,3319,3320)     
+    and CLN.ClientMasterShortName not in (:clientExclusionList)
+      ]]>
+  </sql-query>
+
+
+
+
+  <!-- no parms -->
+  <!-- returns ArrayList of System.String[matter#]-->
+  <sql-query name="Appl_SCH">
+    <![CDATA[select
+    A.[EISI MATTER #]    
+    from [PROBE EISI ACCT MGMT] A    
+    inner join P2_LU_Client CLN  on A.[CLIENT NAME] = CLN.[ClientName]
+    inner join CourtIS.dbo.[COURT_MASTER] CRT  on A.[CourtID] = CRT.[CourtID]
+    where [STATUS CODE1] = 'SRCH'
+    and dod is not null
+    and A.[COURTID] not in (3316,3317,3318,3319,3320)     
+    and CLN.ClientMasterShortName not in (:clientExclusionList)
+    order by CRT.Zip, A.[CLIENT NAME]
+      ]]>
+  </sql-query>
+
+  <!-- no parms -->
+  <!-- returns ArrayList of System.String[matter#]-->
+  <sql-query name="Appl_OS">
+    <![CDATA[select
+    A.[EISI MATTER #]    
+    from [PROBE EISI ACCT MGMT] A
+    where [STATUS CODE1] = 'OS' 
+    and dod is not null
+    order by A.[CourtId]
+      ]]>
+  </sql-query>
+
+
+
+  <!-- parms = :date -->
+  <!-- returns ArrayList of object[matter#]-->
+  <sql-query name="Appl_CLM">
+    <![CDATA[select
+    A.[EISI MATTER #]    
+    from [PROBE EISI ACCT MGMT] A    
+    where DateDiff(day,[CLM FILE DATE],:date) = 0
+    order by A.[EISI MATTER #]
+      ]]>
+  </sql-query>
+
+
+  <!-- parms = :batchType -->
+  <!-- returns ArrayList of object[typeID, srcCol, reqCol] -->
+  <!-- these represent all the types supported for the batchType, -->
+  <sql-query name="Appl_DEMAND">
+    <![CDATA[select
+    LtrTypeId, SourceColumn, RequestorColumn 
+    from P2_LtrTypes     
+    where BatchType = :batchType 
+     and SourceColumn in
+     ( select '['+c.name+']'
+      from syscolumns c inner join sysobjects o on o.id = c.id
+      where o.name = 'Outgoing Letters Table')
+     and RequestorColumn in
+     ( select '['+c.name+']'
+      from syscolumns c inner join sysobjects o on o.id = c.id
+      where o.name = 'Outgoing Letters Table')
+      ]]>
+  </sql-query>
+
+
+</hibernate-mapping>

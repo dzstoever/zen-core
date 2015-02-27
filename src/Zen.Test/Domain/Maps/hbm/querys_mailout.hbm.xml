@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+
+  <!-- returns IList<PbMailOutRequest> -->
+  <sql-query name="exec_MailOutLoadSearch" callable="true">
+    <!--<return alias="searchRequests" class="EIS.Core.Entities.MailOutRequest"></return>-->
+    exec probe.dbo.usp2_MailOutLoadSearch
+  </sql-query>
+
+  
+  <query name="RelatedIPbAccounts">
+    <![CDATA[
+      from IPbAccount where Debtor.SSN = :ssn 
+      and Id <> :matter
+      ]]>
+  </query>
+    
+  <query name="IPbAccountsByStatusCode">
+    <![CDATA[
+      from IPbAccount a where a.StatusCode = :statusCode
+      ]]>
+  </query>
+
+
+</hibernate-mapping>

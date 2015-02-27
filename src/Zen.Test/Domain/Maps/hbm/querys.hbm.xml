@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" ><!--assembly="EIS.Core" namespace="EIS.Core.Entities.Probate"-->
+
+  <!-- Obsolete querys -->
+
+  <query name="GetIPbAccountsByStatusCode">
+    <query-param name="statusCode" type="String" />
+    <![CDATA[
+      from IPbAccount a where a.StatusCode = :statusCode
+      ]]>
+  </query>
+
+  <query name="GetRelatedProbeAccounts">
+    <query-param name="ssn" type="String" />
+    <query-param name="matterNum" type="String" />
+    <![CDATA[
+      from ProbeAccount 
+      where Debtor.SSN=:ssn and Id<>:matterNum
+      ]]>
+  </query>
+
+  <sql-query name="GetRelatedMatters">
+    <query-param name="ssn" type="String" />
+    <query-param name="matterNum" type="String" />
+    <![CDATA[select [eisi matter #]
+      from probe.dbo.[probe eisi acct mgmt] 
+      where [d-ssn]=:ssn and [eisi matter #]<>:matterNum      
+      ]]>
+  </sql-query>
+
+
+  <!-- Reusable querys -->
+  
+  <query name="FetchProbateCourts">
+    <![CDATA[
+      from Court where CourtType.Id = 101
+      ]]>
+  </query>
+
+  <query name="FetchBankruptcyCourts">
+    <![CDATA[
+      from Court where CourtType.Id = 202
+      ]]>
+  </query>
+
+  <query name="FetchMailOutTypesAndOverrides">
+    <![CDATA[
+      from MailOutType t left join fetch t.TemplateOverrides
+      ]]>
+  </query>
+
+  <query name="FetchMailOutTemplatesAndOverrides">
+    <![CDATA[
+      from MailOutTemplate t left join fetch t.TemplateOverrides
+      ]]>
+  </query>
+
+  <sql-query name="GetLatestSearchDate">
+    <query-param name="ssn" type="String" />
+    <query-param name="courtId" type="Int32" />
+    <![CDATA[select
+      probe.dbo.udf_GetLatestSearchDate(:ssn, :courtId) as [LastestSearchDate]      
+      ]]>
+  </sql-query>
+  
+  
+  <!-- CourtSearch querys -->
+
+  <sql-query name="MailSearchPreBuild" callable="true">
+    <![CDATA[
+    insert into probe.dbo.p2_mailout (createdate, matternum, lettertype, mailouttypeid, requestedby, requestedprintdate)    
+	    select dateadd(dd, datediff(d, 0, getdate()), 0), [eisi matter #], 'SEARCH', 3, 'SysMail', dateadd(dd, datediff(d, 0, getdate()), 0)
+		    from probe.dbo.[probe eisi acct mgmt] a 
+		    where a.[d-ssn] in 
+        ( select distinct [d-ssn] from probe.dbo.[probe eisi acct mgmt] 
+            where [status code1] = 'SRCH' 
+              and [dod_verif_source] is not null
+		          and [courtid] not in (3316,3317,3318,3319,3320)
+        )
+        
+    update probe.dbo.[probe eisi acct mgmt] set [status code1] = 'SCORE'
+	    where [status code1] = 'srch' 
+		    and ( [dod_verif_source] is null 
+		    or [courtid] in (3316,3317,3318,3319,3320) )
+    ]]>
+  </sql-query>
+
+  <query name="MailSearchQuery">
+    <query-param name="cutoffDate" type="DateTime" />
+    <![CDATA[
+    from PbMailOutRequest rx join fetch rx.Account a 
+      where rx.LetterType in ('SEARCH')
+      and rx.Processed = false
+    ]]>
+  </query>
+
+  <sql-query name="VendorSearchPreBuild" callable="true">
+    <![CDATA[
+    insert into probe.dbo.p2_mailout (createdate, matternum, lettertype, mailouttypeid, requestedby, requestedprintdate)    
+	    select dateadd(dd, datediff(d, 0, getdate()), 0), [eisi matter #], 'OSEARCH', 156, 'SysMail', dateadd(dd, datediff(d, 0, getdate()), 0)
+		    from probe.dbo.[probe eisi acct mgmt] a 
+		    where a.[d-ssn] in 
+        ( select distinct [d-ssn] from probe.dbo.[probe eisi acct mgmt] 
+          where [status code1] = 'OS' 
+            and [dod_verif_source] is not null
+		        and [courtid] not in (3316,3317,3318,3319,3320)
+        )
+      
+    update probe.dbo.[probe eisi acct mgmt] set [status code1] = 'SCORE'
+	    where [status code1] = 'os' 
+		    and ( [dod_verif_source] is null 
+		    or [courtid] in (3316,3317,3318,3319,3320) )
+    ]]>
+  </sql-query>
+
+  <query name="VendorSearchQuery">
+    <query-param name="cutoffDate" type="DateTime" />
+    <![CDATA[
+    from PbMailOutRequest rx join fetch rx.Account a 
+      where rx.LetterType in ('OSEARCH')
+      and rx.Processed = false    
+    ]]>
+  </query>
+
+  
+  <!-- NonSort querys -->
+  
+  <sql-query name="NonSortPreBuild" callable="true">
+    exec probe.dbo.usp2_MailOutRemoveDupRx
+  </sql-query>
+
+  <query name="ClaimReleaseQuery">
+    <query-param name="cutoffDate" type="DateTime" />
+    <![CDATA[
+    from PbMailOutRequest rx join fetch rx.MailOutType t join fetch rx.Account a join fetch a.AcctMgmtAddl a2
+     where rx.LetterType in ('REL') and rx.Mailed = 0 and rx.CeaseProcessing = 0
+     and rx.RequestedPrintDate <= :cutoffDate
+    ]]>
+  </query>
+
+  <query name="EnclosureQuery">
+    <query-param name="cutoffDate" type="DateTime" />
+    <![CDATA[
+    from PbMailOutRequest rx join fetch rx.MailOutType t join fetch rx.Account a join fetch a.AcctMgmtAddl a2
+     where rx.LetterType in ('ENC') and rx.Mailed = 0 and rx.CeaseProcessing = 0
+     and rx.RequestedPrintDate <= :cutoffDate
+    ]]>
+  </query>
+  
+  
+  <!-- PreSort/SkipSort querys -->
+  
+  <sql-query name="SplPreBuild" callable="true">
+    exec probe.dbo.usp2_MailOutLoadSpls
+  </sql-query>
+
+  <sql-query name="SortPreBuild" callable="true">
+    exec probe.dbo.usp2_MailOutRemoveDupRx
+  </sql-query>
+
+  <sql-query name="SplPostProcess" callable="true">
+    exec probe.dbo.usp2_MailOutUpdate
+  </sql-query>
+
+  <sql-query name="SortPostProcess" callable="true">
+    <![CDATA[
+    update probe.dbo.[probe eisi acct mgmt] set [status code1] = 'PA'
+      where [eisi matter #] in
+      (
+        select MatterNum from probe.dbo.p2_mailout rx
+          inner join probe.dbo.[probe eisi acct mgmt] a on rx.MatterNum = a.[eisi matter #]
+        where rx.processeddate = dateadd(dd, datediff(d, 0, getdate()), 0) 
+          and rx.MailOutTypeID in (12,13)
+          and rx.Mailed = 1 and a.[status code1] = 'CFLD'
+      )
+    ]]>
+  </sql-query>
+  
+  <query name="PbSplQuery">
+    <query-param name="cutoffDate" type="DateTime" />
+    <![CDATA[
+    from PbMailOutRequest rx join fetch rx.MailOutType t join fetch rx.Account a join fetch a.AcctMgmtAddl a2
+     where rx.LetterType in ('SPL') and rx.Processed = 0 and rx.CeaseProcessing = 0
+     and rx.RequestedPrintDate = :cutoffDate
+    ]]>
+  </query>
+
+  <query name="PbPreQuery">
+    <query-param name="cutoffDate" type="DateTime" />
+    <![CDATA[
+    from PbMailOutRequest rx join fetch rx.MailOutType t join fetch rx.Account a join fetch a.AcctMgmtAddl a2
+     where rx.LetterType in ('PRE') and rx.Mailed = 0 and rx.CeaseProcessing = 0
+     and rx.RequestedPrintDate <= :cutoffDate
+    ]]>
+  </query>
+
+  <query name="PbPostQuery">
+    <query-param name="cutoffDate" type="DateTime" />
+    <![CDATA[
+    from PbMailOutRequest rx join fetch rx.MailOutType t join fetch rx.Account a join fetch a.AcctMgmtAddl a2
+     where rx.LetterType in ('POST') and rx.Mailed = 0 and rx.CeaseProcessing = 0
+     and rx.RequestedPrintDate <= :cutoffDate
+    ]]>
+  </query>
+
+  <query name="BkSpcQuery">
+    <query-param name="cutoffDate" type="DateTime" />
+    <![CDATA[
+    from BkMailOutRequest rx join fetch rx.MailOutType t join fetch rx.Account a 
+      join fetch a.Debtor d left join fetch d.ContactDictionary  
+        where rx.LetterType in ('SPC') and rx.Mailed = 0 and rx.IsApproved = 1
+        and rx.CeaseProcessing = 0 and rx.RequestedPrintDate <= :cutoffDate
+    ]]>
+  </query>
+
+  <query name="BkBkcQuery">
+    <query-param name="cutoffDate" type="DateTime" />
+    <![CDATA[
+    from BkMailOutRequest rx join fetch rx.MailOutType t join fetch rx.Account a 
+      join fetch a.Debtor d left join fetch d.ContactDictionary
+        where rx.LetterType in ('BKC') and rx.Mailed = 0 and rx.IsApproved = 1
+        and rx.CeaseProcessing = 0 and rx.RequestedPrintDate <= :cutoffDate
+    ]]>
+  </query>
+
+  <query name="BkSmtQuery">
+    <query-param name="cutoffDate" type="DateTime" />
+    <![CDATA[
+    from BkMailOutRequest rx join fetch rx.MailOutType t join fetch rx.Account a 
+      join fetch a.Debtor d left join fetch d.ContactDictionary
+        where rx.LetterType in ('SMT') and rx.Mailed = 0 and rx.IsApproved = 1
+        and rx.CeaseProcessing = 0 and rx.RequestedPrintDate <= :cutoffDate
+    ]]>
+  </query>
+
+</hibernate-mapping>
