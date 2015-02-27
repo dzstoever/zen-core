@@ -99,7 +99,7 @@ namespace Zen.Data
                     SqlDialect = sqlDialect
                     //, HbmXmlMappingAssembly = //todo: check for mapping assembly in config file...
                 };
-                EchoCfgSummary();
+                EchoConfiguratorSummary();
             }
             catch (Exception ex)
             { throw new ConfigException("Unable to configure session factory from xml/config file.", ex); }
@@ -117,7 +117,7 @@ namespace Zen.Data
                 var sqlDialect = (SqlDialects)Enum.Parse(typeof(SqlDialects), dbContext.DbDialect);
                 ConfigureDbAccess(dbContext.ConnectionString, sqlDialect, dbContext.ByCodeMappingAssembly, dbContext.HbmXmlMappingAssembly);
                 DbContext = dbContext;
-                EchoCfgSummary();
+                EchoConfiguratorSummary();
             }
             catch (Exception ex)
             { throw new ConfigException("Unable to configure session factory from IDbCnnFactory.", ex); }            
@@ -169,11 +169,58 @@ namespace Zen.Data
             var byCodeMappings = (
                     from t in bycodeAssembly.GetTypes()
                     where t.GetInterfaces().Contains(typeof(IDbMap))
-                    select t);// as Type[];
+                    select t);
+            
             var modelMapper = new ModelMapper();
+            modelMapper.BeforeMapProperty += MapperOnBeforeMapProperty;
             modelMapper.AddMappings(byCodeMappings);
             cfg.AddMapping(modelMapper.CompileMappingForAllExplicitlyAddedEntities());
             
+        }
+
+        //http://blog.andrewawhitaker.com/blog/2014/08/15/queryover-series-part-7-using-sql-functions/
+        //http://nhibernate.info/blog/2011/09/04/using-nh3-2-mapping-by-code-for-automatic-mapping.html
+        //AutoMapper mapper = new AutoMapper();
+        //var map = mapper.CompileMappingFor(Assembly.GetExecutingAssembly().GetExportedTypes());
+        //dump the mapping on the console
+        //XmlSerializer ser = new XmlSerializer(map.GetType());
+        //ser.Serialize(Console.Out, map);
+
+        //var mapper = new ModelMapper();
+        //mapper.Import<>();
+        //mapper.ModelInspector
+        //mapper.AddMapping();
+
+        //NHibernate.Cfg.ConfigurationExtensions.Mappings()
+        //*NHibernate.Cfg.Environment...
+
+        /* SOME NH STUFF
+         * 
+         * a many-to-many association mapping hides the intermediate association table from the
+         * application, so you don’t end up with an unwanted entity in your domain model.
+         * 
+         * entity classes are always mapped to database tables using <class>, <subclass>, and <joined-subclass> mapping elements.
+         * 
+         * see p.171 of NHIA for info on .Net type To DbType mapping...
+         * 
+         
+        /// <summary>
+        /// Ensures that all of our strings are stored as varchar instead of nvarchar.
+        /// </summary>
+        public class OurStringPropertyConvention : IPropertyConvention
+        {
+            public void Apply(IPropertyInstance instance)
+            {
+                if (instance.Property.PropertyType == typeof (string))
+                    instance.CustomType("AnsiString");
+            }
+        } 
+        */
+        private static void MapperOnBeforeMapProperty(IModelInspector modelInspector, PropertyPath member, IPropertyMapper propertyMapper)
+        {            
+            var info = (PropertyInfo)member.LocalMember;
+            if (info.PropertyType == typeof(string))
+                propertyMapper.Type(NHibernateUtil.AnsiString);//map string properties as varchar(instead of nvarchar)              
         }
 
         /// <summary>
@@ -184,8 +231,9 @@ namespace Zen.Data
             cfg.AddAssembly(hbmxmlAssembly);
         }
 
+        
 
-        private static void EchoCfgSummary()
+        private static void EchoConfiguratorSummary()
         {
             var sb = new StringBuilder("NHibernate Configurator Summary\n");
             sb.AppendLine("***");
@@ -193,12 +241,24 @@ namespace Zen.Data
             sb.AppendLine("* {0} collection mappings".FormatWith(Cfg.CollectionMappings.Count));
             sb.AppendLine("* {0} named queries".FormatWith(Cfg.NamedQueries.Count));
             sb.AppendLine("* {0} named sql queries".FormatWith(Cfg.NamedSQLQueries.Count));
-            foreach (var cfgProperty in Cfg.Properties)
-                sb.AppendLine("* " + cfgProperty);
+            foreach (var cfgProperty in Cfg.Properties) sb.AppendLine("* " + cfgProperty);
             sb.AppendLine("***");
             sb.ToString().LogMe(LogLevel.Debug);
 
         }
+
+        /// <summary>
+        /// DDL for creating tables
+        /// </summary>
+        public static string[] CreateDDL { get { return Cfg.GenerateSchemaCreationScript(SessionFactoryImpl.Dialect); } }
+        /// <summary>
+        /// DDL for updating tables
+        /// </summary>
+        public static string[] UpdateDDL { get { return Cfg.GenerateSchemaUpdateScript(SessionFactoryImpl.Dialect, null); } }
+        /// <summary>
+        /// DDL for dropping tables
+        /// </summary>
+        public static string[] DeleteDDL { get { return Cfg.GenerateDropSchemaScript(SessionFactoryImpl.Dialect); } }
 
 
         /// <summary>
@@ -207,17 +267,17 @@ namespace Zen.Data
         /// </summary>
         public static void CreateDbSchema()
         {
-            var export = new SchemaExport(Cfg);
+            var export = new SchemaExport(Cfg); 
             export.Create(true, true);            
         }
 
         /// <summary>
-        /// Executes schema updates with dropping existing tables
+        /// Executes schema updates without dropping existing tables
         /// </summary>
         public static void UpdateDbSchema()
         {
             var update = new SchemaUpdate(Cfg);
-            update.Execute(true, true);
+            update.Execute(true, true);            
         }
 
         /// <summary>
@@ -226,14 +286,14 @@ namespace Zen.Data
         public static void DropDbSchema()
         {
             var export = new SchemaExport(Cfg);
-            export.Drop(true, true);
+            export.Drop(true, true);            
         }
 
         
-        
+        //todo
         public static void ValidateDbSchema() { }
         
-
+        //todo
         public static void PopulateDbWithTestData() { }
 
     }

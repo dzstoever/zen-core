@@ -130,22 +130,26 @@ namespace Zen.Test
         }
 
 
-
-        [Fact(Skip = "drops and recreates empty databases, not the schemas, using a named sql query")]//
-        public void RecreateAllDbs()
-        {
-            using (_dao.StartUnitOfWork())
-                _dao.ExecuteNonQuery(new Query(QueryTypes.Sql, true, "DropAndRecreateAllDbs"));
-        }
-
-        [Fact(Skip ="drops all dbs [bkcol, courtis, noc, probe, and ZenTestDB] using a named sql query")]//
+        [Fact(Skip = "drops all dbs [bkcol, courtis, noc, probe, and ZenTestDB] using a named sql query")]//
         public void DropAllDbs()
         {
             using (_dao.StartUnitOfWork())
                 _dao.ExecuteNonQuery(new Query(QueryTypes.Sql, true, "DropAllDbs"));
         }
 
+        [Fact]//(Skip = "drops and recreates empty dbs, not the schemas, using a named sql query")
+        public void RecreateAllDbs()
+        {
+            using (_dao.StartUnitOfWork())
+                _dao.ExecuteNonQuery(new Query(QueryTypes.Sql, true, "DropAndRecreateAllDbs"));
+        }
+        
 
+        [Fact(Skip = "only drops the schema for the db set as 'Inital Catalog'")]//
+        public void DropInitialCatalogSchema()
+        {
+            NHConfigurator.DropDbSchema();
+        }
 
         [Fact(Skip = "creates schemas for all dbs [bkcol, courtis, noc, probe, and ZenTestDB]")]//
         public void CreateAllDbSchemas()
@@ -153,17 +157,13 @@ namespace Zen.Test
             NHConfigurator.CreateDbSchema();
         }
 
-        [Fact(Skip = "updates schemas for all dbs [bkcol, courtis, noc, probe, and ZenTestDB]")]//
+        [Fact]//(Skip = "updates schemas for all dbs [bkcol, courtis, noc, probe, and ZenTestDB]")
         public void UpdateAllDbSchemas()
         {
             NHConfigurator.UpdateDbSchema();
         }
 
-        [Fact(Skip = "only drops the schema for the db set as 'Inital Catalog'")]//
-        public void DropInitialCatalogSchema()
-        {
-            NHConfigurator.DropDbSchema();
-        }
+        
 
        
         
