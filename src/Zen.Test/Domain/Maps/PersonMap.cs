@@ -1,11 +1,8 @@
-﻿using System;
-using NHibernate.Mapping.ByCode;
+﻿using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
-using NHibernate.Tool.hbm2ddl;
 using Zen.Data;
-using Zen.Test.Domain;
 
-namespace Zen.Test.Maps
+namespace Zen.Test.Domain.Maps
 {
     public class PersonMap : ClassMapping<Person>, IDbMap
     {

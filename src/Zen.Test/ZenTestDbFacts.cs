@@ -9,7 +9,8 @@ using Zen.Data;
 using Zen.Data.QueryModel;
 using Zen.Ioc;
 using Zen.Log;
-using Zen.Test.Maps;
+using Zen.Test.Domain.Entities.Probate;
+using Zen.Test.Domain.Maps;
 
 namespace Zen.Test
 {
@@ -33,20 +34,24 @@ namespace Zen.Test
     /// <see cref="http://ayende.com/blog/3983/nhibernate-unit-testing"/>
     public class ZenTestDbFacts : UseStartupFixture
     {
+        private const bool UseNHPRof = false;
+        
         public ZenTestDbFacts()
         {
             _di = Aspects.GetIocDI();
             _log = _di.Resolve<ILogger>();
             _dao = _di.Resolve<IGenericDao>();
-            NHConfigurator.TurnOnNHProfiler(false);
+            
+            if(UseNHPRof) NHConfigurator.TurnOnNHProfiler(false);
         }
 
         ~ZenTestDbFacts()
         {
             if(_dao!=null) _dao.Dispose();
             if(_di!=null) _di.Dispose();
-            NHConfigurator.TurnOffNHProfiler();
+            if (UseNHPRof) NHConfigurator.TurnOffNHProfiler();
         }
+
 
         private readonly IocDI _di;
         private readonly ILogger _log;
@@ -55,7 +60,7 @@ namespace Zen.Test
         const int ExpectedClassMappings = 66;
         const int ExpectedCollectionMappings = 30;
         const int ExpectedNamedQueries = 18;
-        const int ExpectedNamedSqlQueries = 11;
+        const int ExpectedNamedSqlQueries = 12;
 
         // Note: The following tests demonstrate different ways to configure data access.
         //       We are skipping them because they would affect all subsequent tests.
@@ -142,7 +147,7 @@ namespace Zen.Test
 
 
 
-        [Fact(Skip ="creates schemas for all entities in all dbs [bkcol, courtis, noc, probe, and ZenTestDB]")]//
+        [Fact(Skip = "creates schemas for all dbs [bkcol, courtis, noc, probe, and ZenTestDB]")]//
         public void CreateAllDbSchemas()
         {
             NHConfigurator.CreateDbSchema();
@@ -154,10 +159,10 @@ namespace Zen.Test
             NHConfigurator.UpdateDbSchema();
         }
 
-        [Fact]//(Skip ="only drops the schema for the db set as 'Inital catalog'")
-        public void DropZenTestDbSchema()
+        [Fact(Skip = "only drops the schema for the db set as 'Inital Catalog'")]//
+        public void DropInitialCatalogSchema()
         {
-            NHConfigurator.DropDbSchema();//master?
+            NHConfigurator.DropDbSchema();
         }
 
        

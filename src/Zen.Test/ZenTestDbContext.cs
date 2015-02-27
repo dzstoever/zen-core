@@ -1,13 +1,13 @@
 using System.Reflection;
 using Zen.Data;
-using Zen.Test.Maps;
+using Zen.Test.Domain.Maps;
 
 namespace Zen.Test
 {
     public class ZenTestDbContext : SqlContext
     {
-        //private string _cnnString = @"Server=.\SQLEXPRESS; Initial Catalog=master; Integrated Security=true;";
-        private string _cnnString = @"Server=DSTOEVERPC; Initial Catalog=bkcol; Integrated Security=true;";
+        private string _cnnString = @"Server=.\SQLEXPRESS; Integrated Security=true; Initial Catalog=master;";
+        //private string _cnnString = @"Server=DSTOEVERPC; Integrated Security=true; Initial Catalog=master;";
         private SqlDialects _sqlDialect = SqlDialects.MsSql2012;
         private Assembly _mappingAssembly = typeof(PersonMap).Assembly;
         

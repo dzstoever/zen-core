@@ -43,69 +43,50 @@ IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'ZenTestDB')
     <![CDATA[
 USE [master]
 
-IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'bkcol')
-	BEGIN
-	ALTER DATABASE [bkcol] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
-	DROP DATABASE [bkcol]
-	END
-CREATE DATABASE [bkcol]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'bkcol', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\bkcol.mdf' , SIZE = 4096KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
- LOG ON 
-( NAME = N'bkcol_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\bkcol_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+declare @dbs table(name nvarchar(50))
+insert into @dbs(name)
+    select 'bkcol'		union
+    select 'courtis'	union
+    select 'noc'		union
+    select 'probe'		union
+    select 'ZenTestDB'
 
 
-IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'courtis')
-	BEGIN
-	ALTER DATABASE [courtis] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
-	DROP DATABASE [courtis]
-	END
-CREATE DATABASE [courtis]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'courtis', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\courtis.mdf' , SIZE = 4096KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
- LOG ON 
-( NAME = N'courtis_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\courtis_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+DECLARE @data_path nvarchar(256);
+SET @data_path = (SELECT SUBSTRING(physical_name, 1, CHARINDEX(N'master.mdf', LOWER(physical_name)) - 1)
+                  FROM master.sys.master_files
+                  WHERE database_id = 1 AND file_id = 1);
 
+DECLARE @db_name nvarchar(50) 
+DECLARE DB_CURSOR CURSOR 
+  LOCAL STATIC READ_ONLY FORWARD_ONLY
+FOR 
+SELECT name from @dbs 
 
-IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'noc')
-	BEGIN
-	ALTER DATABASE [noc] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
-	DROP DATABASE [noc]
-	END
-CREATE DATABASE [noc]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'noc', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\noc.mdf' , SIZE = 4096KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
- LOG ON 
-( NAME = N'noc_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\noc_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
-
-
-IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'probe')
-	BEGIN
-	ALTER DATABASE [probe] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
-	DROP DATABASE [probe]
-	END
-CREATE DATABASE [probe]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'probe', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\probe.mdf' , SIZE = 4096KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
- LOG ON 
-( NAME = N'probe_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\probe_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
-
-
-IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'ZenTestDB')
-	BEGIN
-	ALTER DATABASE [ZenTestDB] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
-	DROP DATABASE [ZenTestDB]
-	END
-CREATE DATABASE [ZenTestDB]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'ZenTestDB', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\ZenTestDB.mdf' , SIZE = 4096KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
- LOG ON 
-( NAME = N'ZenTestDB_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\ZenTestDB_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+OPEN DB_CURSOR
+FETCH NEXT FROM DB_CURSOR INTO @db_name
+WHILE @@FETCH_STATUS = 0
+BEGIN 
+		IF  EXISTS (SELECT name FROM sys.databases WHERE name = @db_name)
+			BEGIN
+			EXECUTE('ALTER DATABASE ['+@db_name+'] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+			DROP DATABASE ['+@db_name+'];')
+			END
+		EXECUTE ('CREATE DATABASE ['+@db_name+']'+'
+		ON PRIMARY 
+			( NAME = '+@db_name+'
+			, FILENAME = ''' +@data_path+@db_name+'_data.mdf''
+			, SIZE = 3072KB, MAXSIZE = 50MB, FILEGROWTH = 15% )
+		LOG ON
+			( NAME = '+@db_name+'_log
+			, FILENAME = ''' +@data_path+@db_name+'_log.ldf''
+			, SIZE = 1024KB, MAXSIZE = 25MB, FILEGROWTH = 10% )'
+		);
+	PRINT 'Created ['+@db_name+']'
+	FETCH NEXT FROM DB_CURSOR INTO @db_name
+END
+CLOSE DB_CURSOR
+DEALLOCATE DB_CURSOR
 
       ]]>
   </sql-query>
