@@ -5,21 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace Zen
-{
-    
-    //public static class TaskFactoryExtensions
-    //{
-    //    public static Task StartNew(this TaskFactory factory, Action action, TaskScheduler scheduler)
-    //    {
-    //        return factory.StartNew(action, factory.CancellationToken, factory.CreationOptions, scheduler);
-    //    }
-    //    public static Task<T> StartNew<T>(this TaskFactory factory, Func<T> func, TaskScheduler scheduler)
-    //    {
-    //        return factory.StartNew(func, factory.CancellationToken, factory.CreationOptions, scheduler);
-    //    }
-    //}
-
-
+{    
     /// <summary>
     /// Represents a 'TaskScheduler' which executes code on a dedicated, single thread 
     /// whose 'ApartmentState' can be configured.

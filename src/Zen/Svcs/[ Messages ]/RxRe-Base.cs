@@ -87,7 +87,7 @@ namespace Zen.Svcs
         public Acknowlege Acknowledge = Acknowlege.Success;
 
         /// <summary>
-        /// CorrelationId mostly returns the RequestId back to client. 
+        /// CorrelationId mostly returns the RequesTId back to client. 
         /// </summary>
         [DataMember]
         public string CorrelationId;

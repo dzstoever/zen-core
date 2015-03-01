@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Bootstrap.Extensions.StartupTasks;
 using Zen.Ioc;
 using Zen.Log;
+using Zen.Test.Startup.Windsor;
 
 namespace Zen.Test.Startup.Bootstrapper
 {
@@ -11,7 +12,9 @@ namespace Zen.Test.Startup.Bootstrapper
         private static void ConfigureWindsorDI()
         {
             // use all the WindsorInstallers from this assembly
-            WindsorDI.ConfigureFromAssembly = typeof(StartupFixture).Assembly;
+            // WindsorDI.ConfigureFromAssembly = typeof(StartupFixture).Assembly;
+
+            WindsorDI.ConfigureFromInstallers = new object[]{ new ZenTestInstaller() };
 
             var windsorDI = Aspects.GetIocDI() as WindsorDI;
             Debug.Assert(windsorDI != null, "windsorDI != null");

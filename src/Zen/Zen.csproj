@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmds\BuildDataTableCmd.cs" />
     <Compile Include="Core\DomainEntity.cs" />
     <Compile Include="Crypto.cs" />
     <Compile Include="Data\NoDao.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Data\QueryModel\Parameter.cs" />
     <Compile Include="Data\QueryModel\Query.cs" />
     <Compile Include="Data\QueryModel\[ Enums ]\QueryTypes.cs" />
+    <Compile Include="Cmds\ICmd.cs" />
     <Compile Include="Ioc\SingletonDI.cs" />
     <Compile Include="Ioc\WindsorDI.cs" />
     <Compile Include="Extensions.cs" />
@@ -133,6 +135,7 @@
     <Compile Include="ImplChecker.cs" />
     <Compile Include="ImplProvider.cs" />
     <Compile Include="AsyncResult.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="TaskLazy.cs" />
     <Compile Include="TaskScheduler.cs" />
     <Compile Include="Svcs\DataModel\FacadeDto.cs" />
@@ -149,6 +152,42 @@
     <Compile Include="Svcs\[ Messages ]\RxRe-Logout.cs" />
     <Compile Include="Svcs\[ Messages ]\RxRe-Sensitive.cs" />
     <Compile Include="Svcs\[ Messages ]\RxRe-Token.cs" />
+    <Compile Include="Util\ApplicationPreferences.cs" />
+    <Compile Include="Util\ByCode\DBColumnMapper.cs" />
+    <Compile Include="Util\DataTypeMapper.cs" />
+    <Compile Include="Util\Domain\ColumnDetail.cs" />
+    <Compile Include="Util\Domain\ColumnDetails.cs" />
+    <Compile Include="Util\Domain\DotNetTypes.cs" />
+    <Compile Include="Util\Domain\Language.cs" />
+    <Compile Include="Util\Domain\PrimaryKeyType.cs" />
+    <Compile Include="Util\Domain\ServerType.cs" />
+    <Compile Include="Util\Domain\Table.cs" />
+    <Compile Include="Util\Domain\ValidationStyle.cs" />
+    <Compile Include="Util\StringExtensions.cs" />
+    <Compile Include="Util\FieldNamingConvention.cs" />
+    <Compile Include="Util\Fluent\Constants.cs" />
+    <Compile Include="Util\Fluent\DBColumnMapper.cs" />
+    <Compile Include="Util\Generator\AbstractCodeGenerator.cs" />
+    <Compile Include="Util\Generator\AbstractGenerator.cs" />
+    <Compile Include="Util\Generator\ByCodeGenerator.cs" />
+    <Compile Include="Util\Generator\CastleGenerator.cs" />
+    <Compile Include="Util\Generator\CodeGenerationHelper.cs" />
+    <Compile Include="Util\Generator\CodeGenerator.cs" />
+    <Compile Include="Util\Generator\ContractGenerator.cs" />
+    <Compile Include="Util\Generator\CUBRIDMappingGenerator.cs" />
+    <Compile Include="Util\Generator\EntityFrameworkGenerator.cs" />
+    <Compile Include="Util\Generator\FluentGenerator.cs" />
+    <Compile Include="Util\Generator\IGenerator.cs" />
+    <Compile Include="Util\Generator\MappingGenerator.cs" />
+    <Compile Include="Util\Generator\SqlMappingGenerator.cs" />
+    <Compile Include="Util\MetadataFactory.cs" />
+    <Compile Include="Util\Reader\IConstraintTypeResolver.cs" />
+    <Compile Include="Util\Reader\IMetadataReader.cs" />
+    <Compile Include="Util\Reader\SqlServerConstraintType.cs" />
+    <Compile Include="Util\Reader\SqlServerMetadataReader.cs" />
+    <Compile Include="Util\StringConstants.cs" />
+    <Compile Include="Util\TextFormatter\Inflector.cs" />
+    <Compile Include="Util\TextFormatter\TextFormatter.cs" />
     <Compile Include="Ux\IAppController.cs" />
     <Compile Include="Ux\IMainView.cs" />
     <Compile Include="Ux\IView.cs" />
@@ -180,6 +219,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Log\Appenders\Trace.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

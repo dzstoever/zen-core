@@ -107,6 +107,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Castle.Core.3.3.0\lib\net40-client\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.Facilities.WcfIntegration">
+      <HintPath>..\packages\Castle.WcfIntegrationFacility.3.3.0\lib\net40\Castle.Facilities.WcfIntegration.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net40\Castle.Windsor.dll</HintPath>
@@ -129,7 +132,15 @@
       <HintPath>..\packages\NHibernate.4.0.3.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Services" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activation" />
+    <Reference Include="System.ServiceModel.Discovery" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -251,21 +262,30 @@
     <Compile Include="Domain\Entities\WorkPlacement.cs" />
     <Compile Include="Domain\Person.cs" />
     <Compile Include="Domain\Maps\PersonMap.cs" />
-    <Compile Include="Scenarios\Core\EntityScenarios.cs" />
-    <Compile Include="Scenarios\Data\DaoScenarios.cs" />
+    <Compile Include="Startup\Automapper\xDtoMapCreator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Startup\xSvcInstaller.cs" />
+    <Compile Include="Startup\xDemoShell.cs" />
+    <Compile Include="Startup\xDemoInstaller.cs" />
+    <Compile Include="Svcs\FakeSvc.cs" />
+    <Compile Include="Svcs\SecureSignonScenarios.cs" />
+    <Compile Include="Svcs\ZenBehaviorExtensionScenarios.cs" />
+    <Compile Include="[ Scenarios ]\Core\EntityScenarios.cs" />
+    <Compile Include="[ Scenarios ]\Data\DaoScenarios.cs" />
     <Compile Include="Startup\Bootstrapper\DaoConfigStartupTask.cs" />
     <Compile Include="Startup\Bootstrapper\IocConfigStartupTask.cs" />
     <Compile Include="Startup\Windsor\ZenTestInstaller.cs" />
-    <Compile Include="ZenTestDbFacts.cs" />
-    <Compile Include="Scenarios\Ux\NavigationScenarios.cs" />
+    <Compile Include="ZenTestDbCreator.cs" />
+    <Compile Include="[ Scenarios ]\Ux\NavigationScenarios.cs" />
     <Compile Include="ZenTestDbContext.cs" />
     <Compile Include="[ Dummys ]\DummyDao.cs" />
     <Compile Include="[ Dummys ]\DummyIocDI.cs" />
     <Compile Include="[ Dummys ]\DummyLogger.cs" />
-    <Compile Include="Scenarios\DaoProviderScenarios.cs" />
-    <Compile Include="Scenarios\IocProviderScenarios.cs" />
-    <Compile Include="Scenarios\AspectScenarios.cs" />
-    <Compile Include="Scenarios\LogProviderScenarios.cs" />
+    <Compile Include="[ Scenarios ]\DaoProviderScenarios.cs" />
+    <Compile Include="[ Scenarios ]\IocProviderScenarios.cs" />
+    <Compile Include="[ Scenarios ]\AspectScenarios.cs" />
+    <Compile Include="[ Scenarios ]\LogProviderScenarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup\Bootstrapper\LogConfigStartupTask.cs" />
     <Compile Include="[ Fixtures ]\StartupFixture.cs" />
@@ -279,13 +299,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Domain\BusinessModel\" />
-    <Folder Include="Startup\Automapper\" />
+    <Folder Include="BusinessModel\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Zen.Data\Zen.Data.csproj">
       <Project>{6654d1eb-d5cd-4618-a326-1808894f8d27}</Project>
       <Name>Zen.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zen.Svcs\Zen.Svcs.csproj">
+      <Project>{c171f5fc-10c4-4f1c-b937-148d35105c65}</Project>
+      <Name>Zen.Svcs</Name>
     </ProjectReference>
     <ProjectReference Include="..\Zen\Zen.csproj">
       <Project>{4D1B27DD-AD19-4405-90C0-E03BAD50FEBF}</Project>
@@ -356,13 +379,6 @@
     <Content Include="nh.cfg.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Data\ZenTestDB.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Data\ZenTestDB_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>ZenTestDB.mdf</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>

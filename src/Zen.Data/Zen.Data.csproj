@@ -101,7 +101,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Zen\Zen.csproj">
       <Project>{4D1B27DD-AD19-4405-90C0-E03BAD50FEBF}</Project>
-      <Name>Zen</Name>
+      <Name>Zen %28zen\Zen%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
