@@ -88,6 +88,7 @@
     <Compile Include="Core\DomainEntity.cs" />
     <Compile Include="Crypto.cs" />
     <Compile Include="Data\NoDao.cs" />
+    <Compile Include="Delegates.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Core\DomainObject.cs" />
     <Compile Include="Core\ValidationRules\ValidateRule.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Svcs\[ Messages ]\RxRe-Token.cs" />
     <Compile Include="Util\ApplicationPreferences.cs" />
     <Compile Include="Util\ByCode\DBColumnMapper.cs" />
+    <Compile Include="Util\ConnectionSetting.cs" />
     <Compile Include="Util\DataTypeMapper.cs" />
     <Compile Include="Util\Domain\ColumnDetail.cs" />
     <Compile Include="Util\Domain\ColumnDetails.cs" />
@@ -163,6 +165,7 @@
     <Compile Include="Util\Domain\ServerType.cs" />
     <Compile Include="Util\Domain\Table.cs" />
     <Compile Include="Util\Domain\ValidationStyle.cs" />
+    <Compile Include="Util\IUtilityControl.cs" />
     <Compile Include="Util\StringExtensions.cs" />
     <Compile Include="Util\FieldNamingConvention.cs" />
     <Compile Include="Util\Fluent\Constants.cs" />

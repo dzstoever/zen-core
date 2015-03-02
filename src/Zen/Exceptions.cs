@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace Zen
 {
@@ -119,5 +120,66 @@ namespace Zen
             : base(info, context)
         {
         }
+    }
+
+
+    [Serializable]
+    public class CompositeIdNotFoundException : ApplicationException//, ISerializable
+    {
+        // Operators/Indexer
+        public static implicit operator string(CompositeIdNotFoundException ex)
+        {
+            return ex.ToString();
+        }
+        
+        private const string ClassName = "CompositeIdNotFoundException";
+        private const int Hresult = -2146232832;
+
+        
+        public CompositeIdNotFoundException()
+        {
+            HResult = Hresult;
+        }
+
+        public CompositeIdNotFoundException(string message)
+            : base(message)
+        {
+            HResult = Hresult;
+        }
+
+        public CompositeIdNotFoundException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+            HResult = Hresult;
+        }
+
+        protected CompositeIdNotFoundException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            HResult = Hresult;
+        }
+
+        
+        //not needed redundant
+        //public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        //{
+        //    base.GetObjectData(info, context);
+        //}
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.AppendFormat("{0}: {1}", ClassName, Message);
+
+            if (InnerException != null)
+                sb.AppendFormat(" ---> {0} <---", base.InnerException);
+
+            if (StackTrace != null)
+                sb.Append(Environment.NewLine + base.StackTrace);
+
+            return sb.ToString();
+        }
+
+        
     }
 }

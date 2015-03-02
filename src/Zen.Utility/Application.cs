@@ -18,12 +18,27 @@ namespace Zen.Utility
 {
     public partial class Application : Form
     {
-        private IMetadataReader metadataReader;
-        private readonly BackgroundWorker worker;
-        private IList<Column> gridData;
-        private ApplicationSettings applicationSettings;
-        private IList<Table> _tables;
-        private Connection _currentConnection;
+        private static string AddSlashToFolderPath(string folderPath)
+        {
+            if (!folderPath.EndsWith(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture)))
+            {
+                folderPath += Path.DirectorySeparatorChar;
+            }
+            return folderPath;
+        }
+
+
+        readonly BackgroundWorker _worker;
+        readonly IList<int> _cachedTableListSelection = new List<int>();
+
+        private ApplicationSettings _applicationSettings;
+        private IMetadataReader _metadataReader;
+        private ConnectionSetting _currentConnection;
+        private IList<Column> _gridData;
+        private IList<Table> _tables;        
+        private Table _currentTable;
+
+        private IList<IUtilityControl> _utilityControls = new List<IUtilityControl>();
 
         public Application()
         {
@@ -40,83 +55,10 @@ namespace Zen.Utility
 
             sequencesComboBox.Enabled = false;
             TableFilterTextBox.Enabled = false;
-            Closing += App_Closing;
-            worker = new BackgroundWorker {WorkerSupportsCancellation = true};
+            Closing += AppClosing;
+            _worker = new BackgroundWorker {WorkerSupportsCancellation = true};
         }
 
-        private void OnTableDetailsCellDirty(object sender, EventArgs e)
-        {
-            if (_currentTable != null)
-            {
-                // Update map and domain code to reflect changes in grid.
-                GenerateAndDisplayCode(_currentTable);
-
-                ToggleColumnsBasedOnAppSettings(applicationSettings);
-            }
-        }
-
-        private void ConnectionButtonClick(object sender, EventArgs e)
-        {
-            // Belt and braces
-            if (applicationSettings == null)
-            {
-                LoadApplicationSettings();
-            }
-
-            var connectionDialog = new ConnectionDialog();
-            
-            // Edit current connection
-            if (_currentConnection != null)
-            {
-                connectionDialog.Connection = _currentConnection;
-            }
-            
-            var result = connectionDialog.ShowDialog();
-            switch (result)
-            {
-                case DialogResult.OK:
-                    // Add or Update Connection
-                    _currentConnection = connectionDialog.Connection;
-                    var connectionToUpdate = applicationSettings.Connections.FirstOrDefault(connection => connection.Id == _currentConnection.Id);
-
-                    if (connectionToUpdate == null)
-                    {
-                        // Add new connection
-                        applicationSettings.Connections.Add(_currentConnection);
-                    }
-
-                    break;
-                case DialogResult.Abort:
-                    // Delete Connection
-                    applicationSettings.Connections.Remove(_currentConnection);
-                    _currentConnection = null;
-                    break;
-            }
-
-            // Refresh data connections drop down
-            connectionNameComboBox.DataSource = null;
-            connectionNameComboBox.DataSource = applicationSettings.Connections;
-            connectionNameComboBox.DisplayMember = "Name";
-            connectionNameComboBox.SelectedItem = _currentConnection;
-        }
-
-        private void ConnectionNameSelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (connectionNameComboBox.SelectedItem == null) return;
-
-            _currentConnection = (Connection) connectionNameComboBox.SelectedItem;
-
-            pOracleOnlyOptions.Hide();
-
-            //if (_currentConnection.Type == ServerType.Oracle)
-            //    pOracleOnlyOptions.Show();
-        }
-
-
-        private Language LanguageSelected
-        {
-            get { return vbRadioButton.Checked ? Language.VB : Language.CSharp; }
-        }
 
         public bool IsFluent
         {
@@ -137,73 +79,90 @@ namespace Zen.Utility
         {
             get { return byCodeMappingOption.Checked;}
         }
-        
-        protected override void OnLoad(EventArgs e)
+
+        private Language LanguageSelected
         {
-            LoadApplicationSettings();
+            get { return vbRadioButton.Checked ? Language.VB : Language.CSharp; }
+        }
+
+
+        private void BindData()
+        {
+            columnName.DataPropertyName = "Name";
+            isPrimaryKey.DataPropertyName = "IsPrimaryKey";
+            isForeignKey.DataPropertyName = "IsForeignKey";
+            isUniqueKey.DataPropertyName = "IsUnique";
+            isNullable.DataPropertyName = "IsNullable";
+            columnDataType.DataPropertyName = "DataType";
+            cSharpType.DataPropertyName = "MappedDataType";
+            cSharpType.DataSource = new DotNetTypes();
         }
 
         private void LoadApplicationSettings()
         {
-            applicationSettings = ApplicationSettings.Load();
-            if (applicationSettings != null)
+            _applicationSettings = ApplicationSettings.Load();
+
+            if (_applicationSettings != null)
             {
+                //foreach(var utilityControl in _applicationSettings.UtilityControlSettings)
+                // todo: load and activate every IUtilityControl from the configured assemblies
+
                 // Display all previous connections
-                connectionNameComboBox.DataSource = applicationSettings.Connections;
+                connectionNameComboBox.DataSource = _applicationSettings.ConnectionSettings;
                 connectionNameComboBox.DisplayMember = "Name";
 
                 // Set the last used connection
                 var lastUsedConnection =
-                    applicationSettings.Connections.FirstOrDefault(connection => connection.Id == applicationSettings.LastUsedConnection);
-                _currentConnection = lastUsedConnection ?? applicationSettings.Connections.FirstOrDefault();
+                    _applicationSettings.ConnectionSettings.FirstOrDefault(connection => connection.Id == _applicationSettings.LastUsedConnection);
+                _currentConnection = lastUsedConnection ?? _applicationSettings.ConnectionSettings.FirstOrDefault();
                 connectionNameComboBox.SelectedItem = _currentConnection;
 
-                nameSpaceTextBox.Text = applicationSettings.DomainNameSpace;
-                namespaceMapTextBox.Text = applicationSettings.MapNameSpace;
-                assemblyNameTextBox.Text = applicationSettings.AssemblyName;
-                cSharpRadioButton.Checked = applicationSettings.Language == Language.CSharp;
-                vbRadioButton.Checked = applicationSettings.Language == Language.VB;
-                noValidationRadioButton.Checked = applicationSettings.ValidationStyle == ValidationStyle.None;
-                nhibernateValidationRadioButton.Checked = applicationSettings.ValidationStyle == ValidationStyle.Nhibernate;
-                dataAnnotationsRadioButton.Checked = applicationSettings.ValidationStyle == ValidationStyle.Microsoft;
-                autoPropertyRadioBtn.Checked = applicationSettings.IsAutoProperty;
-                folderTextBox.Text = applicationSettings.MapFolderPath;
-                domainFolderTextBox.Text = applicationSettings.DomainFolderPath;
-                textBoxInheritence.Text = applicationSettings.InheritenceAndInterfaces;
-                comboBoxForeignCollection.Text = applicationSettings.ForeignEntityCollectionType;
-                textBoxClassNamePrefix.Text = applicationSettings.ClassNamePrefix;
-                EnableInflectionsCheckBox.Checked = applicationSettings.EnableInflections;
-                wcfDataContractCheckBox.Checked = applicationSettings.GenerateWcfContracts;
-                partialClassesCheckBox.Checked = applicationSettings.GeneratePartialClasses;
-                useLazyLoadingCheckBox.Checked = applicationSettings.UseLazy;
-                includeLengthAndScaleCheckBox.Checked = applicationSettings.IncludeLengthAndScale;
-                includeForeignKeysCheckBox.Checked = applicationSettings.IncludeForeignKeys;
-                nameAsForeignTableCheckBox.Checked = applicationSettings.NameFkAsForeignTable;
-                includeHasManyCheckBox.Checked = applicationSettings.IncludeHasMany;
+                nameSpaceTextBox.Text = _applicationSettings.DomainNameSpace;
+                namespaceMapTextBox.Text = _applicationSettings.MapNameSpace;
+                assemblyNameTextBox.Text = _applicationSettings.AssemblyName;
+                cSharpRadioButton.Checked = _applicationSettings.Language == Language.CSharp;
+                vbRadioButton.Checked = _applicationSettings.Language == Language.VB;
+                noValidationRadioButton.Checked = _applicationSettings.ValidationStyle == ValidationStyle.None;
+                nhibernateValidationRadioButton.Checked = _applicationSettings.ValidationStyle == ValidationStyle.Nhibernate;
+                dataAnnotationsRadioButton.Checked = _applicationSettings.ValidationStyle == ValidationStyle.Microsoft;
+                autoPropertyRadioBtn.Checked = _applicationSettings.IsAutoProperty;
+                folderTextBox.Text = _applicationSettings.MapFolderPath;
+                domainFolderTextBox.Text = _applicationSettings.DomainFolderPath;
+                textBoxInheritence.Text = _applicationSettings.InheritenceAndInterfaces;
+                comboBoxForeignCollection.Text = _applicationSettings.ForeignEntityCollectionType;
+                textBoxClassNamePrefix.Text = _applicationSettings.ClassNamePrefix;
+                EnableInflectionsCheckBox.Checked = _applicationSettings.EnableInflections;
+                wcfDataContractCheckBox.Checked = _applicationSettings.GenerateWcfContracts;
+                partialClassesCheckBox.Checked = _applicationSettings.GeneratePartialClasses;
+                useLazyLoadingCheckBox.Checked = _applicationSettings.UseLazy;
+                includeLengthAndScaleCheckBox.Checked = _applicationSettings.IncludeLengthAndScale;
+                includeForeignKeysCheckBox.Checked = _applicationSettings.IncludeForeignKeys;
+                nameAsForeignTableCheckBox.Checked = _applicationSettings.NameFkAsForeignTable;
+                includeHasManyCheckBox.Checked = _applicationSettings.IncludeHasMany;
 
-                fluentMappingOption.Checked = applicationSettings.IsFluent;
-                entityFrameworkRadionBtn.Checked = applicationSettings.IsEntityFramework;
-                castleMappingOption.Checked = applicationSettings.IsCastle;
-                byCodeMappingOption.Checked = applicationSettings.IsByCode;
+                fluentMappingOption.Checked = _applicationSettings.IsFluent;
+                entityFrameworkRadionBtn.Checked = _applicationSettings.IsEntityFramework;
+                castleMappingOption.Checked = _applicationSettings.IsCastle;
+                byCodeMappingOption.Checked = _applicationSettings.IsByCode;
 
-                if (applicationSettings.FieldPrefixRemovalList == null)
-                    applicationSettings.FieldPrefixRemovalList = new List<string>();
+                if (_applicationSettings.FieldPrefixRemovalList == null)
+                    _applicationSettings.FieldPrefixRemovalList = new List<string>();
 
-                fieldPrefixListBox.Items.AddRange(applicationSettings.FieldPrefixRemovalList.ToArray());
+                fieldPrefixListBox.Items.AddRange(_applicationSettings.FieldPrefixRemovalList.ToArray());
                 removeFieldPrefixButton.Enabled = false;
 
-                prefixRadioButton.Checked = !string.IsNullOrEmpty(applicationSettings.Prefix);
-                prefixTextBox.Text = applicationSettings.Prefix;
-                camelCasedRadioButton.Checked = (applicationSettings.FieldNamingConvention == FieldNamingConvention.CamelCase);
-                pascalCasedRadioButton.Checked = (applicationSettings.FieldNamingConvention == FieldNamingConvention.PascalCase);
-                sameAsDBRadioButton.Checked = (applicationSettings.FieldNamingConvention == FieldNamingConvention.SameAsDatabase);
+                prefixRadioButton.Checked = !string.IsNullOrEmpty(_applicationSettings.Prefix);
+                prefixTextBox.Text = _applicationSettings.Prefix;
+                camelCasedRadioButton.Checked = (_applicationSettings.FieldNamingConvention == FieldNamingConvention.CamelCase);
+                pascalCasedRadioButton.Checked = (_applicationSettings.FieldNamingConvention == FieldNamingConvention.PascalCase);
+                sameAsDBRadioButton.Checked = (_applicationSettings.FieldNamingConvention == FieldNamingConvention.SameAsDatabase);
 
                 sameAsDBRadioButton.Checked = (!prefixRadioButton.Checked && !pascalCasedRadioButton.Checked &&
                                                !camelCasedRadioButton.Checked);
 
-                generateInFoldersCheckBox.Checked = applicationSettings.GenerateInFolders;
+                generateInFoldersCheckBox.Checked = _applicationSettings.GenerateInFolders;
 
-                SetCodeControlFormatting(applicationSettings);
+                SetCodeControlFormatting(_applicationSettings);
             }
             else
             {
@@ -218,7 +177,7 @@ namespace Zen.Utility
                 useLazyLoadingCheckBox.Checked = true;
 
                 comboBoxForeignCollection.Text = "IList";
-                
+
                 CaptureApplicationSettings();
             }
 
@@ -227,6 +186,47 @@ namespace Zen.Utility
                 prefixLabel.Visible = prefixTextBox.Visible = false;
             }
 
+        }
+
+        private void CaptureApplicationSettings()
+        {
+            if (_applicationSettings == null)
+            {
+                _applicationSettings = new ApplicationSettings();
+            }
+            _applicationSettings.DomainNameSpace = nameSpaceTextBox.Text;
+            _applicationSettings.MapNameSpace = namespaceMapTextBox.Text;
+            _applicationSettings.AssemblyName = assemblyNameTextBox.Text;
+            _applicationSettings.Language = cSharpRadioButton.Checked ? Language.CSharp : Language.VB;
+
+            var validationStyle = ValidationStyle.None;
+            if (dataAnnotationsRadioButton.Checked) validationStyle = ValidationStyle.Microsoft;
+            if (nhibernateValidationRadioButton.Checked) validationStyle = ValidationStyle.Nhibernate;
+
+            _applicationSettings.ValidationStyle = validationStyle;
+            _applicationSettings.IsFluent = fluentMappingOption.Checked;
+            _applicationSettings.IsEntityFramework = entityFrameworkRadionBtn.Checked;
+            _applicationSettings.IsAutoProperty = autoPropertyRadioBtn.Checked;
+            _applicationSettings.MapFolderPath = folderTextBox.Text;
+            _applicationSettings.DomainFolderPath = domainFolderTextBox.Text;
+            _applicationSettings.InheritenceAndInterfaces = textBoxInheritence.Text;
+            _applicationSettings.ForeignEntityCollectionType = comboBoxForeignCollection.Text;
+            _applicationSettings.FieldPrefixRemovalList = _applicationSettings.FieldPrefixRemovalList;
+            _applicationSettings.FieldNamingConvention = GetFieldNamingConvention();
+            _applicationSettings.Prefix = prefixTextBox.Text;
+            _applicationSettings.IsCastle = IsCastle;
+            _applicationSettings.ClassNamePrefix = textBoxClassNamePrefix.Text;
+            _applicationSettings.EnableInflections = EnableInflectionsCheckBox.Checked;
+            _applicationSettings.GeneratePartialClasses = partialClassesCheckBox.Checked;
+            _applicationSettings.GenerateWcfContracts = wcfDataContractCheckBox.Checked;
+            _applicationSettings.GenerateInFolders = generateInFoldersCheckBox.Checked;
+            _applicationSettings.IsByCode = IsByCode;
+            _applicationSettings.UseLazy = useLazyLoadingCheckBox.Checked;
+            _applicationSettings.IncludeForeignKeys = includeForeignKeysCheckBox.Checked;
+            _applicationSettings.NameFkAsForeignTable = nameAsForeignTableCheckBox.Checked;
+            _applicationSettings.IncludeHasMany = includeHasManyCheckBox.Checked;
+            _applicationSettings.IncludeLengthAndScale = includeLengthAndScaleCheckBox.Checked;
+            _applicationSettings.LastUsedConnection = _currentConnection == null ? (Guid?)null : _currentConnection.Id;
         }
 
         private void ToggleColumnsBasedOnAppSettings(ApplicationSettings appSettings)
@@ -293,68 +293,313 @@ namespace Zen.Utility
             }
         }
 
-        private void DataError(object sender, DataGridViewDataErrorEventArgs e)
+        private ApplicationPreferences GetApplicationPreferences(Table tableName, bool all, ApplicationSettings appSettings)
         {
-            toolStripStatusLabel.Text = string.Format("Error in column {0} of row {1} - {3}. Detail : {2}", e.ColumnIndex, e.RowIndex, e.Exception.Message, (gridData != null ? gridData[e.RowIndex].Name : ""));
+            string sequence = string.Empty;
+            object sequenceName = null;
+            if (sequencesComboBox.InvokeRequired)
+            {
+                sequencesComboBox.Invoke(new MethodInvoker(delegate
+                {
+                    sequenceName = sequencesComboBox.SelectedItem;
+                }));
+            }
+            else
+            {
+                sequenceName = sequencesComboBox.SelectedItem;
+            }
+            if (sequenceName != null && !all)
+            {
+                sequence = sequenceName.ToString();
+            }
+
+            var folderPath = AddSlashToFolderPath(folderTextBox.Text);
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+            var domainFolderPath = AddSlashToFolderPath(domainFolderTextBox.Text);
+            if (appSettings.GenerateInFolders)
+            {
+                Directory.CreateDirectory(folderPath + "Contract");
+                Directory.CreateDirectory(folderPath + "Domain");
+                Directory.CreateDirectory(folderPath + "Mapping");
+                domainFolderPath = folderPath;
+            }
+            else
+            {
+                // Domain folder is specified by user
+                if (!Directory.Exists(domainFolderPath))
+                {
+                    Directory.CreateDirectory(domainFolderPath);
+                }
+            }
+
+            var applicationPreferences = new ApplicationPreferences
+            {
+                ServerType = _currentConnection.Type,
+                FolderPath = folderPath,
+                DomainFolderPath = domainFolderPath,
+                TableName = tableName.Name,
+                NameSpaceMap = namespaceMapTextBox.Text,
+                NameSpace = nameSpaceTextBox.Text,
+                AssemblyName = assemblyNameTextBox.Text,
+                Sequence = sequence,
+                Language = LanguageSelected,
+                FieldNamingConvention = GetFieldNamingConvention(),
+                FieldGenerationConvention = GetFieldGenerationConvention(),
+                Prefix = prefixTextBox.Text,
+                IsFluent = IsFluent,
+                IsEntityFramework = IsEntityFramework,
+                IsCastle = IsCastle,
+                GeneratePartialClasses = appSettings.GeneratePartialClasses,
+                GenerateWcfDataContract = appSettings.GenerateWcfContracts,
+                ConnectionString = _currentConnection.ConnectionString,
+                ForeignEntityCollectionType = appSettings.ForeignEntityCollectionType,
+                InheritenceAndInterfaces = appSettings.InheritenceAndInterfaces,
+                GenerateInFolders = appSettings.GenerateInFolders,
+                ClassNamePrefix = appSettings.ClassNamePrefix,
+                EnableInflections = appSettings.EnableInflections,
+                IsByCode = appSettings.IsByCode,
+                UseLazy = appSettings.UseLazy,
+                FieldPrefixRemovalList = appSettings.FieldPrefixRemovalList,
+                IncludeForeignKeys = appSettings.IncludeForeignKeys,
+                NameFkAsForeignTable = appSettings.NameFkAsForeignTable,
+                IncludeHasMany = appSettings.IncludeHasMany,
+                IncludeLengthAndScale = appSettings.IncludeLengthAndScale,
+                ValidatorStyle = appSettings.ValidationStyle
+            };
+
+            return applicationPreferences;
         }
 
-        private void App_Closing(object sender, CancelEventArgs e)
+        private FieldGenerationConvention GetFieldGenerationConvention()
+        {
+            var convention = FieldGenerationConvention.Field;
+            if (autoPropertyRadioBtn.Checked)
+                convention = FieldGenerationConvention.AutoProperty;
+            if (propertyRadioBtn.Checked)
+                convention = FieldGenerationConvention.Property;
+            return convention;
+        }
+
+        private FieldNamingConvention GetFieldNamingConvention()
+        {
+            var convention = FieldNamingConvention.SameAsDatabase;
+            if (prefixRadioButton.Checked)
+                convention = FieldNamingConvention.Prefixed;
+            if (camelCasedRadioButton.Checked)
+                convention = FieldNamingConvention.CamelCase;
+            if (pascalCasedRadioButton.Checked)
+                convention = FieldNamingConvention.PascalCase;
+            return convention;
+        }
+
+        private int? LastTableSelected()
+        {
+            int? lastTableIndex = null;
+            foreach (int i in tablesListBox.SelectedIndices)
+            {
+                if (_cachedTableListSelection.Contains(i))
+                    continue;
+                lastTableIndex = i;
+                break;
+            }
+            _cachedTableListSelection.Clear();
+            foreach (int i in tablesListBox.SelectedIndices)
+                _cachedTableListSelection.Add(i);
+            return lastTableIndex;
+        }
+
+        private void PopulateOwners()
+        {
+            var owners = _metadataReader.GetOwners();
+            if (owners == null || owners.Count == 0)
+            {
+                owners = new List<string> { "dbo" };
+            }
+
+            tablesListBox.SelectedIndexChanged -= TablesListSelectedIndexChanged;
+
+            ownersComboBox.Items.Clear();
+            ownersComboBox.Items.AddRange(owners.ToArray());
+
+            tablesListBox.SelectedIndexChanged += TablesListSelectedIndexChanged;
+            ownersComboBox.SelectedIndex = 0;
+        }
+
+        private void PopulateTablesAndSequences()
+        {
+            try
+            {
+                toolStripStatusLabel.Text = "Retrieving tables...";
+                statusStrip1.Refresh();
+
+                if (ownersComboBox.SelectedItem == null)
+                {
+                    tablesListBox.DataSource = new List<Table>();
+                    return;
+                }
+                _tables = _metadataReader.GetTables(ownersComboBox.SelectedItem.ToString());
+                tablesListBox.Enabled = false;
+                TableFilterTextBox.Enabled = false;
+                tablesListBox.DataSource = _tables;
+                tablesListBox.DisplayMember = "Name";
+
+                if (_tables != null && _tables.Any())
+                {
+                    tablesListBox.Enabled = true;
+                    TableFilterTextBox.Enabled = true;
+                    tablesListBox.SelectedItem = _tables.FirstOrDefault();
+                }
+
+                var sequences = _metadataReader.GetSequences(ownersComboBox.SelectedItem.ToString());
+                sequencesComboBox.Enabled = false;
+                sequencesComboBox.Items.Clear();
+                if (sequences != null && sequences.Any())
+                {
+                    sequencesComboBox.Items.AddRange(sequences.ToArray());
+                    sequencesComboBox.Enabled = true;
+                    sequencesComboBox.SelectedIndex = 0;
+                }
+
+                toolStripStatusLabel.Text = string.Empty;
+                statusStrip1.Refresh();
+            }
+            catch (Exception ex)
+            {
+                toolStripStatusLabel.Text = ex.Message;
+            }
+        }
+
+        private void PopulateTableDetails(Table selectedTable)
+        {
+            toolStripStatusLabel.Text = string.Empty;
+            try
+            {
+                //dbTableDetailsGridView.AutoGenerateColumns = true;
+                _currentTable = selectedTable;
+                _gridData = _metadataReader.GetTableDetails(selectedTable, ownersComboBox.SelectedItem.ToString()) ??
+                           new List<Column>();
+
+                // Show table details, and toggle columns based on app settings
+                dbTableDetailsGridView.SuspendLayout();
+                dbTableDetailsGridView.DataSource = _gridData;
+                dbTableDetailsGridView.ResumeLayout();
+
+            }
+            catch (Exception ex)
+            {
+                toolStripStatusLabel.Text = ex.Message;
+            }
+        }
+
+        private void Generate(Table table, bool generateAll, ApplicationSettings appSettings)
+        {
+            var applicationPreferences = GetApplicationPreferences(table, generateAll, appSettings);
+            new ApplicationController(applicationPreferences, table).Generate();
+        }
+
+        public void GenerateAndDisplayCode(Table table)
+        {
+            SetCodeControlFormatting(_applicationSettings);
+
+            // Refresh the primary key relationships.
+            table.PrimaryKey = _metadataReader.DeterminePrimaryKeys(table);
+            table.ForeignKeys = _metadataReader.DetermineForeignKeyReferences(table);
+
+            // Show map and domain code preview
+            ApplicationPreferences applicationPreferences = GetApplicationPreferences(table, false, _applicationSettings);
+            var applicationController = new ApplicationController(applicationPreferences, table);
+            applicationController.Generate(false);
+            mapCodeFastColoredTextBox.Text = applicationController.GeneratedMapCode;
+            domainCodeFastColoredTextBox.Text = applicationController.GeneratedDomainCode;
+        }
+
+
+
+        protected override void OnLoad(EventArgs e)
+        {
+            LoadApplicationSettings();
+        }
+        
+        private void AppClosing(object sender, CancelEventArgs e)
         {
             CaptureApplicationSettings();
-            applicationSettings.Save();
+            _applicationSettings.Save();
         }
 
-        private void CaptureApplicationSettings()
+        private void DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            if (applicationSettings == null)
+            toolStripStatusLabel.Text = string.Format("Error in column {0} of row {1} - {3}. Detail : {2}", e.ColumnIndex, e.RowIndex, e.Exception.Message, (_gridData != null ? _gridData[e.RowIndex].Name : ""));
+        }
+
+        private void OnTableDetailsCellDirty(object sender, EventArgs e)
+        {
+            if (_currentTable != null)
             {
-                applicationSettings = new ApplicationSettings();
+                // Update map and domain code to reflect changes in grid.
+                GenerateAndDisplayCode(_currentTable);
+
+                ToggleColumnsBasedOnAppSettings(_applicationSettings);
             }
-            applicationSettings.DomainNameSpace = nameSpaceTextBox.Text;
-            applicationSettings.MapNameSpace = namespaceMapTextBox.Text;
-            applicationSettings.AssemblyName = assemblyNameTextBox.Text;
-            applicationSettings.Language = cSharpRadioButton.Checked ? Language.CSharp : Language.VB;
-
-            var validationStyle = ValidationStyle.None;
-            if (dataAnnotationsRadioButton.Checked) validationStyle = ValidationStyle.Microsoft;
-            if (nhibernateValidationRadioButton.Checked) validationStyle = ValidationStyle.Nhibernate;
-
-            applicationSettings.ValidationStyle = validationStyle;
-            applicationSettings.IsFluent = fluentMappingOption.Checked;
-            applicationSettings.IsEntityFramework = entityFrameworkRadionBtn.Checked;
-            applicationSettings.IsAutoProperty = autoPropertyRadioBtn.Checked;
-            applicationSettings.MapFolderPath = folderTextBox.Text;
-            applicationSettings.DomainFolderPath = domainFolderTextBox.Text;
-            applicationSettings.InheritenceAndInterfaces = textBoxInheritence.Text;
-            applicationSettings.ForeignEntityCollectionType = comboBoxForeignCollection.Text;
-            applicationSettings.FieldPrefixRemovalList = applicationSettings.FieldPrefixRemovalList;
-            applicationSettings.FieldNamingConvention = GetFieldNamingConvention();
-            applicationSettings.Prefix = prefixTextBox.Text;
-            applicationSettings.IsCastle = IsCastle;
-            applicationSettings.ClassNamePrefix = textBoxClassNamePrefix.Text;
-            applicationSettings.EnableInflections = EnableInflectionsCheckBox.Checked;
-            applicationSettings.GeneratePartialClasses = partialClassesCheckBox.Checked;
-            applicationSettings.GenerateWcfContracts = wcfDataContractCheckBox.Checked;
-            applicationSettings.GenerateInFolders = generateInFoldersCheckBox.Checked;
-            applicationSettings.IsByCode = IsByCode;
-            applicationSettings.UseLazy = useLazyLoadingCheckBox.Checked;
-            applicationSettings.IncludeForeignKeys = includeForeignKeysCheckBox.Checked;
-            applicationSettings.NameFkAsForeignTable = nameAsForeignTableCheckBox.Checked;
-            applicationSettings.IncludeHasMany = includeHasManyCheckBox.Checked;
-            applicationSettings.IncludeLengthAndScale = includeLengthAndScaleCheckBox.Checked;
-            applicationSettings.LastUsedConnection = _currentConnection == null ? (Guid?) null : _currentConnection.Id;
         }
 
-        private void BindData()
+        private void ConnectionButtonClick(object sender, EventArgs e)
         {
-            columnName.DataPropertyName = "Name";
-            isPrimaryKey.DataPropertyName = "IsPrimaryKey";
-            isForeignKey.DataPropertyName = "IsForeignKey";
-            isUniqueKey.DataPropertyName = "IsUnique";
-            isNullable.DataPropertyName = "IsNullable";
-            columnDataType.DataPropertyName = "DataType";
-            cSharpType.DataPropertyName = "MappedDataType";
-            cSharpType.DataSource = new DotNetTypes();
+            // Belt and braces
+            if (_applicationSettings == null)
+            {
+                LoadApplicationSettings();
+            }
+
+            var connectionDialog = new ConnectionDialog();
+
+            // Edit current connection
+            if (_currentConnection != null)
+            {
+                connectionDialog.ConnectionSetting = _currentConnection;
+            }
+
+            var result = connectionDialog.ShowDialog();
+            switch (result)
+            {
+                case DialogResult.OK:
+                    // Add or Update Connection
+                    _currentConnection = connectionDialog.ConnectionSetting;
+                    var connectionToUpdate = _applicationSettings.ConnectionSettings.FirstOrDefault(connection => connection.Id == _currentConnection.Id);
+
+                    if (connectionToUpdate == null)
+                    {
+                        // Add new connection
+                        _applicationSettings.ConnectionSettings.Add(_currentConnection);
+                    }
+
+                    break;
+                case DialogResult.Abort:
+                    // Delete Connection
+                    _applicationSettings.ConnectionSettings.Remove(_currentConnection);
+                    _currentConnection = null;
+                    break;
+            }
+
+            // Refresh data connections drop down
+            connectionNameComboBox.DataSource = null;
+            connectionNameComboBox.DataSource = _applicationSettings.ConnectionSettings;
+            connectionNameComboBox.DisplayMember = "Name";
+            connectionNameComboBox.SelectedItem = _currentConnection;
+        }
+
+        private void ConnectionNameSelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (connectionNameComboBox.SelectedItem == null) return;
+
+            _currentConnection = (ConnectionSetting)connectionNameComboBox.SelectedItem;
+
+            pOracleOnlyOptions.Hide();
+
+            //if (_currentConnection.Type == ServerType.Oracle)
+            //    pOracleOnlyOptions.Show();
         }
 
         private void OwnersSelectedIndexChanged(object sender, EventArgs e)
@@ -393,12 +638,12 @@ namespace Zen.Utility
 
                         PopulateTableDetails(table);
 
-                        ToggleColumnsBasedOnAppSettings(applicationSettings);
+                        ToggleColumnsBasedOnAppSettings(_applicationSettings);
 
                         GenerateAndDisplayCode(table);
 
                         // Display entity name based on formatted table name
-                        var appPreferences = GetApplicationPreferences(table, false, applicationSettings);
+                        var appPreferences = GetApplicationPreferences(table, false, _applicationSettings);
                         var formatter = TextFormatterFactory.GetTextFormatter(appPreferences);
                         entityNameTextBox.Text = formatter.FormatText(table.Name);
                     }
@@ -413,50 +658,8 @@ namespace Zen.Utility
                 Cursor.Current = Cursors.Default;
             }
         }
-
-
-        readonly IList<int> _cachedTableListSelection = new List<int>();
-        private Table _currentTable;
-
-        private int? LastTableSelected()
-        {
-            int? lastTableIndex = null;  
-            foreach (int i in tablesListBox.SelectedIndices)
-            {
-                if (_cachedTableListSelection.Contains(i))
-                    continue;
-                lastTableIndex = i;
-                break;
-            }
-            _cachedTableListSelection.Clear();
-            foreach (int i in tablesListBox.SelectedIndices)
-                _cachedTableListSelection.Add(i);
-            return lastTableIndex;
-        }
-
-        private void PopulateTableDetails(Table selectedTable)
-        {
-            toolStripStatusLabel.Text = string.Empty;
-            try
-            {
-                //dbTableDetailsGridView.AutoGenerateColumns = true;
-                _currentTable = selectedTable;
-                gridData = metadataReader.GetTableDetails(selectedTable, ownersComboBox.SelectedItem.ToString()) ??
-                           new List<Column>();
-
-                // Show table details, and toggle columns based on app settings
-                dbTableDetailsGridView.SuspendLayout();
-                dbTableDetailsGridView.DataSource = gridData;
-                dbTableDetailsGridView.ResumeLayout();
-                
-            }
-            catch (Exception ex)
-            {
-                toolStripStatusLabel.Text = ex.Message;
-            }
-        }
-
-        private void connectBtnClicked(object sender, EventArgs e)
+        
+        private void ConnectButtonClick(object sender, EventArgs e)
         {
             if (_currentConnection == null)
                 return;
@@ -470,7 +673,7 @@ namespace Zen.Utility
                 tablesListBox.DisplayMember = "Name";
                 sequencesComboBox.Items.Clear();
 
-                metadataReader = MetadataFactory.GetReader(_currentConnection.Type, _currentConnection.ConnectionString);
+                _metadataReader = MetadataFactory.GetReader(_currentConnection.Type, _currentConnection.ConnectionString);
 
                 toolStripStatusLabel.Text = "Retrieving owners...";
                 statusStrip1.Refresh();
@@ -488,68 +691,15 @@ namespace Zen.Utility
             }
         }
 
-        private void PopulateOwners()
+        private void CancelButtonClick(object sender, EventArgs e)
         {
-            var owners = metadataReader.GetOwners();
-            if (owners == null || owners.Count == 0)
+            if (_worker != null)
             {
-                owners = new List<string> { "dbo" };
-            }
-
-            tablesListBox.SelectedIndexChanged -= TablesListSelectedIndexChanged;
-
-            ownersComboBox.Items.Clear();
-            ownersComboBox.Items.AddRange(owners.ToArray());
-
-            tablesListBox.SelectedIndexChanged += TablesListSelectedIndexChanged;
-            ownersComboBox.SelectedIndex = 0;
-        }
-
-        private void PopulateTablesAndSequences()
-        {
-            try
-            {
-                toolStripStatusLabel.Text = "Retrieving tables...";
-                statusStrip1.Refresh();
-
-                if (ownersComboBox.SelectedItem == null)
-                {
-                    tablesListBox.DataSource = new List<Table>();
-                    return;
-                }
-                _tables = metadataReader.GetTables(ownersComboBox.SelectedItem.ToString());
-                tablesListBox.Enabled = false;
-                TableFilterTextBox.Enabled = false;
-                tablesListBox.DataSource = _tables;
-                tablesListBox.DisplayMember = "Name";
-
-                if (_tables != null && _tables.Any())
-                {
-                    tablesListBox.Enabled = true;
-                    TableFilterTextBox.Enabled = true;
-                    tablesListBox.SelectedItem = _tables.FirstOrDefault();
-                }
-                
-                var sequences = metadataReader.GetSequences(ownersComboBox.SelectedItem.ToString());
-                sequencesComboBox.Enabled = false;
-                sequencesComboBox.Items.Clear();
-                if (sequences != null && sequences.Any())
-                {
-                    sequencesComboBox.Items.AddRange(sequences.ToArray());
-                    sequencesComboBox.Enabled = true;
-                    sequencesComboBox.SelectedIndex = 0;
-                }
-
-                toolStripStatusLabel.Text = string.Empty;
-                statusStrip1.Refresh();
-            }
-            catch (Exception ex)
-            {
-                toolStripStatusLabel.Text = ex.Message;
+                _worker.CancelAsync();
             }
         }
 
-        private void folderSelectButton_Click(object sender, EventArgs e)
+        private void FolderSelectButtonClick(object sender, EventArgs e)
         {
             var diagResult = folderBrowserDialog.ShowDialog();
 
@@ -559,7 +709,7 @@ namespace Zen.Utility
             }
         }
 
-        private void domainFolderSelectButton_Click(object sender, EventArgs e)
+        private void DomainFolderSelectButtonClick(object sender, EventArgs e)
         {
             var diagResult = folderBrowserDialog.ShowDialog();
 
@@ -584,9 +734,9 @@ namespace Zen.Utility
                 {
                     toolStripStatusLabel.Text = string.Format("Generating {0} mapping file ...", selectedItem);
                     var table = (Table)selectedItem;
-                    metadataReader.GetTableDetails(table, ownersComboBox.SelectedItem.ToString());
+                    _metadataReader.GetTableDetails(table, ownersComboBox.SelectedItem.ToString());
                     CaptureApplicationSettings();
-                    Generate(table, selectedItems.Count > 1, applicationSettings);                
+                    Generate(table, selectedItems.Count > 1, _applicationSettings);                
                 }
                 toolStripStatusLabel.Text = @"Generated all files successfully.";
             }
@@ -612,10 +762,10 @@ namespace Zen.Utility
                 {
                     toolStripProgressBar1.Maximum = 100;
                     toolStripProgressBar1.Value = 10;
-                    worker.DoWork += DoWork;
-                    worker.RunWorkerCompleted += WorkerCompleted;
+                    _worker.DoWork += DoWork;
+                    _worker.RunWorkerCompleted += WorkerCompleted;
                     CaptureApplicationSettings();
-                    worker.RunWorkerAsync(applicationSettings);
+                    _worker.RunWorkerAsync(_applicationSettings);
                 }
                 finally
                 {
@@ -626,14 +776,8 @@ namespace Zen.Utility
             {
                 toolStripStatusLabel.Text = ex.Message;
             }
-        }
-     
-        private void WorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            toolStripProgressBar1.Value = 100;
-            toolStripStatusLabel.Text = @"Generated all files successfully.";
-        }
-
+        }     
+        
         private void DoWork(object sender, DoWorkEventArgs e)
         {
             var appSettings = e.Argument as ApplicationSettings; 
@@ -641,7 +785,7 @@ namespace Zen.Utility
             var pOptions = new ParallelOptions {MaxDegreeOfParallelism = Environment.ProcessorCount};
             Parallel.ForEach(items.Cast<Table>(), pOptions, (table, loopState) =>
             {
-                if (worker != null && worker.CancellationPending && !loopState.IsStopped)
+                if (_worker != null && _worker.CancellationPending && !loopState.IsStopped)
                 {
                     loopState.Stop();
                     loopState.Break();
@@ -657,139 +801,22 @@ namespace Zen.Utility
                 {
                     name = ownersComboBox.SelectedItem.ToString();
                 }
-                metadataReader.GetTableDetails(table, name);
+                _metadataReader.GetTableDetails(table, name);
                 Generate(table, true, appSettings);
             });
         }
-        
-        private void Generate(Table table, bool generateAll, ApplicationSettings appSettings)
+
+        private void WorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            var applicationPreferences = GetApplicationPreferences(table, generateAll, appSettings);
-            new ApplicationController(applicationPreferences, table).Generate();
+            toolStripProgressBar1.Value = 100;
+            toolStripStatusLabel.Text = @"Generated all files successfully.";
         }
 
-        private void prefixCheckChanged(object sender, EventArgs e)
+        private void PrefixCheckChanged(object sender, EventArgs e)
         {
             prefixLabel.Visible = prefixTextBox.Visible = prefixRadioButton.Checked;
         }
-
-        private ApplicationPreferences GetApplicationPreferences(Table tableName, bool all, ApplicationSettings appSettings)
-        {
-            string sequence = string.Empty;
-            object sequenceName = null;
-            if (sequencesComboBox.InvokeRequired)
-            {
-                sequencesComboBox.Invoke(new MethodInvoker(delegate {
-                    sequenceName = sequencesComboBox.SelectedItem; }));
-            }
-            else
-            {
-                sequenceName = sequencesComboBox.SelectedItem;
-            }
-            if (sequenceName != null && !all)
-            {
-                sequence = sequenceName.ToString();
-            }
-
-            var folderPath = AddSlashToFolderPath(folderTextBox.Text);
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
-            var domainFolderPath = AddSlashToFolderPath(domainFolderTextBox.Text);
-            if (appSettings.GenerateInFolders)
-            {
-                Directory.CreateDirectory(folderPath + "Contract");
-                Directory.CreateDirectory(folderPath + "Domain");
-                Directory.CreateDirectory(folderPath + "Mapping");
-                domainFolderPath = folderPath;
-            }
-            else
-            {
-                // Domain folder is specified by user
-                if (!Directory.Exists(domainFolderPath))
-                {
-                    Directory.CreateDirectory(domainFolderPath);
-                }
-            }
-
-            var applicationPreferences = new ApplicationPreferences
-                                             {
-                                                 ServerType = _currentConnection.Type,
-                                                 FolderPath = folderPath,
-                                                 DomainFolderPath = domainFolderPath,
-                                                 TableName = tableName.Name,
-                                                 NameSpaceMap = namespaceMapTextBox.Text,
-                                                 NameSpace = nameSpaceTextBox.Text,
-                                                 AssemblyName = assemblyNameTextBox.Text,
-                                                 Sequence = sequence,
-                                                 Language = LanguageSelected,
-                                                 FieldNamingConvention = GetFieldNamingConvention(),
-                                                 FieldGenerationConvention = GetFieldGenerationConvention(),
-                                                 Prefix = prefixTextBox.Text,
-                                                 IsFluent = IsFluent,
-                                                 IsEntityFramework = IsEntityFramework,
-                                                 IsCastle = IsCastle,
-                                                 GeneratePartialClasses = appSettings.GeneratePartialClasses,
-                                                 GenerateWcfDataContract = appSettings.GenerateWcfContracts,
-                                                 ConnectionString = _currentConnection.ConnectionString,
-                                                 ForeignEntityCollectionType = appSettings.ForeignEntityCollectionType,
-                                                 InheritenceAndInterfaces = appSettings.InheritenceAndInterfaces,
-                                                 GenerateInFolders = appSettings.GenerateInFolders,
-                                                 ClassNamePrefix = appSettings.ClassNamePrefix,
-                                                 EnableInflections = appSettings.EnableInflections,
-                                                 IsByCode = appSettings.IsByCode,
-                                                 UseLazy = appSettings.UseLazy,
-                                                 FieldPrefixRemovalList = appSettings.FieldPrefixRemovalList,
-                                                 IncludeForeignKeys = appSettings.IncludeForeignKeys,
-                                                 NameFkAsForeignTable = appSettings.NameFkAsForeignTable,
-                                                 IncludeHasMany = appSettings.IncludeHasMany,
-                                                 IncludeLengthAndScale = appSettings.IncludeLengthAndScale,
-                                                 ValidatorStyle = appSettings.ValidationStyle
-                                             };
-
-            return applicationPreferences;
-        }
-
-        private FieldGenerationConvention GetFieldGenerationConvention()
-        {
-            var convention = FieldGenerationConvention.Field;
-            if (autoPropertyRadioBtn.Checked)
-                convention = FieldGenerationConvention.AutoProperty;
-            if (propertyRadioBtn.Checked)
-                convention = FieldGenerationConvention.Property;
-            return convention;
-        }
-
-        private FieldNamingConvention GetFieldNamingConvention()
-        {
-            var convention = FieldNamingConvention.SameAsDatabase;
-            if (prefixRadioButton.Checked)
-                convention = FieldNamingConvention.Prefixed;
-            if (camelCasedRadioButton.Checked)
-                convention = FieldNamingConvention.CamelCase;
-            if (pascalCasedRadioButton.Checked)
-                convention = FieldNamingConvention.PascalCase;
-            return convention;
-        }
-
-        private static string AddSlashToFolderPath(string folderPath)
-        {
-            if (!folderPath.EndsWith(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture)))
-            {
-                folderPath += Path.DirectorySeparatorChar;
-            }
-            return folderPath;
-        }
-     
-        private void cancelButton_Click(object sender, EventArgs e)
-        {
-            if (worker != null)
-            {
-                worker.CancelAsync();
-            }
-        }
-
+        
         private void OnTableFilterTextChanged(object sender, EventArgs e)
         {
             var textbox = sender as TextBox;
@@ -838,7 +865,7 @@ namespace Zen.Utility
         private void OnAddFieldPrefixButtonClick(object sender, EventArgs e)
         {
             // Check if the prefix has already been added.
-            if (applicationSettings.FieldPrefixRemovalList.Any(s => s == fieldPrefixTextBox.Text))
+            if (_applicationSettings.FieldPrefixRemovalList.Any(s => s == fieldPrefixTextBox.Text))
             {
                 fieldPrefixTextBox.Text = string.Empty;
                 return;
@@ -847,9 +874,9 @@ namespace Zen.Utility
             if (string.IsNullOrEmpty(fieldPrefixTextBox.Text)) return;
 
             // Add the new prefix
-            applicationSettings.FieldPrefixRemovalList.Add(fieldPrefixTextBox.Text);
+            _applicationSettings.FieldPrefixRemovalList.Add(fieldPrefixTextBox.Text);
             fieldPrefixListBox.Items.Clear();
-            fieldPrefixListBox.Items.AddRange(applicationSettings.FieldPrefixRemovalList.ToArray());
+            fieldPrefixListBox.Items.AddRange(_applicationSettings.FieldPrefixRemovalList.ToArray());
             fieldPrefixTextBox.Text = string.Empty;
         }
 
@@ -857,9 +884,9 @@ namespace Zen.Utility
         {
             if (fieldPrefixListBox.SelectedIndex == -1) return;
 
-            applicationSettings.FieldPrefixRemovalList.Remove(fieldPrefixListBox.SelectedItem.ToString());
+            _applicationSettings.FieldPrefixRemovalList.Remove(fieldPrefixListBox.SelectedItem.ToString());
             fieldPrefixListBox.Items.Clear();
-            fieldPrefixListBox.Items.AddRange(applicationSettings.FieldPrefixRemovalList.ToArray());
+            fieldPrefixListBox.Items.AddRange(_applicationSettings.FieldPrefixRemovalList.ToArray());
             fieldPrefixListBox.SelectedIndex = -1;
             removeFieldPrefixButton.Enabled = fieldPrefixListBox.SelectedIndex != -1;
         }
@@ -869,30 +896,22 @@ namespace Zen.Utility
             removeFieldPrefixButton.Enabled = fieldPrefixListBox.SelectedIndex != -1;
         }
 
-        public void GenerateAndDisplayCode(Table table)
-        {
-            SetCodeControlFormatting(applicationSettings);
-
-            // Refresh the primary key relationships.
-            table.PrimaryKey = metadataReader.DeterminePrimaryKeys(table);
-            table.ForeignKeys = metadataReader.DetermineForeignKeyReferences(table);
-
-            // Show map and domain code preview
-            ApplicationPreferences applicationPreferences = GetApplicationPreferences(table, false, applicationSettings);
-            var applicationController = new ApplicationController(applicationPreferences, table);
-            applicationController.Generate(false);
-            mapCodeFastColoredTextBox.Text = applicationController.GeneratedMapCode;
-            domainCodeFastColoredTextBox.Text = applicationController.GeneratedDomainCode;
-        }
-
-        private void includeForeignKeysCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void IncludeForeignKeysCheckBoxCheckedChanged(object sender, EventArgs e)
         {
             nameAsForeignTableCheckBox.Enabled = includeForeignKeysCheckBox.Checked;
         }
 
 
+        protected void OpenControlInNewTab(UserControl userControl, string tabCaption)
+        {
+            var tabPage = new TabPage(tabCaption);
+            userControl.Dock = DockStyle.Fill;
+            tabPage.Controls.Add(userControl);
+            tabControl1.TabPages.Add(tabPage);
+            //tabPage3
+        }
 
-        private void refreshAvailableToolsButton_Click(object sender, EventArgs e)
+        private void RefreshAvailableToolsButtonClick(object sender, EventArgs e)
         {
             RefreshAvailableToolsList();
         }
@@ -921,6 +940,7 @@ namespace Zen.Utility
             }
             listView1.EndUpdate();
         }
+
 
     }
 }

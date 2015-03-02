@@ -18,50 +18,44 @@ namespace Zen.Utility
 	/// </summary>
 	public class DataConnectionConfig : IDataConnectionConfig
 	{
-		private const string configFileName = @"DataConnection.xml";
-		private string fullFilePath = null;
-		private XDocument xDoc = null;
+		private const string ConfigFileName = @"DataConnection.xml";
 
-		// Available data sources:
-		private IDictionary<string, DataSource> dataSources;
+        public DataConnectionConfig(string configFilePath)
+        {
+            if (!String.IsNullOrEmpty(configFilePath))
+            {
+                _fullFilePath = Path.GetFullPath(Path.Combine(configFilePath, ConfigFileName));
+            }
+            else
+            {
+                _fullFilePath = Path.Combine(System.Environment.CurrentDirectory, ConfigFileName);
+            }
+            if (!String.IsNullOrEmpty(_fullFilePath) && File.Exists(_fullFilePath))
+            {
+                _xDoc = XDocument.Load(_fullFilePath);
+            }
+            else
+            {
+                _xDoc = new XDocument();
+                _xDoc.Add(new XElement("ConnectionDialog", new XElement("DataSourceSelection")));
+            }
 
-		// Available data providers: 
-		private IDictionary<string, DataProvider> dataProviders;
+            this.RootElement = _xDoc.Root;
+        }
 
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="path">Configuration file path.</param>
-		public DataConnectionConfig(string path)
-		{
-			if (!String.IsNullOrEmpty(path))
-			{
-				fullFilePath = Path.GetFullPath(Path.Combine(path, configFileName));
-			}
-			else
-			{
-				fullFilePath = Path.Combine(System.Environment.CurrentDirectory, configFileName);
-			}
-			if (!String.IsNullOrEmpty(fullFilePath) && File.Exists(fullFilePath))
-			{
-				xDoc = XDocument.Load(fullFilePath);
-			}
-			else
-			{
-				xDoc = new XDocument();
-				xDoc.Add(new XElement("ConnectionDialog", new XElement("DataSourceSelection")));
-			}
+        public XElement RootElement { get; set; }
 
-			this.RootElement = xDoc.Root;
-		}
+		private readonly string _fullFilePath = null;
+		private readonly XDocument _xDoc = null;
+        private IDictionary<string, DataSource> _dataSources;// Available data sources:
+        private IDictionary<string, DataProvider> _dataProviders;// Available data providers: 
 
-		public XElement RootElement { get; set; }
 
 		public void LoadConfiguration(DataConnectionDialog dialog, ServerType serverType)
 		{
             
-            this.dataSources = new Dictionary<string, DataSource>();
-            this.dataProviders = new Dictionary<string, DataProvider>();
+            this._dataSources = new Dictionary<string, DataSource>();
+            this._dataProviders = new Dictionary<string, DataProvider>();
 
 		    switch (serverType)
 		    {
@@ -73,33 +67,31 @@ namespace Zen.Utility
                 //    break;
 		        case ServerType.SqlServer:
                     dialog.DataSources.Add(DataSource.SqlDataSource);
-                    this.dataSources.Add(DataSource.SqlDataSource.Name, DataSource.SqlDataSource);
-                    this.dataProviders.Add(DataProvider.SqlDataProvider.Name, DataProvider.SqlDataProvider);
+                    this._dataSources.Add(DataSource.SqlDataSource.Name, DataSource.SqlDataSource);
+                    this._dataProviders.Add(DataProvider.SqlDataProvider.Name, DataProvider.SqlDataProvider);
 		            break;
 		        default:
                     dialog.UnspecifiedDataSource.Providers.Add(DataProvider.OleDBDataProvider);
-                    this.dataProviders.Add(DataProvider.OleDBDataProvider.Name, DataProvider.OleDBDataProvider);
+                    this._dataProviders.Add(DataProvider.OleDBDataProvider.Name, DataProvider.OleDBDataProvider);
 			        dialog.DataSources.Add(dialog.UnspecifiedDataSource);
-                    this.dataSources.Add(dialog.UnspecifiedDataSource.DisplayName, dialog.UnspecifiedDataSource);
+                    this._dataSources.Add(dialog.UnspecifiedDataSource.DisplayName, dialog.UnspecifiedDataSource);
 		            break;
 		    }
 
 			DataSource ds = null;
 			string dsName = this.GetSelectedSource();
-			if (!String.IsNullOrEmpty(dsName) && this.dataSources.TryGetValue(dsName, out ds))
+			if (!String.IsNullOrEmpty(dsName) && this._dataSources.TryGetValue(dsName, out ds))
 			{
 				dialog.SelectedDataSource = ds;
 			}
 
 			DataProvider dp = null;
 			string dpName = this.GetSelectedProvider();
-			if (!String.IsNullOrEmpty(dpName) && this.dataProviders.TryGetValue(dpName, out dp))
+			if (!String.IsNullOrEmpty(dpName) && this._dataProviders.TryGetValue(dpName, out dp))
 			{
 				dialog.SelectedDataProvider = dp;
 			}
 		}
-
-
 
 		public void SaveConfiguration(DataConnectionDialog dcd)
 		{
@@ -123,44 +115,8 @@ namespace Zen.Utility
 					this.SaveSelectedProvider(dp.Name);
 				}
 
-				xDoc.Save(fullFilePath);
+				_xDoc.Save(_fullFilePath);
 			}
-		}
-
-		public string GetSelectedSource()
-		{
-			try
-			{
-				XElement xElem = this.RootElement.Element("DataSourceSelection");
-				XElement sourceElem = xElem.Element("SelectedSource");
-				if (sourceElem != null)
-				{
-					return sourceElem.Value as string;
-				}
-			}
-			catch
-			{
-				return null;
-			}
-			return null;
-		}
-
-		public string GetSelectedProvider()
-		{
-			try
-			{
-				XElement xElem = this.RootElement.Element("DataSourceSelection");
-				XElement providerElem = xElem.Element("SelectedProvider");
-				if (providerElem != null)
-				{
-					return providerElem.Value as string;
-				}
-			}
-			catch
-			{
-				return null;
-			}
-			return null;
 		}
 
 		public void SaveSelectedSource(string source)
@@ -209,5 +165,42 @@ namespace Zen.Utility
 				}
 			}
 		}
-	}
+
+        public string GetSelectedSource()
+        {
+            try
+            {
+                XElement xElem = this.RootElement.Element("DataSourceSelection");
+                XElement sourceElem = xElem.Element("SelectedSource");
+                if (sourceElem != null)
+                {
+                    return sourceElem.Value as string;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+            return null;
+        }
+
+        public string GetSelectedProvider()
+        {
+            try
+            {
+                XElement xElem = this.RootElement.Element("DataSourceSelection");
+                XElement providerElem = xElem.Element("SelectedProvider");
+                if (providerElem != null)
+                {
+                    return providerElem.Value as string;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+            return null;
+        }
+	
+    }
 }

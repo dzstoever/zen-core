@@ -1,16 +1,51 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Zen.Log;
 
 namespace Zen
 {    
     public static class Extensions
     {
+        
+        /// <summary>
+        /// Writes(serializes) settings from the settingsImpl into the settingsFile.
+        /// The settingsFilePath can be stored a common location like:
+        ///     Path.Combine(System.Windows.Forms.Application.LocalUserAppDataPath, settingsFileName)
+        /// </summary>
+        public static void SerializeSettings<T>(this FileInfo settingsFile, T settingsImpl) //where T : ISerializable
+        {
+            if (!settingsFile.Exists) settingsFile.Create();
+            using (var streamWriter = new StreamWriter(settingsFile.FullName, false))
+            {
+                var xmlSerializer = new XmlSerializer(typeof(T));
+                xmlSerializer.Serialize(streamWriter, settingsImpl);
+            }
+        }
+
+        /// <summary>
+        /// Reads(deserializes) settings from the settingsFile into a settingsImpl{T}.
+        /// The settingsFilePath can be read from a common location like:
+        ///     Path.Combine(System.Windows.Forms.Application.LocalUserAppDataPath, settingsFileName)
+        /// </summary>
+        public static T DeserializeSettings<T>(this FileInfo settingsFile) where T : class // IXmlSerializable
+        {
+            var settingsImpl = default(T);
+            var xmlSerializer = new XmlSerializer(typeof(T));
+            if (!settingsFile.Exists) return null; //throw new ConfigException("The settings file does not exist.");
+            using (var fileStream = settingsFile.OpenRead())
+                settingsImpl = (T)xmlSerializer.Deserialize(fileStream);
+            return settingsImpl;
+        }
+        
 
         /// <summary> 
         /// Returns "null", "empty string", or obj.ToString() for any object

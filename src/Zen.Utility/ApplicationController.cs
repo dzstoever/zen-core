@@ -6,71 +6,73 @@ namespace Zen.Utility
 {
     public class ApplicationController
     {
-        private readonly ApplicationPreferences applicationPreferences;
-        private readonly CastleGenerator castleGenerator;
-        private readonly CodeGenerator codeGenerator;
-        private readonly FluentGenerator fluentGenerator;
-        private readonly MappingGenerator mappingGenerator;
-        private readonly ContractGenerator contractGenerator;
-        private readonly ByCodeGenerator byCodeGenerator;
-        private EntityFrameworkGenerator entityFrameworkGenerator;
-
         public ApplicationController(ApplicationPreferences applicationPreferences, Table table)
         {
-            this.applicationPreferences = applicationPreferences;
-            codeGenerator = new CodeGenerator(applicationPreferences, table);
-            fluentGenerator = new FluentGenerator(applicationPreferences, table);
-            entityFrameworkGenerator = new EntityFrameworkGenerator(applicationPreferences, table);
-            castleGenerator = new CastleGenerator(applicationPreferences, table);
-            contractGenerator = new ContractGenerator(applicationPreferences, table);
-            byCodeGenerator = new ByCodeGenerator(applicationPreferences, table);
+            _applicationPreferences = applicationPreferences;
+            _codeGenerator = new CodeGenerator(applicationPreferences, table);
+            _fluentGenerator = new FluentGenerator(applicationPreferences, table);
+            _entityFrameworkGenerator = new EntityFrameworkGenerator(applicationPreferences, table);
+            _castleGenerator = new CastleGenerator(applicationPreferences, table);
+            _contractGenerator = new ContractGenerator(applicationPreferences, table);
+            _byCodeGenerator = new ByCodeGenerator(applicationPreferences, table);
             //if (applicationPreferences.ServerType == ServerType.Oracle)
             //{
             //    mappingGenerator = new OracleMappingGenerator(applicationPreferences, table);
             //}
             //else
             //{
-                mappingGenerator = new SqlMappingGenerator(applicationPreferences, table);
+            _mappingGenerator = new SqlMappingGenerator(applicationPreferences, table);
             //}
         }
 
+
         public string GeneratedDomainCode { get; set; }
-        public string GeneratedMapCode { get; set; }
+        public string GeneratedMapCode { get; set; }     
+
+        private readonly CodeGenerator _codeGenerator;
+        private readonly MappingGenerator _mappingGenerator;        
+        private readonly ContractGenerator _contractGenerator;
+        private readonly CastleGenerator _castleGenerator;        
+        private readonly FluentGenerator _fluentGenerator;        
+        private readonly ByCodeGenerator _byCodeGenerator;
+        private readonly EntityFrameworkGenerator _entityFrameworkGenerator;
+        private readonly ApplicationPreferences _applicationPreferences;
+
 
         public void Generate(bool writeToFile = true)
         {
-            codeGenerator.Generate(writeToFile);
-            GeneratedDomainCode = codeGenerator.GeneratedCode;
+            _codeGenerator.Generate(writeToFile);
+            GeneratedDomainCode = _codeGenerator.GeneratedCode;
 
-            if (applicationPreferences.IsFluent)
+            if (_applicationPreferences.IsFluent)
             {
-                fluentGenerator.Generate(writeToFile);
-                GeneratedMapCode = fluentGenerator.GeneratedCode;
+                _fluentGenerator.Generate(writeToFile);
+                GeneratedMapCode = _fluentGenerator.GeneratedCode;
             }
-            if (applicationPreferences.IsEntityFramework)
+            if (_applicationPreferences.IsEntityFramework)
             {
-                entityFrameworkGenerator.Generate(writeToFile);
-                GeneratedMapCode = entityFrameworkGenerator.GeneratedCode;
+                _entityFrameworkGenerator.Generate(writeToFile);
+                GeneratedMapCode = _entityFrameworkGenerator.GeneratedCode;
             }
-            else if (applicationPreferences.IsCastle)
+            else if (_applicationPreferences.IsCastle)
             {
-                castleGenerator.Generate(writeToFile);
-                GeneratedMapCode = castleGenerator.GeneratedCode;
+                _castleGenerator.Generate(writeToFile);
+                GeneratedMapCode = _castleGenerator.GeneratedCode;
             }
-            else if (applicationPreferences.IsByCode)
+            else if (_applicationPreferences.IsByCode)
             {
-                byCodeGenerator.Generate(writeToFile);
-                GeneratedMapCode = byCodeGenerator.GeneratedCode;
+                _byCodeGenerator.Generate(writeToFile);
+                GeneratedMapCode = _byCodeGenerator.GeneratedCode;
             }
             else
             {
-                mappingGenerator.Generate(writeToFile);
-                GeneratedMapCode = mappingGenerator.GeneratedCode;
+                _mappingGenerator.Generate(writeToFile);
+                GeneratedMapCode = _mappingGenerator.GeneratedCode;
             }
 
-            if(applicationPreferences.GenerateWcfDataContract)
+            if(_applicationPreferences.GenerateWcfDataContract)
             {
-                contractGenerator.Generate(writeToFile);
+                _contractGenerator.Generate(writeToFile);
             }
         }
     }

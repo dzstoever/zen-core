@@ -59,7 +59,7 @@ namespace Zen.Utility
             this.assemblyNameTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.generateAllBtn = new System.Windows.Forms.Button();
-            this.refreshToolsButton = new System.Windows.Forms.TabControl();
+            this.mainTabControl = new System.Windows.Forms.TabControl();
             this.basicSettingsTabPage = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableGroupBox = new System.Windows.Forms.GroupBox();
@@ -86,7 +86,13 @@ namespace Zen.Utility
             this.domainFolderSelectButton = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.listView1 = new System.Windows.Forms.ListView();
+            this.largeToolImageList = new System.Windows.Forms.ImageList(this.components);
+            this.smallToolImageList = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.addNewToolButton = new System.Windows.Forms.ToolStripButton();
+            this.openToolInTabButton = new System.Windows.Forms.ToolStripButton();
+            this.openToolInWindowButton = new System.Windows.Forms.ToolStripButton();
+            this.refreshAvailableToolsButton = new System.Windows.Forms.ToolStripButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.connectionNameComboBox = new System.Windows.Forms.ComboBox();
             this.connectionButton = new System.Windows.Forms.Button();
@@ -143,14 +149,8 @@ namespace Zen.Utility
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.smallToolImageList = new System.Windows.Forms.ImageList(this.components);
-            this.openToolInTabButton = new System.Windows.Forms.ToolStripButton();
-            this.addNewToolButton = new System.Windows.Forms.ToolStripButton();
-            this.openToolInWindowButton = new System.Windows.Forms.ToolStripButton();
-            this.refreshAvailableToolsButton = new System.Windows.Forms.ToolStripButton();
-            this.largeToolImageList = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dbTableDetailsGridView)).BeginInit();
-            this.refreshToolsButton.SuspendLayout();
+            this.mainTabControl.SuspendLayout();
             this.basicSettingsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -192,7 +192,7 @@ namespace Zen.Utility
             this.connectButton.TabIndex = 2;
             this.connectButton.Text = "&Connect";
             this.connectButton.UseVisualStyleBackColor = true;
-            this.connectButton.Click += new System.EventHandler(this.connectBtnClicked);
+            this.connectButton.Click += new System.EventHandler(this.ConnectButtonClick);
             // 
             // sequencesComboBox
             // 
@@ -323,7 +323,7 @@ namespace Zen.Utility
             this.folderSelectButton.TabIndex = 9;
             this.folderSelectButton.Text = ". . .";
             this.folderSelectButton.UseVisualStyleBackColor = true;
-            this.folderSelectButton.Click += new System.EventHandler(this.folderSelectButton_Click);
+            this.folderSelectButton.Click += new System.EventHandler(this.FolderSelectButtonClick);
             // 
             // label1
             // 
@@ -389,18 +389,18 @@ namespace Zen.Utility
             this.generateAllBtn.UseVisualStyleBackColor = true;
             this.generateAllBtn.Click += new System.EventHandler(this.GenerateAllClicked);
             // 
-            // refreshToolsButton
+            // mainTabControl
             // 
-            this.refreshToolsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.mainTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.refreshToolsButton.Controls.Add(this.basicSettingsTabPage);
-            this.refreshToolsButton.Controls.Add(this.advanceSettingsTabPage);
-            this.refreshToolsButton.Location = new System.Drawing.Point(0, 0);
-            this.refreshToolsButton.Name = "refreshToolsButton";
-            this.refreshToolsButton.SelectedIndex = 0;
-            this.refreshToolsButton.Size = new System.Drawing.Size(1350, 699);
-            this.refreshToolsButton.TabIndex = 19;
+            this.mainTabControl.Controls.Add(this.basicSettingsTabPage);
+            this.mainTabControl.Controls.Add(this.advanceSettingsTabPage);
+            this.mainTabControl.Location = new System.Drawing.Point(0, 0);
+            this.mainTabControl.Name = "mainTabControl";
+            this.mainTabControl.SelectedIndex = 0;
+            this.mainTabControl.Size = new System.Drawing.Size(1350, 699);
+            this.mainTabControl.TabIndex = 19;
             // 
             // basicSettingsTabPage
             // 
@@ -511,10 +511,10 @@ namespace Zen.Utility
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.mapCodeFastColoredTextBox);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1095, 271);
+            this.tabPage2.Size = new System.Drawing.Size(1095, 274);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Map Code";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -532,7 +532,7 @@ namespace Zen.Utility
         '\"',
         '\'',
         '\''};
-            this.mapCodeFastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(27, 14);
+            this.mapCodeFastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(2, 14);
             this.mapCodeFastColoredTextBox.BackBrush = null;
             this.mapCodeFastColoredTextBox.CharHeight = 14;
             this.mapCodeFastColoredTextBox.CharWidth = 8;
@@ -544,17 +544,17 @@ namespace Zen.Utility
             this.mapCodeFastColoredTextBox.Name = "mapCodeFastColoredTextBox";
             this.mapCodeFastColoredTextBox.Paddings = new System.Windows.Forms.Padding(0);
             this.mapCodeFastColoredTextBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.mapCodeFastColoredTextBox.Size = new System.Drawing.Size(1089, 265);
+            this.mapCodeFastColoredTextBox.Size = new System.Drawing.Size(1089, 268);
             this.mapCodeFastColoredTextBox.TabIndex = 0;
             this.mapCodeFastColoredTextBox.Zoom = 100;
             // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.domainCodeFastColoredTextBox);
-            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1095, 271);
+            this.tabPage3.Size = new System.Drawing.Size(1095, 274);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Domain Code";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -572,7 +572,7 @@ namespace Zen.Utility
         '\"',
         '\'',
         '\''};
-            this.domainCodeFastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(27, 14);
+            this.domainCodeFastColoredTextBox.AutoScrollMinSize = new System.Drawing.Size(2, 14);
             this.domainCodeFastColoredTextBox.BackBrush = null;
             this.domainCodeFastColoredTextBox.CharHeight = 14;
             this.domainCodeFastColoredTextBox.CharWidth = 8;
@@ -584,7 +584,7 @@ namespace Zen.Utility
             this.domainCodeFastColoredTextBox.Name = "domainCodeFastColoredTextBox";
             this.domainCodeFastColoredTextBox.Paddings = new System.Windows.Forms.Padding(0);
             this.domainCodeFastColoredTextBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.domainCodeFastColoredTextBox.Size = new System.Drawing.Size(1089, 265);
+            this.domainCodeFastColoredTextBox.Size = new System.Drawing.Size(1089, 268);
             this.domainCodeFastColoredTextBox.TabIndex = 0;
             this.domainCodeFastColoredTextBox.Zoom = 100;
             // 
@@ -643,7 +643,7 @@ namespace Zen.Utility
             this.cancelButton.TabIndex = 22;
             this.cancelButton.Text = "Cance&l";
             this.cancelButton.UseVisualStyleBackColor = true;
-            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            this.cancelButton.Click += new System.EventHandler(this.CancelButtonClick);
             // 
             // pOracleOnlyOptions
             // 
@@ -725,7 +725,7 @@ namespace Zen.Utility
             this.domainFolderSelectButton.TabIndex = 9;
             this.domainFolderSelectButton.Text = ". . .";
             this.domainFolderSelectButton.UseVisualStyleBackColor = true;
-            this.domainFolderSelectButton.Click += new System.EventHandler(this.domainFolderSelectButton_Click);
+            this.domainFolderSelectButton.Click += new System.EventHandler(this.DomainFolderSelectButtonClick);
             // 
             // groupBox6
             // 
@@ -754,6 +754,18 @@ namespace Zen.Utility
             this.listView1.TabIndex = 5;
             this.listView1.UseCompatibleStateImageBehavior = false;
             // 
+            // largeToolImageList
+            // 
+            this.largeToolImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("largeToolImageList.ImageStream")));
+            this.largeToolImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.largeToolImageList.Images.SetKeyName(0, "utility.ico");
+            // 
+            // smallToolImageList
+            // 
+            this.smallToolImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("smallToolImageList.ImageStream")));
+            this.smallToolImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.smallToolImageList.Images.SetKeyName(0, "utility.ico");
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -766,6 +778,47 @@ namespace Zen.Utility
             this.toolStrip1.Size = new System.Drawing.Size(588, 25);
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // addNewToolButton
+            // 
+            this.addNewToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.addNewToolButton.Image = global::Zen.Utility.Properties.Resources.Add;
+            this.addNewToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.addNewToolButton.Name = "addNewToolButton";
+            this.addNewToolButton.Size = new System.Drawing.Size(23, 22);
+            this.addNewToolButton.Text = "New...";
+            this.addNewToolButton.ToolTipText = "Add a New Tool";
+            // 
+            // openToolInTabButton
+            // 
+            this.openToolInTabButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openToolInTabButton.Image = global::Zen.Utility.Properties.Resources.View;
+            this.openToolInTabButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openToolInTabButton.Name = "openToolInTabButton";
+            this.openToolInTabButton.Size = new System.Drawing.Size(23, 22);
+            this.openToolInTabButton.Text = "Open";
+            this.openToolInTabButton.ToolTipText = "Open Selected Tool in a New Tab";
+            // 
+            // openToolInWindowButton
+            // 
+            this.openToolInWindowButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openToolInWindowButton.Image = global::Zen.Utility.Properties.Resources.WindowsHS;
+            this.openToolInWindowButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openToolInWindowButton.Name = "openToolInWindowButton";
+            this.openToolInWindowButton.Size = new System.Drawing.Size(23, 22);
+            this.openToolInWindowButton.Text = "Open";
+            this.openToolInWindowButton.ToolTipText = "Open Selected Tool in a New Window";
+            // 
+            // refreshAvailableToolsButton
+            // 
+            this.refreshAvailableToolsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.refreshAvailableToolsButton.Image = ((System.Drawing.Image)(resources.GetObject("refreshAvailableToolsButton.Image")));
+            this.refreshAvailableToolsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.refreshAvailableToolsButton.Name = "refreshAvailableToolsButton";
+            this.refreshAvailableToolsButton.Size = new System.Drawing.Size(50, 22);
+            this.refreshAvailableToolsButton.Text = "Refresh";
+            this.refreshAvailableToolsButton.ToolTipText = "Loads all user controls from the .\\Tools folder";
+            this.refreshAvailableToolsButton.Click += new System.EventHandler(this.RefreshAvailableToolsButtonClick);
             // 
             // groupBox4
             // 
@@ -1097,7 +1150,7 @@ namespace Zen.Utility
             this.includeForeignKeysCheckBox.TabIndex = 8;
             this.includeForeignKeysCheckBox.Text = "Include Foreign Keys";
             this.includeForeignKeysCheckBox.UseVisualStyleBackColor = true;
-            this.includeForeignKeysCheckBox.CheckedChanged += new System.EventHandler(this.includeForeignKeysCheckBox_CheckedChanged);
+            this.includeForeignKeysCheckBox.CheckedChanged += new System.EventHandler(this.IncludeForeignKeysCheckBoxCheckedChanged);
             // 
             // validationStyleGroupBox
             // 
@@ -1299,7 +1352,7 @@ namespace Zen.Utility
             this.prefixRadioButton.TabIndex = 2;
             this.prefixRadioButton.Text = "Prefixed (e.g. m_               ThisIsMyColumnName)";
             this.prefixRadioButton.UseVisualStyleBackColor = true;
-            this.prefixRadioButton.CheckedChanged += new System.EventHandler(this.prefixCheckChanged);
+            this.prefixRadioButton.CheckedChanged += new System.EventHandler(this.PrefixCheckChanged);
             // 
             // prefixLabel
             // 
@@ -1362,59 +1415,6 @@ namespace Zen.Utility
             this.toolStripStatusLabel.Spring = true;
             this.toolStripStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // smallToolImageList
-            // 
-            this.smallToolImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("smallToolImageList.ImageStream")));
-            this.smallToolImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.smallToolImageList.Images.SetKeyName(0, "utility.ico");
-            // 
-            // openToolInTabButton
-            // 
-            this.openToolInTabButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.openToolInTabButton.Image = global::Zen.Utility.Properties.Resources.View;
-            this.openToolInTabButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openToolInTabButton.Name = "openToolInTabButton";
-            this.openToolInTabButton.Size = new System.Drawing.Size(23, 22);
-            this.openToolInTabButton.Text = "Open";
-            this.openToolInTabButton.ToolTipText = "Open Selected Tool in a New Tab";
-            // 
-            // addNewToolButton
-            // 
-            this.addNewToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.addNewToolButton.Image = global::Zen.Utility.Properties.Resources.Add;
-            this.addNewToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.addNewToolButton.Name = "addNewToolButton";
-            this.addNewToolButton.Size = new System.Drawing.Size(23, 22);
-            this.addNewToolButton.Text = "New...";
-            this.addNewToolButton.ToolTipText = "Add a New Tool";
-            // 
-            // openToolInWindowButton
-            // 
-            this.openToolInWindowButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.openToolInWindowButton.Image = global::Zen.Utility.Properties.Resources.WindowsHS;
-            this.openToolInWindowButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openToolInWindowButton.Name = "openToolInWindowButton";
-            this.openToolInWindowButton.Size = new System.Drawing.Size(23, 22);
-            this.openToolInWindowButton.Text = "Open";
-            this.openToolInWindowButton.ToolTipText = "Open Selected Tool in a New Window";
-            // 
-            // refreshAvailableToolsButton
-            // 
-            this.refreshAvailableToolsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.refreshAvailableToolsButton.Image = ((System.Drawing.Image)(resources.GetObject("refreshAvailableToolsButton.Image")));
-            this.refreshAvailableToolsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.refreshAvailableToolsButton.Name = "refreshAvailableToolsButton";
-            this.refreshAvailableToolsButton.Size = new System.Drawing.Size(50, 22);
-            this.refreshAvailableToolsButton.Text = "Refresh";
-            this.refreshAvailableToolsButton.ToolTipText = "Loads all user controls from the .\\Tools folder";
-            this.refreshAvailableToolsButton.Click += new System.EventHandler(this.refreshAvailableToolsButton_Click);
-            // 
-            // largeToolImageList
-            // 
-            this.largeToolImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("largeToolImageList.ImageStream")));
-            this.largeToolImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.largeToolImageList.Images.SetKeyName(0, "utility.ico");
-            // 
             // Application
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1422,13 +1422,13 @@ namespace Zen.Utility
             this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(1350, 730);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.refreshToolsButton);
+            this.Controls.Add(this.mainTabControl);
             this.Font = new System.Drawing.Font("Poor Richard", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Application";
             this.Text = "Zen Developer Utility";
             ((System.ComponentModel.ISupportInitialize)(this.dbTableDetailsGridView)).EndInit();
-            this.refreshToolsButton.ResumeLayout(false);
+            this.mainTabControl.ResumeLayout(false);
             this.basicSettingsTabPage.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -1495,7 +1495,7 @@ namespace Zen.Utility
         private System.Windows.Forms.TextBox assemblyNameTextBox;
         private Label label5;
         private Button generateAllBtn;
-        private TabControl refreshToolsButton;
+        private TabControl mainTabControl;
         private TabPage basicSettingsTabPage;
         private TabPage advanceSettingsTabPage;
         private GroupBox groupBox1;
