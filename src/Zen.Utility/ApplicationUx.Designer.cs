@@ -2,7 +2,7 @@
 
 namespace Zen.Utility
 {
-    partial class Application
+    partial class ApplicationUx
     {
         /// <summary>
         /// Required designer variable.
@@ -31,9 +31,9 @@ namespace Zen.Utility
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Log Configurator", 0);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("WCF Configurator", 0);
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Application));
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Log Configurator", 0);
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("WCF Configurator", 0);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationUx));
             this.connectButton = new System.Windows.Forms.Button();
             this.sequencesComboBox = new System.Windows.Forms.ComboBox();
             this.dbTableDetailsGridView = new System.Windows.Forms.DataGridView();
@@ -49,9 +49,9 @@ namespace Zen.Utility
             this.ForeignKeyTableName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ForeignKeyColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.folderTextBox = new System.Windows.Forms.TextBox();
+            this.mappingFolderTextBox = new System.Windows.Forms.TextBox();
             this.generateButton = new System.Windows.Forms.Button();
-            this.folderSelectButton = new System.Windows.Forms.Button();
+            this.mappingFolderSelectButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.nameSpaceTextBox = new System.Windows.Forms.TextBox();
@@ -75,7 +75,6 @@ namespace Zen.Utility
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.pOracleOnlyOptions = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.namespaceMapTextBox = new System.Windows.Forms.TextBox();
@@ -94,18 +93,22 @@ namespace Zen.Utility
             this.openToolInWindowButton = new System.Windows.Forms.ToolStripButton();
             this.refreshAvailableToolsButton = new System.Windows.Forms.ToolStripButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.pOracleOnlyOptions = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.connectionNameComboBox = new System.Windows.Forms.ComboBox();
             this.connectionButton = new System.Windows.Forms.Button();
             this.advanceSettingsTabPage = new System.Windows.Forms.TabPage();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.tablePrefixGroupBox = new System.Windows.Forms.GroupBox();
             this.removeFieldPrefixButton = new System.Windows.Forms.Button();
             this.addFieldPrefixButton = new System.Windows.Forms.Button();
             this.fieldPrefixListBox = new System.Windows.Forms.ListBox();
             this.label7 = new System.Windows.Forms.Label();
             this.fieldPrefixTextBox = new System.Windows.Forms.TextBox();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.filesGroupBox = new System.Windows.Forms.GroupBox();
             this.generateInFoldersCheckBox = new System.Windows.Forms.CheckBox();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.mappingOptionsGroupBox = new System.Windows.Forms.GroupBox();
             this.label10 = new System.Windows.Forms.Label();
             this.comboBoxForeignCollection = new System.Windows.Forms.ComboBox();
             this.wcfDataContractCheckBox = new System.Windows.Forms.CheckBox();
@@ -113,38 +116,38 @@ namespace Zen.Utility
             this.partialClassesCheckBox = new System.Windows.Forms.CheckBox();
             this.labelCLassNamePrefix = new System.Windows.Forms.Label();
             this.labelInheritence = new System.Windows.Forms.Label();
-            this.textBoxClassNamePrefix = new System.Windows.Forms.TextBox();
-            this.textBoxInheritence = new System.Windows.Forms.TextBox();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.classNamePrefixTextBox = new System.Windows.Forms.TextBox();
+            this.inheritenceTextBox = new System.Windows.Forms.TextBox();
+            this.fieldOrPropertyOptionsGroup = new System.Windows.Forms.GroupBox();
             this.nameAsForeignTableCheckBox = new System.Windows.Forms.CheckBox();
             this.includeHasManyCheckBox = new System.Windows.Forms.CheckBox();
             this.includeLengthAndScaleCheckBox = new System.Windows.Forms.CheckBox();
-            this.autoPropertyRadioBtn = new System.Windows.Forms.RadioButton();
-            this.propertyRadioBtn = new System.Windows.Forms.RadioButton();
-            this.fieldRadioBtn = new System.Windows.Forms.RadioButton();
+            this.autoPropertyOption = new System.Windows.Forms.RadioButton();
+            this.propertyOption = new System.Windows.Forms.RadioButton();
+            this.fieldOption = new System.Windows.Forms.RadioButton();
             this.useLazyLoadingCheckBox = new System.Windows.Forms.CheckBox();
             this.includeForeignKeysCheckBox = new System.Windows.Forms.CheckBox();
             this.validationStyleGroupBox = new System.Windows.Forms.GroupBox();
-            this.dataAnnotationsRadioButton = new System.Windows.Forms.RadioButton();
-            this.noValidationRadioButton = new System.Windows.Forms.RadioButton();
-            this.nhibernateValidationRadioButton = new System.Windows.Forms.RadioButton();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.entityFrameworkRadionBtn = new System.Windows.Forms.RadioButton();
+            this.dataAnnotationsOption = new System.Windows.Forms.RadioButton();
+            this.noValidationOption = new System.Windows.Forms.RadioButton();
+            this.nhibernateValidationOption = new System.Windows.Forms.RadioButton();
+            this.mappingStyleGroupBox = new System.Windows.Forms.GroupBox();
+            this.entityFrameworkOption = new System.Windows.Forms.RadioButton();
             this.castleMappingOption = new System.Windows.Forms.RadioButton();
             this.fluentMappingOption = new System.Windows.Forms.RadioButton();
             this.hbmMappingOption = new System.Windows.Forms.RadioButton();
             this.byCodeMappingOption = new System.Windows.Forms.RadioButton();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.vbRadioButton = new System.Windows.Forms.RadioButton();
-            this.cSharpRadioButton = new System.Windows.Forms.RadioButton();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.EnableInflectionsCheckBox = new System.Windows.Forms.CheckBox();
-            this.pascalCasedRadioButton = new System.Windows.Forms.RadioButton();
+            this.languageGroupBox = new System.Windows.Forms.GroupBox();
+            this.vbOption = new System.Windows.Forms.RadioButton();
+            this.cSharpOption = new System.Windows.Forms.RadioButton();
+            this.generatedPropertyGroupBox = new System.Windows.Forms.GroupBox();
+            this.enableInflectionsCheckBox = new System.Windows.Forms.CheckBox();
+            this.pascalCasedOption = new System.Windows.Forms.RadioButton();
             this.prefixTextBox = new System.Windows.Forms.TextBox();
-            this.prefixRadioButton = new System.Windows.Forms.RadioButton();
+            this.prefixedOption = new System.Windows.Forms.RadioButton();
             this.prefixLabel = new System.Windows.Forms.Label();
-            this.camelCasedRadioButton = new System.Windows.Forms.RadioButton();
-            this.sameAsDBRadioButton = new System.Windows.Forms.RadioButton();
+            this.camelCasedOption = new System.Windows.Forms.RadioButton();
+            this.sameAsDatabaseOption = new System.Windows.Forms.RadioButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -168,19 +171,19 @@ namespace Zen.Utility
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.pOracleOnlyOptions.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.pOracleOnlyOptions.SuspendLayout();
             this.advanceSettingsTabPage.SuspendLayout();
-            this.groupBox10.SuspendLayout();
-            this.groupBox9.SuspendLayout();
-            this.groupBox8.SuspendLayout();
-            this.groupBox7.SuspendLayout();
+            this.tablePrefixGroupBox.SuspendLayout();
+            this.filesGroupBox.SuspendLayout();
+            this.mappingOptionsGroupBox.SuspendLayout();
+            this.fieldOrPropertyOptionsGroup.SuspendLayout();
             this.validationStyleGroupBox.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.mappingStyleGroupBox.SuspendLayout();
+            this.languageGroupBox.SuspendLayout();
+            this.generatedPropertyGroupBox.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -192,7 +195,7 @@ namespace Zen.Utility
             this.connectButton.TabIndex = 2;
             this.connectButton.Text = "&Connect";
             this.connectButton.UseVisualStyleBackColor = true;
-            this.connectButton.Click += new System.EventHandler(this.ConnectButtonClick);
+            this.connectButton.Click += new System.EventHandler(this.ConnectButtonClicked);
             // 
             // sequencesComboBox
             // 
@@ -228,7 +231,7 @@ namespace Zen.Utility
             this.dbTableDetailsGridView.Location = new System.Drawing.Point(3, 3);
             this.dbTableDetailsGridView.Name = "dbTableDetailsGridView";
             this.dbTableDetailsGridView.RowHeadersVisible = false;
-            this.dbTableDetailsGridView.Size = new System.Drawing.Size(1089, 265);
+            this.dbTableDetailsGridView.Size = new System.Drawing.Size(875, 265);
             this.dbTableDetailsGridView.TabIndex = 5;
             // 
             // columnName
@@ -295,35 +298,35 @@ namespace Zen.Utility
             this.ForeignKeyColumnName.HeaderText = "FK Column";
             this.ForeignKeyColumnName.Name = "ForeignKeyColumnName";
             // 
-            // folderTextBox
+            // mappingFolderTextBox
             // 
-            this.folderTextBox.Location = new System.Drawing.Point(146, 28);
-            this.folderTextBox.Name = "folderTextBox";
-            this.folderTextBox.Size = new System.Drawing.Size(539, 22);
-            this.folderTextBox.TabIndex = 7;
-            this.folderTextBox.Text = "c:\\ZenUtility\\Maps";
+            this.mappingFolderTextBox.Location = new System.Drawing.Point(146, 28);
+            this.mappingFolderTextBox.Name = "mappingFolderTextBox";
+            this.mappingFolderTextBox.Size = new System.Drawing.Size(450, 22);
+            this.mappingFolderTextBox.TabIndex = 7;
+            this.mappingFolderTextBox.Text = "c:\\ZenUtility\\Maps";
             // 
             // generateButton
             // 
-            this.generateButton.Location = new System.Drawing.Point(6, 234);
+            this.generateButton.Location = new System.Drawing.Point(6, 235);
             this.generateButton.Name = "generateButton";
-            this.generateButton.Size = new System.Drawing.Size(124, 29);
+            this.generateButton.Size = new System.Drawing.Size(124, 26);
             this.generateButton.TabIndex = 8;
             this.generateButton.Text = "&Generate";
             this.generateButton.UseVisualStyleBackColor = true;
             this.generateButton.Click += new System.EventHandler(this.GenerateClicked);
             // 
-            // folderSelectButton
+            // mappingFolderSelectButton
             // 
-            this.folderSelectButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.folderSelectButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.folderSelectButton.Location = new System.Drawing.Point(685, 28);
-            this.folderSelectButton.Name = "folderSelectButton";
-            this.folderSelectButton.Size = new System.Drawing.Size(26, 22);
-            this.folderSelectButton.TabIndex = 9;
-            this.folderSelectButton.Text = ". . .";
-            this.folderSelectButton.UseVisualStyleBackColor = true;
-            this.folderSelectButton.Click += new System.EventHandler(this.FolderSelectButtonClick);
+            this.mappingFolderSelectButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.mappingFolderSelectButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.mappingFolderSelectButton.Location = new System.Drawing.Point(120, 28);
+            this.mappingFolderSelectButton.Name = "mappingFolderSelectButton";
+            this.mappingFolderSelectButton.Size = new System.Drawing.Size(26, 22);
+            this.mappingFolderSelectButton.TabIndex = 9;
+            this.mappingFolderSelectButton.Text = ". . .";
+            this.mappingFolderSelectButton.UseVisualStyleBackColor = true;
+            this.mappingFolderSelectButton.Click += new System.EventHandler(this.MappingFolderSelectButtonClicked);
             // 
             // label1
             // 
@@ -331,9 +334,9 @@ namespace Zen.Utility
             this.label1.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.label1.Location = new System.Drawing.Point(3, 4);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(371, 16);
+            this.label1.Size = new System.Drawing.Size(360, 16);
             this.label1.TabIndex = 10;
-            this.label1.Text = "Select the folder in which the mapping and domain files would be generated";
+            this.label1.Text = "Select the folder in which the mapping and domain files will be generated";
             // 
             // label2
             // 
@@ -348,7 +351,7 @@ namespace Zen.Utility
             // 
             this.nameSpaceTextBox.Location = new System.Drawing.Point(146, 127);
             this.nameSpaceTextBox.Name = "nameSpaceTextBox";
-            this.nameSpaceTextBox.Size = new System.Drawing.Size(566, 22);
+            this.nameSpaceTextBox.Size = new System.Drawing.Size(450, 22);
             this.nameSpaceTextBox.TabIndex = 12;
             this.nameSpaceTextBox.Text = "Zen.Domain";
             // 
@@ -365,7 +368,7 @@ namespace Zen.Utility
             // 
             this.assemblyNameTextBox.Location = new System.Drawing.Point(146, 160);
             this.assemblyNameTextBox.Name = "assemblyNameTextBox";
-            this.assemblyNameTextBox.Size = new System.Drawing.Size(566, 22);
+            this.assemblyNameTextBox.Size = new System.Drawing.Size(450, 22);
             this.assemblyNameTextBox.TabIndex = 14;
             this.assemblyNameTextBox.Text = "Zen";
             // 
@@ -381,9 +384,9 @@ namespace Zen.Utility
             // 
             // generateAllBtn
             // 
-            this.generateAllBtn.Location = new System.Drawing.Point(146, 234);
+            this.generateAllBtn.Location = new System.Drawing.Point(146, 235);
             this.generateAllBtn.Name = "generateAllBtn";
-            this.generateAllBtn.Size = new System.Drawing.Size(124, 29);
+            this.generateAllBtn.Size = new System.Drawing.Size(124, 26);
             this.generateAllBtn.TabIndex = 18;
             this.generateAllBtn.Text = "Generate &All";
             this.generateAllBtn.UseVisualStyleBackColor = true;
@@ -399,7 +402,7 @@ namespace Zen.Utility
             this.mainTabControl.Location = new System.Drawing.Point(0, 0);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(1350, 699);
+            this.mainTabControl.Size = new System.Drawing.Size(1136, 699);
             this.mainTabControl.TabIndex = 19;
             // 
             // basicSettingsTabPage
@@ -410,7 +413,7 @@ namespace Zen.Utility
             this.basicSettingsTabPage.Location = new System.Drawing.Point(4, 25);
             this.basicSettingsTabPage.Name = "basicSettingsTabPage";
             this.basicSettingsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.basicSettingsTabPage.Size = new System.Drawing.Size(1342, 670);
+            this.basicSettingsTabPage.Size = new System.Drawing.Size(1128, 670);
             this.basicSettingsTabPage.TabIndex = 1;
             this.basicSettingsTabPage.Text = "Basic";
             this.basicSettingsTabPage.UseVisualStyleBackColor = true;
@@ -430,7 +433,7 @@ namespace Zen.Utility
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
-            this.splitContainer1.Size = new System.Drawing.Size(1336, 307);
+            this.splitContainer1.Size = new System.Drawing.Size(1122, 307);
             this.splitContainer1.SplitterDistance = 228;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 23;
@@ -458,6 +461,7 @@ namespace Zen.Utility
             this.TableFilterTextBox.TabIndex = 7;
             this.TableFilterTextBox.Tag = "Enter table filter here...";
             this.TableFilterTextBox.Text = "Enter table filter here...";
+            this.toolTip1.SetToolTip(this.TableFilterTextBox, "Enter table filter here...");
             this.TableFilterTextBox.TextChanged += new System.EventHandler(this.OnTableFilterTextChanged);
             this.TableFilterTextBox.Enter += new System.EventHandler(this.OnTableFilterEnter);
             // 
@@ -494,7 +498,7 @@ namespace Zen.Utility
             this.tabControl1.Location = new System.Drawing.Point(0, 7);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1103, 300);
+            this.tabControl1.Size = new System.Drawing.Size(889, 300);
             this.tabControl1.TabIndex = 22;
             // 
             // tabPage1
@@ -503,7 +507,7 @@ namespace Zen.Utility
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1095, 271);
+            this.tabPage1.Size = new System.Drawing.Size(881, 271);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Table Definition";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -514,7 +518,7 @@ namespace Zen.Utility
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1095, 274);
+            this.tabPage2.Size = new System.Drawing.Size(881, 274);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Map Code";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -544,7 +548,7 @@ namespace Zen.Utility
             this.mapCodeFastColoredTextBox.Name = "mapCodeFastColoredTextBox";
             this.mapCodeFastColoredTextBox.Paddings = new System.Windows.Forms.Padding(0);
             this.mapCodeFastColoredTextBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.mapCodeFastColoredTextBox.Size = new System.Drawing.Size(1089, 268);
+            this.mapCodeFastColoredTextBox.Size = new System.Drawing.Size(875, 268);
             this.mapCodeFastColoredTextBox.TabIndex = 0;
             this.mapCodeFastColoredTextBox.Zoom = 100;
             // 
@@ -554,7 +558,7 @@ namespace Zen.Utility
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1095, 274);
+            this.tabPage3.Size = new System.Drawing.Size(881, 274);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Domain Code";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -584,7 +588,7 @@ namespace Zen.Utility
             this.domainCodeFastColoredTextBox.Name = "domainCodeFastColoredTextBox";
             this.domainCodeFastColoredTextBox.Paddings = new System.Windows.Forms.Padding(0);
             this.domainCodeFastColoredTextBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.domainCodeFastColoredTextBox.Size = new System.Drawing.Size(1089, 268);
+            this.domainCodeFastColoredTextBox.Size = new System.Drawing.Size(875, 268);
             this.domainCodeFastColoredTextBox.TabIndex = 0;
             this.domainCodeFastColoredTextBox.Zoom = 100;
             // 
@@ -594,7 +598,7 @@ namespace Zen.Utility
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox5.Location = new System.Drawing.Point(3, 373);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(1336, 294);
+            this.groupBox5.Size = new System.Drawing.Size(1122, 294);
             this.groupBox5.TabIndex = 20;
             this.groupBox5.TabStop = false;
             // 
@@ -609,7 +613,6 @@ namespace Zen.Utility
             // 
             this.splitContainer2.Panel1.Controls.Add(this.label1);
             this.splitContainer2.Panel1.Controls.Add(this.cancelButton);
-            this.splitContainer2.Panel1.Controls.Add(this.pOracleOnlyOptions);
             this.splitContainer2.Panel1.Controls.Add(this.label9);
             this.splitContainer2.Panel1.Controls.Add(this.nameSpaceTextBox);
             this.splitContainer2.Panel1.Controls.Add(this.label8);
@@ -620,41 +623,30 @@ namespace Zen.Utility
             this.splitContainer2.Panel1.Controls.Add(this.generateButton);
             this.splitContainer2.Panel1.Controls.Add(this.domainFolderTextBox);
             this.splitContainer2.Panel1.Controls.Add(this.label2);
-            this.splitContainer2.Panel1.Controls.Add(this.folderTextBox);
+            this.splitContainer2.Panel1.Controls.Add(this.mappingFolderTextBox);
             this.splitContainer2.Panel1.Controls.Add(this.label4);
             this.splitContainer2.Panel1.Controls.Add(this.assemblyNameTextBox);
             this.splitContainer2.Panel1.Controls.Add(this.domainFolderSelectButton);
-            this.splitContainer2.Panel1.Controls.Add(this.folderSelectButton);
+            this.splitContainer2.Panel1.Controls.Add(this.mappingFolderSelectButton);
             this.splitContainer2.Panel1.Controls.Add(this.generateAllBtn);
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.BackColor = System.Drawing.Color.Transparent;
             this.splitContainer2.Panel2.Controls.Add(this.groupBox6);
-            this.splitContainer2.Size = new System.Drawing.Size(1330, 273);
-            this.splitContainer2.SplitterDistance = 732;
+            this.splitContainer2.Size = new System.Drawing.Size(1116, 273);
+            this.splitContainer2.SplitterDistance = 613;
             this.splitContainer2.TabIndex = 23;
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(286, 234);
+            this.cancelButton.Location = new System.Drawing.Point(286, 235);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(124, 29);
+            this.cancelButton.Size = new System.Drawing.Size(124, 26);
             this.cancelButton.TabIndex = 22;
             this.cancelButton.Text = "Cance&l";
             this.cancelButton.UseVisualStyleBackColor = true;
-            this.cancelButton.Click += new System.EventHandler(this.CancelButtonClick);
-            // 
-            // pOracleOnlyOptions
-            // 
-            this.pOracleOnlyOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pOracleOnlyOptions.Controls.Add(this.label5);
-            this.pOracleOnlyOptions.Controls.Add(this.sequencesComboBox);
-            this.pOracleOnlyOptions.Location = new System.Drawing.Point(430, 220);
-            this.pOracleOnlyOptions.Name = "pOracleOnlyOptions";
-            this.pOracleOnlyOptions.Size = new System.Drawing.Size(284, 50);
-            this.pOracleOnlyOptions.TabIndex = 20;
-            this.pOracleOnlyOptions.Visible = false;
+            this.cancelButton.Click += new System.EventHandler(this.CancelButtonClicked);
             // 
             // label9
             // 
@@ -678,7 +670,7 @@ namespace Zen.Utility
             // 
             this.namespaceMapTextBox.Location = new System.Drawing.Point(146, 94);
             this.namespaceMapTextBox.Name = "namespaceMapTextBox";
-            this.namespaceMapTextBox.Size = new System.Drawing.Size(566, 22);
+            this.namespaceMapTextBox.Size = new System.Drawing.Size(450, 22);
             this.namespaceMapTextBox.TabIndex = 12;
             this.namespaceMapTextBox.Text = "Zen.Maps";
             // 
@@ -695,14 +687,14 @@ namespace Zen.Utility
             // 
             this.entityNameTextBox.Location = new System.Drawing.Point(146, 193);
             this.entityNameTextBox.Name = "entityNameTextBox";
-            this.entityNameTextBox.Size = new System.Drawing.Size(566, 22);
+            this.entityNameTextBox.Size = new System.Drawing.Size(450, 22);
             this.entityNameTextBox.TabIndex = 20;
             // 
             // domainFolderTextBox
             // 
             this.domainFolderTextBox.Location = new System.Drawing.Point(146, 61);
             this.domainFolderTextBox.Name = "domainFolderTextBox";
-            this.domainFolderTextBox.Size = new System.Drawing.Size(539, 22);
+            this.domainFolderTextBox.Size = new System.Drawing.Size(450, 22);
             this.domainFolderTextBox.TabIndex = 7;
             this.domainFolderTextBox.Text = "c:\\ZenUtility\\Domain";
             // 
@@ -719,13 +711,13 @@ namespace Zen.Utility
             // 
             this.domainFolderSelectButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.domainFolderSelectButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.domainFolderSelectButton.Location = new System.Drawing.Point(685, 61);
+            this.domainFolderSelectButton.Location = new System.Drawing.Point(120, 61);
             this.domainFolderSelectButton.Name = "domainFolderSelectButton";
             this.domainFolderSelectButton.Size = new System.Drawing.Size(26, 22);
             this.domainFolderSelectButton.TabIndex = 9;
             this.domainFolderSelectButton.Text = ". . .";
             this.domainFolderSelectButton.UseVisualStyleBackColor = true;
-            this.domainFolderSelectButton.Click += new System.EventHandler(this.DomainFolderSelectButtonClick);
+            this.domainFolderSelectButton.Click += new System.EventHandler(this.DomainFolderSelectButtonClicked);
             // 
             // groupBox6
             // 
@@ -734,7 +726,7 @@ namespace Zen.Utility
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox6.Location = new System.Drawing.Point(0, 0);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(594, 273);
+            this.groupBox6.Size = new System.Drawing.Size(499, 273);
             this.groupBox6.TabIndex = 0;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Available Tools";
@@ -743,13 +735,13 @@ namespace Zen.Utility
             // 
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2});
+            listViewItem3,
+            listViewItem4});
             this.listView1.LargeImageList = this.largeToolImageList;
             this.listView1.Location = new System.Drawing.Point(3, 43);
             this.listView1.Name = "listView1";
             this.listView1.ShowItemToolTips = true;
-            this.listView1.Size = new System.Drawing.Size(588, 227);
+            this.listView1.Size = new System.Drawing.Size(493, 227);
             this.listView1.SmallImageList = this.smallToolImageList;
             this.listView1.TabIndex = 5;
             this.listView1.UseCompatibleStateImageBehavior = false;
@@ -775,7 +767,7 @@ namespace Zen.Utility
             this.refreshAvailableToolsButton});
             this.toolStrip1.Location = new System.Drawing.Point(3, 18);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(588, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(493, 25);
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -822,17 +814,65 @@ namespace Zen.Utility
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.button2);
+            this.groupBox4.Controls.Add(this.pOracleOnlyOptions);
+            this.groupBox4.Controls.Add(this.textBox1);
+            this.groupBox4.Controls.Add(this.button1);
             this.groupBox4.Controls.Add(this.connectionNameComboBox);
             this.groupBox4.Controls.Add(this.connectionButton);
             this.groupBox4.Controls.Add(this.connectButton);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox4.Location = new System.Drawing.Point(3, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(1336, 63);
+            this.groupBox4.Size = new System.Drawing.Size(1122, 63);
             this.groupBox4.TabIndex = 19;
             this.groupBox4.TabStop = false;
             this.groupBox4.Tag = "";
             this.groupBox4.Text = "Database Connection";
+            // 
+            // button2
+            // 
+            this.button2.Enabled = false;
+            this.button2.Location = new System.Drawing.Point(606, 23);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(124, 26);
+            this.button2.TabIndex = 24;
+            this.button2.Text = "Create Schema";
+            this.toolTip1.SetToolTip(this.button2, "Create Schema from Mapping Assembly");
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // pOracleOnlyOptions
+            // 
+            this.pOracleOnlyOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pOracleOnlyOptions.Controls.Add(this.label5);
+            this.pOracleOnlyOptions.Controls.Add(this.sequencesComboBox);
+            this.pOracleOnlyOptions.Location = new System.Drawing.Point(833, 11);
+            this.pOracleOnlyOptions.Name = "pOracleOnlyOptions";
+            this.pOracleOnlyOptions.Size = new System.Drawing.Size(284, 50);
+            this.pOracleOnlyOptions.TabIndex = 20;
+            this.pOracleOnlyOptions.Visible = false;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Enabled = false;
+            this.textBox1.Location = new System.Drawing.Point(336, 26);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(134, 22);
+            this.textBox1.TabIndex = 23;
+            this.textBox1.Tag = "Enter a database name...";
+            this.textBox1.Text = "Enter a database name...";
+            this.toolTip1.SetToolTip(this.textBox1, "Enter a database name...");
+            // 
+            // button1
+            // 
+            this.button1.Enabled = false;
+            this.button1.Location = new System.Drawing.Point(476, 23);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(124, 26);
+            this.button1.TabIndex = 22;
+            this.button1.Text = "Create Database";
+            this.toolTip1.SetToolTip(this.button1, "Create Database using the current connection");
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // connectionNameComboBox
             // 
@@ -855,45 +895,45 @@ namespace Zen.Utility
             // 
             // advanceSettingsTabPage
             // 
-            this.advanceSettingsTabPage.Controls.Add(this.groupBox10);
-            this.advanceSettingsTabPage.Controls.Add(this.groupBox9);
-            this.advanceSettingsTabPage.Controls.Add(this.groupBox8);
-            this.advanceSettingsTabPage.Controls.Add(this.groupBox7);
+            this.advanceSettingsTabPage.Controls.Add(this.tablePrefixGroupBox);
+            this.advanceSettingsTabPage.Controls.Add(this.filesGroupBox);
+            this.advanceSettingsTabPage.Controls.Add(this.mappingOptionsGroupBox);
+            this.advanceSettingsTabPage.Controls.Add(this.fieldOrPropertyOptionsGroup);
             this.advanceSettingsTabPage.Controls.Add(this.validationStyleGroupBox);
-            this.advanceSettingsTabPage.Controls.Add(this.groupBox3);
-            this.advanceSettingsTabPage.Controls.Add(this.groupBox2);
-            this.advanceSettingsTabPage.Controls.Add(this.groupBox1);
+            this.advanceSettingsTabPage.Controls.Add(this.mappingStyleGroupBox);
+            this.advanceSettingsTabPage.Controls.Add(this.languageGroupBox);
+            this.advanceSettingsTabPage.Controls.Add(this.generatedPropertyGroupBox);
             this.advanceSettingsTabPage.Location = new System.Drawing.Point(4, 25);
             this.advanceSettingsTabPage.Name = "advanceSettingsTabPage";
             this.advanceSettingsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.advanceSettingsTabPage.Size = new System.Drawing.Size(1342, 670);
+            this.advanceSettingsTabPage.Size = new System.Drawing.Size(1128, 670);
             this.advanceSettingsTabPage.TabIndex = 2;
             this.advanceSettingsTabPage.Text = "Preferences";
             this.advanceSettingsTabPage.UseVisualStyleBackColor = true;
             // 
-            // groupBox10
+            // tablePrefixGroupBox
             // 
-            this.groupBox10.Controls.Add(this.removeFieldPrefixButton);
-            this.groupBox10.Controls.Add(this.addFieldPrefixButton);
-            this.groupBox10.Controls.Add(this.fieldPrefixListBox);
-            this.groupBox10.Controls.Add(this.label7);
-            this.groupBox10.Controls.Add(this.fieldPrefixTextBox);
-            this.groupBox10.Location = new System.Drawing.Point(8, 186);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(280, 288);
-            this.groupBox10.TabIndex = 8;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Table and Field Formatting";
+            this.tablePrefixGroupBox.Controls.Add(this.removeFieldPrefixButton);
+            this.tablePrefixGroupBox.Controls.Add(this.addFieldPrefixButton);
+            this.tablePrefixGroupBox.Controls.Add(this.fieldPrefixListBox);
+            this.tablePrefixGroupBox.Controls.Add(this.label7);
+            this.tablePrefixGroupBox.Controls.Add(this.fieldPrefixTextBox);
+            this.tablePrefixGroupBox.Location = new System.Drawing.Point(8, 186);
+            this.tablePrefixGroupBox.Name = "tablePrefixGroupBox";
+            this.tablePrefixGroupBox.Size = new System.Drawing.Size(280, 288);
+            this.tablePrefixGroupBox.TabIndex = 8;
+            this.tablePrefixGroupBox.TabStop = false;
+            this.tablePrefixGroupBox.Text = "Table and Field Formatting";
             // 
             // removeFieldPrefixButton
             // 
             this.removeFieldPrefixButton.Location = new System.Drawing.Point(191, 75);
             this.removeFieldPrefixButton.Name = "removeFieldPrefixButton";
-            this.removeFieldPrefixButton.Size = new System.Drawing.Size(63, 26);
+            this.removeFieldPrefixButton.Size = new System.Drawing.Size(63, 28);
             this.removeFieldPrefixButton.TabIndex = 7;
             this.removeFieldPrefixButton.Text = "Remove";
             this.removeFieldPrefixButton.UseVisualStyleBackColor = true;
-            this.removeFieldPrefixButton.Click += new System.EventHandler(this.OnRemoveFieldPrefixButtonClick);
+            this.removeFieldPrefixButton.Click += new System.EventHandler(this.RemoveFieldPrefixButtonClicked);
             // 
             // addFieldPrefixButton
             // 
@@ -903,7 +943,7 @@ namespace Zen.Utility
             this.addFieldPrefixButton.TabIndex = 7;
             this.addFieldPrefixButton.Text = "Add";
             this.addFieldPrefixButton.UseVisualStyleBackColor = true;
-            this.addFieldPrefixButton.Click += new System.EventHandler(this.OnAddFieldPrefixButtonClick);
+            this.addFieldPrefixButton.Click += new System.EventHandler(this.AddFieldPrefixButtonClicked);
             // 
             // fieldPrefixListBox
             // 
@@ -931,15 +971,15 @@ namespace Zen.Utility
             this.fieldPrefixTextBox.Size = new System.Drawing.Size(166, 22);
             this.fieldPrefixTextBox.TabIndex = 4;
             // 
-            // groupBox9
+            // filesGroupBox
             // 
-            this.groupBox9.Controls.Add(this.generateInFoldersCheckBox);
-            this.groupBox9.Location = new System.Drawing.Point(308, 6);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(280, 46);
-            this.groupBox9.TabIndex = 8;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Files";
+            this.filesGroupBox.Controls.Add(this.generateInFoldersCheckBox);
+            this.filesGroupBox.Location = new System.Drawing.Point(308, 6);
+            this.filesGroupBox.Name = "filesGroupBox";
+            this.filesGroupBox.Size = new System.Drawing.Size(280, 46);
+            this.filesGroupBox.TabIndex = 8;
+            this.filesGroupBox.TabStop = false;
+            this.filesGroupBox.Text = "Files";
             // 
             // generateInFoldersCheckBox
             // 
@@ -951,23 +991,23 @@ namespace Zen.Utility
             this.generateInFoldersCheckBox.Text = "Group generated files in folders";
             this.generateInFoldersCheckBox.UseVisualStyleBackColor = true;
             // 
-            // groupBox8
+            // mappingOptionsGroupBox
             // 
-            this.groupBox8.Controls.Add(this.label10);
-            this.groupBox8.Controls.Add(this.comboBoxForeignCollection);
-            this.groupBox8.Controls.Add(this.wcfDataContractCheckBox);
-            this.groupBox8.Controls.Add(this.labelForeignEntity);
-            this.groupBox8.Controls.Add(this.partialClassesCheckBox);
-            this.groupBox8.Controls.Add(this.labelCLassNamePrefix);
-            this.groupBox8.Controls.Add(this.labelInheritence);
-            this.groupBox8.Controls.Add(this.textBoxClassNamePrefix);
-            this.groupBox8.Controls.Add(this.textBoxInheritence);
-            this.groupBox8.Location = new System.Drawing.Point(308, 239);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(280, 237);
-            this.groupBox8.TabIndex = 6;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Mapping Options";
+            this.mappingOptionsGroupBox.Controls.Add(this.label10);
+            this.mappingOptionsGroupBox.Controls.Add(this.comboBoxForeignCollection);
+            this.mappingOptionsGroupBox.Controls.Add(this.wcfDataContractCheckBox);
+            this.mappingOptionsGroupBox.Controls.Add(this.labelForeignEntity);
+            this.mappingOptionsGroupBox.Controls.Add(this.partialClassesCheckBox);
+            this.mappingOptionsGroupBox.Controls.Add(this.labelCLassNamePrefix);
+            this.mappingOptionsGroupBox.Controls.Add(this.labelInheritence);
+            this.mappingOptionsGroupBox.Controls.Add(this.classNamePrefixTextBox);
+            this.mappingOptionsGroupBox.Controls.Add(this.inheritenceTextBox);
+            this.mappingOptionsGroupBox.Location = new System.Drawing.Point(308, 239);
+            this.mappingOptionsGroupBox.Name = "mappingOptionsGroupBox";
+            this.mappingOptionsGroupBox.Size = new System.Drawing.Size(280, 237);
+            this.mappingOptionsGroupBox.TabIndex = 6;
+            this.mappingOptionsGroupBox.TabStop = false;
+            this.mappingOptionsGroupBox.Text = "Mapping Options";
             // 
             // label10
             // 
@@ -983,6 +1023,7 @@ namespace Zen.Utility
             this.comboBoxForeignCollection.AllowDrop = true;
             this.comboBoxForeignCollection.FormattingEnabled = true;
             this.comboBoxForeignCollection.Items.AddRange(new object[] {
+            "ISet",
             "IList",
             "ICollection",
             "Iesi.Collections.Generic.ISet"});
@@ -1038,36 +1079,36 @@ namespace Zen.Utility
             this.labelInheritence.TabIndex = 5;
             this.labelInheritence.Text = "Inheritence && Interfaces";
             // 
-            // textBoxClassNamePrefix
+            // classNamePrefixTextBox
             // 
-            this.textBoxClassNamePrefix.Location = new System.Drawing.Point(128, 194);
-            this.textBoxClassNamePrefix.Name = "textBoxClassNamePrefix";
-            this.textBoxClassNamePrefix.Size = new System.Drawing.Size(114, 22);
-            this.textBoxClassNamePrefix.TabIndex = 4;
+            this.classNamePrefixTextBox.Location = new System.Drawing.Point(128, 194);
+            this.classNamePrefixTextBox.Name = "classNamePrefixTextBox";
+            this.classNamePrefixTextBox.Size = new System.Drawing.Size(114, 22);
+            this.classNamePrefixTextBox.TabIndex = 4;
             // 
-            // textBoxInheritence
+            // inheritenceTextBox
             // 
-            this.textBoxInheritence.Location = new System.Drawing.Point(15, 56);
-            this.textBoxInheritence.Name = "textBoxInheritence";
-            this.textBoxInheritence.Size = new System.Drawing.Size(227, 22);
-            this.textBoxInheritence.TabIndex = 4;
+            this.inheritenceTextBox.Location = new System.Drawing.Point(15, 56);
+            this.inheritenceTextBox.Name = "inheritenceTextBox";
+            this.inheritenceTextBox.Size = new System.Drawing.Size(227, 22);
+            this.inheritenceTextBox.TabIndex = 4;
             // 
-            // groupBox7
+            // fieldOrPropertyOptionsGroup
             // 
-            this.groupBox7.Controls.Add(this.nameAsForeignTableCheckBox);
-            this.groupBox7.Controls.Add(this.includeHasManyCheckBox);
-            this.groupBox7.Controls.Add(this.includeLengthAndScaleCheckBox);
-            this.groupBox7.Controls.Add(this.autoPropertyRadioBtn);
-            this.groupBox7.Controls.Add(this.propertyRadioBtn);
-            this.groupBox7.Controls.Add(this.fieldRadioBtn);
-            this.groupBox7.Controls.Add(this.useLazyLoadingCheckBox);
-            this.groupBox7.Controls.Add(this.includeForeignKeysCheckBox);
-            this.groupBox7.Location = new System.Drawing.Point(608, 193);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(270, 282);
-            this.groupBox7.TabIndex = 7;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Field Or Property";
+            this.fieldOrPropertyOptionsGroup.Controls.Add(this.nameAsForeignTableCheckBox);
+            this.fieldOrPropertyOptionsGroup.Controls.Add(this.includeHasManyCheckBox);
+            this.fieldOrPropertyOptionsGroup.Controls.Add(this.includeLengthAndScaleCheckBox);
+            this.fieldOrPropertyOptionsGroup.Controls.Add(this.autoPropertyOption);
+            this.fieldOrPropertyOptionsGroup.Controls.Add(this.propertyOption);
+            this.fieldOrPropertyOptionsGroup.Controls.Add(this.fieldOption);
+            this.fieldOrPropertyOptionsGroup.Controls.Add(this.useLazyLoadingCheckBox);
+            this.fieldOrPropertyOptionsGroup.Controls.Add(this.includeForeignKeysCheckBox);
+            this.fieldOrPropertyOptionsGroup.Location = new System.Drawing.Point(608, 193);
+            this.fieldOrPropertyOptionsGroup.Name = "fieldOrPropertyOptionsGroup";
+            this.fieldOrPropertyOptionsGroup.Size = new System.Drawing.Size(270, 282);
+            this.fieldOrPropertyOptionsGroup.TabIndex = 7;
+            this.fieldOrPropertyOptionsGroup.TabStop = false;
+            this.fieldOrPropertyOptionsGroup.Text = "Field Or Property Options";
             // 
             // nameAsForeignTableCheckBox
             // 
@@ -1099,37 +1140,37 @@ namespace Zen.Utility
             this.includeLengthAndScaleCheckBox.Text = "Include Length and Scale";
             this.includeLengthAndScaleCheckBox.UseVisualStyleBackColor = true;
             // 
-            // autoPropertyRadioBtn
+            // autoPropertyOption
             // 
-            this.autoPropertyRadioBtn.AutoSize = true;
-            this.autoPropertyRadioBtn.Location = new System.Drawing.Point(7, 80);
-            this.autoPropertyRadioBtn.Name = "autoPropertyRadioBtn";
-            this.autoPropertyRadioBtn.Size = new System.Drawing.Size(95, 20);
-            this.autoPropertyRadioBtn.TabIndex = 6;
-            this.autoPropertyRadioBtn.Text = "Auto Property";
-            this.autoPropertyRadioBtn.UseVisualStyleBackColor = true;
+            this.autoPropertyOption.AutoSize = true;
+            this.autoPropertyOption.Checked = true;
+            this.autoPropertyOption.Location = new System.Drawing.Point(7, 80);
+            this.autoPropertyOption.Name = "autoPropertyOption";
+            this.autoPropertyOption.Size = new System.Drawing.Size(95, 20);
+            this.autoPropertyOption.TabIndex = 6;
+            this.autoPropertyOption.TabStop = true;
+            this.autoPropertyOption.Text = "Auto Property";
+            this.autoPropertyOption.UseVisualStyleBackColor = true;
             // 
-            // propertyRadioBtn
+            // propertyOption
             // 
-            this.propertyRadioBtn.AutoSize = true;
-            this.propertyRadioBtn.Location = new System.Drawing.Point(7, 51);
-            this.propertyRadioBtn.Name = "propertyRadioBtn";
-            this.propertyRadioBtn.Size = new System.Drawing.Size(68, 20);
-            this.propertyRadioBtn.TabIndex = 5;
-            this.propertyRadioBtn.Text = "Property";
-            this.propertyRadioBtn.UseVisualStyleBackColor = true;
+            this.propertyOption.AutoSize = true;
+            this.propertyOption.Location = new System.Drawing.Point(7, 51);
+            this.propertyOption.Name = "propertyOption";
+            this.propertyOption.Size = new System.Drawing.Size(68, 20);
+            this.propertyOption.TabIndex = 5;
+            this.propertyOption.Text = "Property";
+            this.propertyOption.UseVisualStyleBackColor = true;
             // 
-            // fieldRadioBtn
+            // fieldOption
             // 
-            this.fieldRadioBtn.AutoSize = true;
-            this.fieldRadioBtn.Checked = true;
-            this.fieldRadioBtn.Location = new System.Drawing.Point(7, 23);
-            this.fieldRadioBtn.Name = "fieldRadioBtn";
-            this.fieldRadioBtn.Size = new System.Drawing.Size(51, 20);
-            this.fieldRadioBtn.TabIndex = 4;
-            this.fieldRadioBtn.TabStop = true;
-            this.fieldRadioBtn.Text = "Field";
-            this.fieldRadioBtn.UseVisualStyleBackColor = true;
+            this.fieldOption.AutoSize = true;
+            this.fieldOption.Location = new System.Drawing.Point(7, 23);
+            this.fieldOption.Name = "fieldOption";
+            this.fieldOption.Size = new System.Drawing.Size(51, 20);
+            this.fieldOption.TabIndex = 4;
+            this.fieldOption.Text = "Field";
+            this.fieldOption.UseVisualStyleBackColor = true;
             // 
             // useLazyLoadingCheckBox
             // 
@@ -1154,9 +1195,9 @@ namespace Zen.Utility
             // 
             // validationStyleGroupBox
             // 
-            this.validationStyleGroupBox.Controls.Add(this.dataAnnotationsRadioButton);
-            this.validationStyleGroupBox.Controls.Add(this.noValidationRadioButton);
-            this.validationStyleGroupBox.Controls.Add(this.nhibernateValidationRadioButton);
+            this.validationStyleGroupBox.Controls.Add(this.dataAnnotationsOption);
+            this.validationStyleGroupBox.Controls.Add(this.noValidationOption);
+            this.validationStyleGroupBox.Controls.Add(this.nhibernateValidationOption);
             this.validationStyleGroupBox.Location = new System.Drawing.Point(8, 58);
             this.validationStyleGroupBox.Name = "validationStyleGroupBox";
             this.validationStyleGroupBox.Size = new System.Drawing.Size(280, 121);
@@ -1164,62 +1205,61 @@ namespace Zen.Utility
             this.validationStyleGroupBox.TabStop = false;
             this.validationStyleGroupBox.Text = "Validation Style";
             // 
-            // dataAnnotationsRadioButton
+            // dataAnnotationsOption
             // 
-            this.dataAnnotationsRadioButton.AutoSize = true;
-            this.dataAnnotationsRadioButton.Location = new System.Drawing.Point(7, 49);
-            this.dataAnnotationsRadioButton.Name = "dataAnnotationsRadioButton";
-            this.dataAnnotationsRadioButton.Size = new System.Drawing.Size(136, 20);
-            this.dataAnnotationsRadioButton.TabIndex = 5;
-            this.dataAnnotationsRadioButton.Text = ".Net Data Annotations";
-            this.dataAnnotationsRadioButton.UseVisualStyleBackColor = true;
+            this.dataAnnotationsOption.AutoSize = true;
+            this.dataAnnotationsOption.Location = new System.Drawing.Point(7, 49);
+            this.dataAnnotationsOption.Name = "dataAnnotationsOption";
+            this.dataAnnotationsOption.Size = new System.Drawing.Size(136, 20);
+            this.dataAnnotationsOption.TabIndex = 5;
+            this.dataAnnotationsOption.Text = ".Net Data Annotations";
+            this.dataAnnotationsOption.UseVisualStyleBackColor = true;
             // 
-            // noValidationRadioButton
+            // noValidationOption
             // 
-            this.noValidationRadioButton.AutoSize = true;
-            this.noValidationRadioButton.Checked = true;
-            this.noValidationRadioButton.Location = new System.Drawing.Point(7, 21);
-            this.noValidationRadioButton.Name = "noValidationRadioButton";
-            this.noValidationRadioButton.Size = new System.Drawing.Size(53, 20);
-            this.noValidationRadioButton.TabIndex = 4;
-            this.noValidationRadioButton.TabStop = true;
-            this.noValidationRadioButton.Text = "None";
-            this.noValidationRadioButton.UseVisualStyleBackColor = true;
+            this.noValidationOption.AutoSize = true;
+            this.noValidationOption.Checked = true;
+            this.noValidationOption.Location = new System.Drawing.Point(7, 21);
+            this.noValidationOption.Name = "noValidationOption";
+            this.noValidationOption.Size = new System.Drawing.Size(53, 20);
+            this.noValidationOption.TabIndex = 4;
+            this.noValidationOption.TabStop = true;
+            this.noValidationOption.Text = "None";
+            this.noValidationOption.UseVisualStyleBackColor = true;
             // 
-            // nhibernateValidationRadioButton
+            // nhibernateValidationOption
             // 
-            this.nhibernateValidationRadioButton.AutoSize = true;
-            this.nhibernateValidationRadioButton.Location = new System.Drawing.Point(7, 78);
-            this.nhibernateValidationRadioButton.Name = "nhibernateValidationRadioButton";
-            this.nhibernateValidationRadioButton.Size = new System.Drawing.Size(139, 20);
-            this.nhibernateValidationRadioButton.TabIndex = 4;
-            this.nhibernateValidationRadioButton.Text = "NHibernate Validators";
-            this.nhibernateValidationRadioButton.UseVisualStyleBackColor = true;
+            this.nhibernateValidationOption.AutoSize = true;
+            this.nhibernateValidationOption.Location = new System.Drawing.Point(7, 78);
+            this.nhibernateValidationOption.Name = "nhibernateValidationOption";
+            this.nhibernateValidationOption.Size = new System.Drawing.Size(139, 20);
+            this.nhibernateValidationOption.TabIndex = 4;
+            this.nhibernateValidationOption.Text = "NHibernate Validators";
+            this.nhibernateValidationOption.UseVisualStyleBackColor = true;
             // 
-            // groupBox3
+            // mappingStyleGroupBox
             // 
-            this.groupBox3.Controls.Add(this.entityFrameworkRadionBtn);
-            this.groupBox3.Controls.Add(this.castleMappingOption);
-            this.groupBox3.Controls.Add(this.fluentMappingOption);
-            this.groupBox3.Controls.Add(this.hbmMappingOption);
-            this.groupBox3.Controls.Add(this.byCodeMappingOption);
-            this.groupBox3.Location = new System.Drawing.Point(308, 59);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(280, 173);
-            this.groupBox3.TabIndex = 6;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Mapping Style";
+            this.mappingStyleGroupBox.Controls.Add(this.entityFrameworkOption);
+            this.mappingStyleGroupBox.Controls.Add(this.castleMappingOption);
+            this.mappingStyleGroupBox.Controls.Add(this.fluentMappingOption);
+            this.mappingStyleGroupBox.Controls.Add(this.hbmMappingOption);
+            this.mappingStyleGroupBox.Controls.Add(this.byCodeMappingOption);
+            this.mappingStyleGroupBox.Location = new System.Drawing.Point(308, 59);
+            this.mappingStyleGroupBox.Name = "mappingStyleGroupBox";
+            this.mappingStyleGroupBox.Size = new System.Drawing.Size(280, 173);
+            this.mappingStyleGroupBox.TabIndex = 6;
+            this.mappingStyleGroupBox.TabStop = false;
+            this.mappingStyleGroupBox.Text = "Mapping Style";
             // 
-            // entityFrameworkRadionBtn
+            // entityFrameworkOption
             // 
-            this.entityFrameworkRadionBtn.AutoSize = true;
-            this.entityFrameworkRadionBtn.Location = new System.Drawing.Point(7, 108);
-            this.entityFrameworkRadionBtn.Name = "entityFrameworkRadionBtn";
-            this.entityFrameworkRadionBtn.Size = new System.Drawing.Size(113, 20);
-            this.entityFrameworkRadionBtn.TabIndex = 11;
-            this.entityFrameworkRadionBtn.TabStop = true;
-            this.entityFrameworkRadionBtn.Text = "Entity Framework";
-            this.entityFrameworkRadionBtn.UseVisualStyleBackColor = true;
+            this.entityFrameworkOption.AutoSize = true;
+            this.entityFrameworkOption.Location = new System.Drawing.Point(7, 108);
+            this.entityFrameworkOption.Name = "entityFrameworkOption";
+            this.entityFrameworkOption.Size = new System.Drawing.Size(113, 20);
+            this.entityFrameworkOption.TabIndex = 11;
+            this.entityFrameworkOption.Text = "Entity Framework";
+            this.entityFrameworkOption.UseVisualStyleBackColor = true;
             // 
             // castleMappingOption
             // 
@@ -1228,7 +1268,6 @@ namespace Zen.Utility
             this.castleMappingOption.Name = "castleMappingOption";
             this.castleMappingOption.Size = new System.Drawing.Size(130, 20);
             this.castleMappingOption.TabIndex = 8;
-            this.castleMappingOption.TabStop = true;
             this.castleMappingOption.Text = "Castle Active Record";
             this.castleMappingOption.UseVisualStyleBackColor = true;
             // 
@@ -1245,18 +1284,17 @@ namespace Zen.Utility
             // hbmMappingOption
             // 
             this.hbmMappingOption.AutoSize = true;
-            this.hbmMappingOption.Checked = true;
             this.hbmMappingOption.Location = new System.Drawing.Point(7, 134);
             this.hbmMappingOption.Name = "hbmMappingOption";
             this.hbmMappingOption.Size = new System.Drawing.Size(89, 20);
             this.hbmMappingOption.TabIndex = 4;
-            this.hbmMappingOption.TabStop = true;
             this.hbmMappingOption.Text = ".hbm.xml file";
             this.hbmMappingOption.UseVisualStyleBackColor = true;
             // 
             // byCodeMappingOption
             // 
             this.byCodeMappingOption.AutoSize = true;
+            this.byCodeMappingOption.Checked = true;
             this.byCodeMappingOption.Location = new System.Drawing.Point(7, 23);
             this.byCodeMappingOption.Name = "byCodeMappingOption";
             this.byCodeMappingOption.Size = new System.Drawing.Size(213, 20);
@@ -1265,74 +1303,76 @@ namespace Zen.Utility
             this.byCodeMappingOption.Text = "By Code Mapping (NH3.2 Loquacious)";
             this.byCodeMappingOption.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // languageGroupBox
             // 
-            this.groupBox2.Controls.Add(this.vbRadioButton);
-            this.groupBox2.Controls.Add(this.cSharpRadioButton);
-            this.groupBox2.Location = new System.Drawing.Point(8, 6);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(280, 45);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Language";
+            this.languageGroupBox.Controls.Add(this.vbOption);
+            this.languageGroupBox.Controls.Add(this.cSharpOption);
+            this.languageGroupBox.Location = new System.Drawing.Point(8, 6);
+            this.languageGroupBox.Name = "languageGroupBox";
+            this.languageGroupBox.Size = new System.Drawing.Size(280, 45);
+            this.languageGroupBox.TabIndex = 2;
+            this.languageGroupBox.TabStop = false;
+            this.languageGroupBox.Text = "Language";
             // 
-            // vbRadioButton
+            // vbOption
             // 
-            this.vbRadioButton.AutoSize = true;
-            this.vbRadioButton.Location = new System.Drawing.Point(98, 16);
-            this.vbRadioButton.Name = "vbRadioButton";
-            this.vbRadioButton.Size = new System.Drawing.Size(43, 20);
-            this.vbRadioButton.TabIndex = 5;
-            this.vbRadioButton.Text = "VB";
-            this.vbRadioButton.UseVisualStyleBackColor = true;
+            this.vbOption.AutoSize = true;
+            this.vbOption.Location = new System.Drawing.Point(98, 16);
+            this.vbOption.Name = "vbOption";
+            this.vbOption.Size = new System.Drawing.Size(43, 20);
+            this.vbOption.TabIndex = 5;
+            this.vbOption.Text = "VB";
+            this.vbOption.UseVisualStyleBackColor = true;
             // 
-            // cSharpRadioButton
+            // cSharpOption
             // 
-            this.cSharpRadioButton.AutoSize = true;
-            this.cSharpRadioButton.Checked = true;
-            this.cSharpRadioButton.Location = new System.Drawing.Point(7, 16);
-            this.cSharpRadioButton.Name = "cSharpRadioButton";
-            this.cSharpRadioButton.Size = new System.Drawing.Size(46, 20);
-            this.cSharpRadioButton.TabIndex = 4;
-            this.cSharpRadioButton.TabStop = true;
-            this.cSharpRadioButton.Text = "C#";
-            this.cSharpRadioButton.UseVisualStyleBackColor = true;
+            this.cSharpOption.AutoSize = true;
+            this.cSharpOption.Checked = true;
+            this.cSharpOption.Location = new System.Drawing.Point(7, 16);
+            this.cSharpOption.Name = "cSharpOption";
+            this.cSharpOption.Size = new System.Drawing.Size(46, 20);
+            this.cSharpOption.TabIndex = 4;
+            this.cSharpOption.TabStop = true;
+            this.cSharpOption.Text = "C#";
+            this.cSharpOption.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // generatedPropertyGroupBox
             // 
-            this.groupBox1.Controls.Add(this.EnableInflectionsCheckBox);
-            this.groupBox1.Controls.Add(this.pascalCasedRadioButton);
-            this.groupBox1.Controls.Add(this.prefixTextBox);
-            this.groupBox1.Controls.Add(this.prefixRadioButton);
-            this.groupBox1.Controls.Add(this.prefixLabel);
-            this.groupBox1.Controls.Add(this.camelCasedRadioButton);
-            this.groupBox1.Controls.Add(this.sameAsDBRadioButton);
-            this.groupBox1.Location = new System.Drawing.Point(608, 6);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(270, 181);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Generated Property Name";
+            this.generatedPropertyGroupBox.Controls.Add(this.enableInflectionsCheckBox);
+            this.generatedPropertyGroupBox.Controls.Add(this.pascalCasedOption);
+            this.generatedPropertyGroupBox.Controls.Add(this.prefixTextBox);
+            this.generatedPropertyGroupBox.Controls.Add(this.prefixedOption);
+            this.generatedPropertyGroupBox.Controls.Add(this.prefixLabel);
+            this.generatedPropertyGroupBox.Controls.Add(this.camelCasedOption);
+            this.generatedPropertyGroupBox.Controls.Add(this.sameAsDatabaseOption);
+            this.generatedPropertyGroupBox.Location = new System.Drawing.Point(608, 6);
+            this.generatedPropertyGroupBox.Name = "generatedPropertyGroupBox";
+            this.generatedPropertyGroupBox.Size = new System.Drawing.Size(270, 181);
+            this.generatedPropertyGroupBox.TabIndex = 1;
+            this.generatedPropertyGroupBox.TabStop = false;
+            this.generatedPropertyGroupBox.Text = "Generated Property Name";
             // 
-            // EnableInflectionsCheckBox
+            // enableInflectionsCheckBox
             // 
-            this.EnableInflectionsCheckBox.AutoSize = true;
-            this.EnableInflectionsCheckBox.Location = new System.Drawing.Point(7, 137);
-            this.EnableInflectionsCheckBox.Name = "EnableInflectionsCheckBox";
-            this.EnableInflectionsCheckBox.Size = new System.Drawing.Size(230, 20);
-            this.EnableInflectionsCheckBox.TabIndex = 22;
-            this.EnableInflectionsCheckBox.Text = "Load Inflections to Singularize or Pruralize";
-            this.EnableInflectionsCheckBox.UseVisualStyleBackColor = true;
+            this.enableInflectionsCheckBox.AutoSize = true;
+            this.enableInflectionsCheckBox.Location = new System.Drawing.Point(7, 137);
+            this.enableInflectionsCheckBox.Name = "enableInflectionsCheckBox";
+            this.enableInflectionsCheckBox.Size = new System.Drawing.Size(230, 20);
+            this.enableInflectionsCheckBox.TabIndex = 22;
+            this.enableInflectionsCheckBox.Text = "Load Inflections to Singularize or Pruralize";
+            this.enableInflectionsCheckBox.UseVisualStyleBackColor = true;
             // 
-            // pascalCasedRadioButton
+            // pascalCasedOption
             // 
-            this.pascalCasedRadioButton.AutoSize = true;
-            this.pascalCasedRadioButton.Location = new System.Drawing.Point(7, 80);
-            this.pascalCasedRadioButton.Name = "pascalCasedRadioButton";
-            this.pascalCasedRadioButton.Size = new System.Drawing.Size(222, 20);
-            this.pascalCasedRadioButton.TabIndex = 4;
-            this.pascalCasedRadioButton.Text = "Pascal Case (e.g. ThisIsMyColumnName)";
-            this.pascalCasedRadioButton.UseVisualStyleBackColor = true;
+            this.pascalCasedOption.AutoSize = true;
+            this.pascalCasedOption.Checked = true;
+            this.pascalCasedOption.Location = new System.Drawing.Point(7, 80);
+            this.pascalCasedOption.Name = "pascalCasedOption";
+            this.pascalCasedOption.Size = new System.Drawing.Size(222, 20);
+            this.pascalCasedOption.TabIndex = 4;
+            this.pascalCasedOption.TabStop = true;
+            this.pascalCasedOption.Text = "Pascal Case (e.g. ThisIsMyColumnName)";
+            this.pascalCasedOption.UseVisualStyleBackColor = true;
             // 
             // prefixTextBox
             // 
@@ -1343,16 +1383,15 @@ namespace Zen.Utility
             this.prefixTextBox.Text = "m_";
             this.prefixTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // prefixRadioButton
+            // prefixedOption
             // 
-            this.prefixRadioButton.AutoSize = true;
-            this.prefixRadioButton.Location = new System.Drawing.Point(7, 109);
-            this.prefixRadioButton.Name = "prefixRadioButton";
-            this.prefixRadioButton.Size = new System.Drawing.Size(251, 20);
-            this.prefixRadioButton.TabIndex = 2;
-            this.prefixRadioButton.Text = "Prefixed (e.g. m_               ThisIsMyColumnName)";
-            this.prefixRadioButton.UseVisualStyleBackColor = true;
-            this.prefixRadioButton.CheckedChanged += new System.EventHandler(this.PrefixCheckChanged);
+            this.prefixedOption.AutoSize = true;
+            this.prefixedOption.Location = new System.Drawing.Point(7, 109);
+            this.prefixedOption.Name = "prefixedOption";
+            this.prefixedOption.Size = new System.Drawing.Size(251, 20);
+            this.prefixedOption.TabIndex = 2;
+            this.prefixedOption.Text = "Prefixed (e.g. m_               ThisIsMyColumnName)";
+            this.prefixedOption.UseVisualStyleBackColor = true;
             // 
             // prefixLabel
             // 
@@ -1362,30 +1401,29 @@ namespace Zen.Utility
             this.prefixLabel.Size = new System.Drawing.Size(0, 16);
             this.prefixLabel.TabIndex = 2;
             // 
-            // camelCasedRadioButton
+            // camelCasedOption
             // 
-            this.camelCasedRadioButton.AutoSize = true;
-            this.camelCasedRadioButton.Location = new System.Drawing.Point(7, 51);
-            this.camelCasedRadioButton.Name = "camelCasedRadioButton";
-            this.camelCasedRadioButton.Size = new System.Drawing.Size(223, 20);
-            this.camelCasedRadioButton.TabIndex = 1;
-            this.camelCasedRadioButton.Text = "Camel Case (e.g. thisIsMyColumnName)";
-            this.camelCasedRadioButton.UseVisualStyleBackColor = true;
+            this.camelCasedOption.AutoSize = true;
+            this.camelCasedOption.Location = new System.Drawing.Point(7, 51);
+            this.camelCasedOption.Name = "camelCasedOption";
+            this.camelCasedOption.Size = new System.Drawing.Size(223, 20);
+            this.camelCasedOption.TabIndex = 1;
+            this.camelCasedOption.Text = "Camel Case (e.g. thisIsMyColumnName)";
+            this.camelCasedOption.UseVisualStyleBackColor = true;
             // 
-            // sameAsDBRadioButton
+            // sameAsDatabaseOption
             // 
-            this.sameAsDBRadioButton.AutoSize = true;
-            this.sameAsDBRadioButton.Checked = true;
-            this.sameAsDBRadioButton.Location = new System.Drawing.Point(7, 23);
-            this.sameAsDBRadioButton.Name = "sameAsDBRadioButton";
-            this.sameAsDBRadioButton.Size = new System.Drawing.Size(238, 20);
-            this.sameAsDBRadioButton.TabIndex = 0;
-            this.sameAsDBRadioButton.TabStop = true;
-            this.sameAsDBRadioButton.Text = "Same as database column name (No change)";
-            this.sameAsDBRadioButton.UseVisualStyleBackColor = true;
+            this.sameAsDatabaseOption.AutoSize = true;
+            this.sameAsDatabaseOption.Location = new System.Drawing.Point(7, 23);
+            this.sameAsDatabaseOption.Name = "sameAsDatabaseOption";
+            this.sameAsDatabaseOption.Size = new System.Drawing.Size(238, 20);
+            this.sameAsDatabaseOption.TabIndex = 0;
+            this.sameAsDatabaseOption.Text = "Same as database column name (No change)";
+            this.sameAsDatabaseOption.UseVisualStyleBackColor = true;
             // 
             // statusStrip1
             // 
+            this.statusStrip1.BackColor = System.Drawing.Color.Gainsboro;
             this.statusStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar1,
@@ -1393,7 +1431,7 @@ namespace Zen.Utility
             this.statusStrip1.Location = new System.Drawing.Point(0, 705);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1350, 25);
+            this.statusStrip1.Size = new System.Drawing.Size(1136, 25);
             this.statusStrip1.TabIndex = 23;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -1411,22 +1449,24 @@ namespace Zen.Utility
             this.toolStripStatusLabel.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripStatusLabel.ForeColor = System.Drawing.Color.Red;
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(1031, 20);
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(817, 20);
             this.toolStripStatusLabel.Spring = true;
             this.toolStripStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // Application
+            // ApplicationUx
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Gainsboro;
-            this.ClientSize = new System.Drawing.Size(1350, 730);
+            this.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.ClientSize = new System.Drawing.Size(1136, 730);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.mainTabControl);
             this.Font = new System.Drawing.Font("Poor Richard", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Application";
+            this.Name = "ApplicationUx";
+            this.Opacity = 0.95D;
             this.Text = "Zen Developer Utility";
+            this.TransparencyKey = System.Drawing.Color.MidnightBlue;
             ((System.ComponentModel.ISupportInitialize)(this.dbTableDetailsGridView)).EndInit();
             this.mainTabControl.ResumeLayout(false);
             this.basicSettingsTabPage.ResumeLayout(false);
@@ -1448,30 +1488,31 @@ namespace Zen.Utility
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.pOracleOnlyOptions.ResumeLayout(false);
-            this.pOracleOnlyOptions.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.pOracleOnlyOptions.ResumeLayout(false);
+            this.pOracleOnlyOptions.PerformLayout();
             this.advanceSettingsTabPage.ResumeLayout(false);
-            this.groupBox10.ResumeLayout(false);
-            this.groupBox10.PerformLayout();
-            this.groupBox9.ResumeLayout(false);
-            this.groupBox9.PerformLayout();
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
+            this.tablePrefixGroupBox.ResumeLayout(false);
+            this.tablePrefixGroupBox.PerformLayout();
+            this.filesGroupBox.ResumeLayout(false);
+            this.filesGroupBox.PerformLayout();
+            this.mappingOptionsGroupBox.ResumeLayout(false);
+            this.mappingOptionsGroupBox.PerformLayout();
+            this.fieldOrPropertyOptionsGroup.ResumeLayout(false);
+            this.fieldOrPropertyOptionsGroup.PerformLayout();
             this.validationStyleGroupBox.ResumeLayout(false);
             this.validationStyleGroupBox.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.mappingStyleGroupBox.ResumeLayout(false);
+            this.mappingStyleGroupBox.PerformLayout();
+            this.languageGroupBox.ResumeLayout(false);
+            this.languageGroupBox.PerformLayout();
+            this.generatedPropertyGroupBox.ResumeLayout(false);
+            this.generatedPropertyGroupBox.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -1485,9 +1526,9 @@ namespace Zen.Utility
         private System.Windows.Forms.ComboBox sequencesComboBox;
         private System.Windows.Forms.DataGridView dbTableDetailsGridView;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
-        private System.Windows.Forms.TextBox folderTextBox;
+        private System.Windows.Forms.TextBox mappingFolderTextBox;
         private System.Windows.Forms.Button generateButton;
-        private System.Windows.Forms.Button folderSelectButton;
+        private System.Windows.Forms.Button mappingFolderSelectButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox nameSpaceTextBox;
@@ -1498,50 +1539,50 @@ namespace Zen.Utility
         private TabControl mainTabControl;
         private TabPage basicSettingsTabPage;
         private TabPage advanceSettingsTabPage;
-        private GroupBox groupBox1;
-        private RadioButton sameAsDBRadioButton;
-        private RadioButton prefixRadioButton;
-        private RadioButton camelCasedRadioButton;
+        private GroupBox generatedPropertyGroupBox;
+        private RadioButton sameAsDatabaseOption;
+        private RadioButton prefixedOption;
+        private RadioButton camelCasedOption;
         private TextBox prefixTextBox;
         private Label prefixLabel;
-        private GroupBox groupBox2;
-        private RadioButton vbRadioButton;
-        private RadioButton cSharpRadioButton;
-        private GroupBox groupBox3;
+        private GroupBox languageGroupBox;
+        private RadioButton vbOption;
+        private RadioButton cSharpOption;
+        private GroupBox mappingStyleGroupBox;
         private RadioButton fluentMappingOption;
         private RadioButton hbmMappingOption;
         private RadioButton byCodeMappingOption;
         private GroupBox groupBox4;
         private GroupBox groupBox5;
         private GroupBox tableGroupBox;
-        private GroupBox groupBox7;
-        private RadioButton propertyRadioBtn;
-        private RadioButton fieldRadioBtn;
-        private RadioButton autoPropertyRadioBtn;
+        private GroupBox fieldOrPropertyOptionsGroup;
+        private RadioButton propertyOption;
+        private RadioButton fieldOption;
+        private RadioButton autoPropertyOption;
         private Label label6;
         private TextBox entityNameTextBox;
         private RadioButton castleMappingOption;
         private ComboBox ownersComboBox;
-        private RadioButton pascalCasedRadioButton;
-        private GroupBox groupBox8;
+        private RadioButton pascalCasedOption;
+        private GroupBox mappingOptionsGroupBox;
         private CheckBox partialClassesCheckBox;
         private Panel pOracleOnlyOptions;
         private Button cancelButton;
         private CheckBox wcfDataContractCheckBox;
         private ListBox tablesListBox;
         private Label labelInheritence;
-        private TextBox textBoxInheritence;
+        private TextBox inheritenceTextBox;
         private ComboBox comboBoxForeignCollection;
         private Label labelForeignEntity;
         private Label labelCLassNamePrefix;
-        private TextBox textBoxClassNamePrefix;
-        private GroupBox groupBox9;
+        private TextBox classNamePrefixTextBox;
+        private GroupBox filesGroupBox;
         private CheckBox generateInFoldersCheckBox;
         private CheckBox useLazyLoadingCheckBox;
         private CheckBox includeForeignKeysCheckBox;
         private CheckBox includeLengthAndScaleCheckBox;
         private TextBox TableFilterTextBox;
-        private GroupBox groupBox10;
+        private GroupBox tablePrefixGroupBox;
         private Button removeFieldPrefixButton;
         private Button addFieldPrefixButton;
         private ListBox fieldPrefixListBox;
@@ -1577,13 +1618,13 @@ namespace Zen.Utility
         private TextBox domainFolderTextBox;
         private Button domainFolderSelectButton;
         private GroupBox validationStyleGroupBox;
-        private RadioButton dataAnnotationsRadioButton;
-        private RadioButton noValidationRadioButton;
-        private RadioButton nhibernateValidationRadioButton;
+        private RadioButton dataAnnotationsOption;
+        private RadioButton noValidationOption;
+        private RadioButton nhibernateValidationOption;
         private CheckBox includeHasManyCheckBox;
-        private CheckBox EnableInflectionsCheckBox;
+        private CheckBox enableInflectionsCheckBox;
         private CheckBox nameAsForeignTableCheckBox;
-        private RadioButton entityFrameworkRadionBtn;
+        private RadioButton entityFrameworkOption;
         private Label label10;
         private SplitContainer splitContainer2;
         private GroupBox groupBox6;
@@ -1596,6 +1637,9 @@ namespace Zen.Utility
         private ToolStripButton openToolInWindowButton;
         private ToolStripButton refreshAvailableToolsButton;
         private ImageList largeToolImageList;
+        private Button button2;
+        private TextBox textBox1;
+        private Button button1;
     }
 }
 

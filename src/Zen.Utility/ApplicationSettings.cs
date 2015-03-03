@@ -41,6 +41,7 @@ namespace Zen.Utility
 
         public List<string> UtilityControlFQNs { get; set; }        
         //public List<UtilityControlSetting> UtilityControlSettings { get; set; }        
+        
         public List<ConnectionSetting> ConnectionSettings { get; set; }
         public Guid? LastUsedConnection { get; set; }
 
@@ -82,14 +83,8 @@ namespace Zen.Utility
         {            
             var configFile = new FileInfo(Path.Combine(System.Windows.Forms.
                Application.LocalUserAppDataPath, ConfigFileName));
-            configFile.SerializeSettings(this);
 
-            //var configFilePath = Path.Combine(System.Windows.Forms.Application.LocalUserAppDataPath, ConfigFileName);
-            //using (var streamWriter = new StreamWriter(configFilePath, false))
-            //{
-            //    var xmlSerializer = new XmlSerializer(typeof (ApplicationSettings));
-            //    xmlSerializer.Serialize(streamWriter, this);
-            //}
+            configFile.SerializeSettings(this);
         }
 
 

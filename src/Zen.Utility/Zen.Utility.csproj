@@ -11,7 +11,7 @@
     <RootNamespace>Zen.Utility</RootNamespace>
     <AssemblyName>ZenUtility</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <ApplicationIcon>utility.ico</ApplicationIcon>
+    <ApplicationIcon>zen.ico</ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -74,11 +74,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application.cs">
+    <Compile Include="ApplicationUx.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Application.Designer.cs">
-      <DependentUpon>Application.cs</DependentUpon>
+    <Compile Include="ApplicationUx.Designer.cs">
+      <DependentUpon>ApplicationUx.cs</DependentUpon>
     </Compile>
     <Compile Include="ApplicationController.cs" />
     <Compile Include="ApplicationSettings.cs" />
@@ -92,8 +92,8 @@
     <Compile Include="IDataConnectionConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Application.resx">
-      <DependentUpon>Application.cs</DependentUpon>
+    <EmbeddedResource Include="ApplicationUx.resx">
+      <DependentUpon>ApplicationUx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ConnectionDialog.resx">
@@ -154,7 +154,7 @@
     <None Include="Resources\View.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="utility.ico" />
+    <Content Include="zen.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
